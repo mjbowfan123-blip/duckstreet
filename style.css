@@ -348,6 +348,11 @@ input[type="password"], input[type="number"] {
 
 /* --- SEPARATE RULE FOR REAL PHONES --- */
 @media (max-width: 600px) {
+    /* --- MODIFIED: Lock scrolling --- */
+    html, body {
+        overflow: hidden;
+    }
+
     .top-nav .nav-links, .top-nav #settings-btn {
         display: none;
     }
@@ -359,7 +364,7 @@ input[type="password"], input[type="number"] {
         left: 20px;
         z-index: 100;
     }
-    /* --- MODIFIED: Raised the buttons a bit --- */
+
     .mobile-nav-centered {
         display: flex;
         justify-content: center;
@@ -396,15 +401,17 @@ input[type="password"], input[type="number"] {
             font-size: 22px;
             text-align: center;
         }
-
+    /* --- MODIFIED: Raised the button --- */
     #save-to-pond-btn {
         font-size: 14px;
         padding: 12px 16px;
+        bottom: 30px;
     }
-
+    /* --- MODIFIED: Raised the duck image --- */
     .base-duck-image, .accessory-image {
         width: 300px;
         left: 0;
+        top: -20px;
     }
 
     .marching-duck {
@@ -414,9 +421,14 @@ input[type="password"], input[type="number"] {
 
 /* --- SEPARATE, IDENTICAL RULE FOR THE TOGGLE BUTTON --- */
 body.mobile-view {
-    .top-nav .nav-links, .top-nav #settings-btn
+    /* --- MODIFIED: Lock scrolling --- */
+    html, body
 
 {
+    overflow: hidden;
+}
+
+.top-nav .nav-links, .top-nav #settings-btn {
     display: none;
 }
 
@@ -427,7 +439,7 @@ body.mobile-view {
     left: 20px;
     z-index: 100;
 }
-/* --- MODIFIED: Raised the buttons a bit --- */
+
 .mobile-nav-centered {
     display: flex;
     justify-content: center;
@@ -464,15 +476,17 @@ body.mobile-view {
         font-size: 22px;
         text-align: center;
     }
-
+/* --- MODIFIED: Raised the button --- */
 #save-to-pond-btn {
     font-size: 14px;
     padding: 12px 16px;
+    bottom: 30px;
 }
-
+/* --- MODIFIED: Raised the duck image --- */
 .base-duck-image, .accessory-image {
     width: 300px;
     left: 0;
+    top: -20px;
 }
 
 .marching-duck {
