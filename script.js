@@ -1,6 +1,7 @@
-﻿// --- CONFIGURATION ---
-let DUCK_SPAWN_RATE_MS = 2000;
-let DUCK_SPEED_PX_PER_FRAME = 2;
+﻿const isMobile = window.innerWidth <= 600;
+
+let DUCK_SPAWN_RATE_MS = isMobile ? 1500 : 2000;
+let DUCK_SPEED_PX_PER_FRAME = isMobile ? 1 : 2;
 const POND_CAPACITY = 50;
 
 const ACCESSORIES = [
@@ -20,7 +21,6 @@ const ACCESSORIES = [
     { src: 'images/sunglasses.png', rarity: 20, rarityName: 'uncommon', type: 'eyecolor' },
     { src: 'images/forwardeye.png', rarity: 80, rarityName: 'very-rare', type: 'eyecolor' },
     { src: 'images/squareeye.png', rarity: 8, rarityName: 'common', type: 'eyecolor' },
-
     { src: 'images/bluehat.png', rarity: 7, rarityName: 'common', type: 'hat' },
     { src: 'images/pinkhat.png', rarity: 7, rarityName: 'common', type: 'hat' },
     { src: 'images/yellowhat.png', rarity: 7, rarityName: 'common', type: 'hat' },
@@ -29,32 +29,24 @@ const ACCESSORIES = [
     { src: 'images/halohat.png', rarity: 150, rarityName: 'legendary', type: 'hat' },
     { src: 'images/partyhat.png', rarity: 25, rarityName: 'uncommon', type: 'hat' },
     { src: 'images/nailhat.png', rarity: 80, rarityName: 'very-rare', type: 'hat' },
-
-
     { src: 'images/nailback.png', rarity: 75, rarityName: 'very-rare', type: 'back' },
     { src: 'images/mutantback.png', rarity: 120, rarityName: 'legendary', type: 'back' },
     { src: 'images/umbrellaback.png', rarity: 35, rarityName: 'uncommon', type: 'back' },
-
     { src: 'images/bluebandwing.png', rarity: 15, rarityName: 'uncommon', type: 'wings' },
     { src: 'images/blackbandwing.png', rarity: 15, rarityName: 'uncommon', type: 'wings' },
     { src: 'images/goldbraceletwing.png', rarity: 50, rarityName: 'rare', type: 'wings' },
     { src: 'images/nowing.png', rarity: 5, rarityName: 'common', type: 'wings' },
-
     { src: 'images/mallardfeathers.png', rarity: 5, rarityName: 'common', type: 'feathers' },
     { src: 'images/checkerfeathers.png', rarity: 30, rarityName: 'uncommon', type: 'feathers' },
     { src: 'images/femalefeathers.png', rarity: 10, rarityName: 'common', type: 'feathers' },
-
     { src: 'images/darkpants.png', rarity: 20, rarityName: 'uncommon', type: 'pants' },
     { src: 'images/jeanspants.png', rarity: 20, rarityName: 'uncommon', type: 'pants' },
     { src: 'images/kahikipants.png', rarity: 20, rarityName: 'uncommon', type: 'pants' },
     { src: 'images/rainbowpants.png', rarity: 100, rarityName: 'very-rare', type: 'pants' },
-
     { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other' },
-
     { src: 'images/flip-effect.png', rarity: 200, rarityName: 'legendary', type: 'other', effect: 'flip' }
 ];
 
-// --- GAME ELEMENTS ---
 const gameArea = document.getElementById('game-area');
 const myDuckDisplay = document.getElementById('my-duck-display');
 const saveToPondBtn = document.getElementById('save-to-pond-btn');
@@ -62,7 +54,6 @@ const duckImageContainer = document.getElementById('duck-image-container');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsOverlay = document.getElementById('settings-overlay');
 const closeSettingsBtn = document.getElementById('close-settings-btn');
-
 const settingsMainView = document.getElementById('settings-main-view');
 const showHowToPlayBtn = document.getElementById('show-how-to-play-btn');
 const showResetBtn = document.getElementById('show-reset-btn');
@@ -70,7 +61,6 @@ const howToPlaySection = document.getElementById('how-to-play-section');
 const resetSection = document.getElementById('reset-section');
 const settingsBackBtns = document.querySelectorAll('.settings-back-btn');
 const resetGameBtn = document.getElementById('reset-game-btn');
-
 const devModeTrigger = document.getElementById('dev-mode-trigger');
 const passwordSection = document.getElementById('password-section');
 const devPasswordInput = document.getElementById('dev-password-input');
@@ -78,7 +68,6 @@ const devPasswordSubmit = document.getElementById('dev-password-submit');
 const devSettingsSection = document.getElementById('dev-settings-section');
 const devGuaranteedBtn = document.getElementById('dev-guaranteed-accessories');
 const devGuaranteedStatus = document.getElementById('dev-guaranteed-status');
-// Mystery Mode elements have been DELETED
 const devSpawnSpeedInput = document.getElementById('dev-spawn-speed');
 const devDuckSpeedInput = document.getElementById('dev-duck-speed');
 const devUnlockAllBtn = document.getElementById('dev-unlock-all');
@@ -87,7 +76,6 @@ let lastFrameTime = 0;
 let timeSinceLastSpawn = 0;
 let devModeGuaranteedAccessories = false;
 let devModeUnlocked = false;
-// devModeMystery flag has been DELETED
 
 const myBaseDuck = document.createElement('img');
 myBaseDuck.src = 'images/duck.png';
@@ -95,53 +83,6 @@ myBaseDuck.style.width = '300px'; myBaseDuck.style.position = 'absolute';
 myBaseDuck.style.left = '50px'; myBaseDuck.style.top = '0px';
 duckImageContainer.appendChild(myBaseDuck);
 
-// --- Settings and Dev Menu Functions ---
-function openSettings() { /* ... unchanged ... */ }
-function closeSettings() { /* ... unchanged ... */ }
-function resetGame() { /* ... unchanged ... */ }
-function onDevTriggerClick() { /* ... unchanged ... */ }
-function checkDevPassword() { /* ... unchanged ... */ }
-function toggleGuaranteedAccessories() { /* ... unchanged ... */ }
-function unlockAllAccessories() { /* ... unchanged ... */ }
-// toggleMysteryMode function has been DELETED
-
-// --- CORE GAME LOGIC (Unchanged from previous correct version) ---
-// ... (All core game logic functions are included below for copy-pasting)
-
-// --- EVENT LISTENERS ---
-settingsBtn.addEventListener('click', () => {
-    settingsOverlay.classList.contains('hidden') ? openSettings() : closeSettings();
-});
-closeSettingsBtn.addEventListener('click', closeSettings);
-showHowToPlayBtn.addEventListener('click', () => {
-    settingsMainView.classList.add('hidden');
-    howToPlaySection.classList.remove('hidden');
-});
-showResetBtn.addEventListener('click', () => {
-    settingsMainView.classList.add('hidden');
-    resetSection.classList.remove('hidden');
-});
-settingsBackBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        btn.parentElement.classList.add('hidden');
-        settingsMainView.classList.remove('hidden');
-    });
-});
-resetGameBtn.addEventListener('click', resetGame);
-saveToPondBtn.addEventListener('click', saveDuckToPond);
-devModeTrigger.addEventListener('click', onDevTriggerClick);
-devPasswordSubmit.addEventListener('click', checkDevPassword);
-devGuaranteedBtn.addEventListener('click', toggleGuaranteedAccessories);
-// devMysteryBtn listener has been DELETED
-devSpawnSpeedInput.addEventListener('input', (e) => DUCK_SPAWN_RATE_MS = Number(e.target.value));
-devDuckSpeedInput.addEventListener('input', (e) => DUCK_SPEED_PX_PER_FRAME = Number(e.target.value));
-devUnlockAllBtn.addEventListener('click', unlockAllAccessories);
-
-// --- ON PAGE LOAD ---
-document.addEventListener('DOMContentLoaded', loadDuckFromPond);
-requestAnimationFrame(gameLoop);
-
-// --- FULL FUNCTIONS (Paste the entire script.js file to ensure these are included) ---
 function openSettings() {
     settingsOverlay.classList.remove('hidden');
     settingsBtn.classList.add('is-rotated');
@@ -203,40 +144,24 @@ function createMarchingDuck() {
     const duck = document.createElement('div');
     duck.className = 'marching-duck';
     duck.style.left = '-250px';
-    duck.style.top = 'calc(55vh - 280px)';
+    duck.style.top = isMobile ? 'calc(55vh - 240px)' : 'calc(55vh - 280px)';
     const duckImage = document.createElement('img');
     duckImage.src = 'images/duck.png';
     duckImage.style.width = '100%';
     duck.appendChild(duckImage);
-
-    // Check for 3 in 7 chance before proceeding to select an accessory
     const shouldHaveAccessory = devModeGuaranteedAccessories || Math.floor(Math.random() * 7) < 3;
-
     if (shouldHaveAccessory) {
-        // --- MODIFIED: Use inverse weighting for accessory selection ---
-
-        // 1. Calculate inverse weights (1/rarity) and their total sum
-        const inverseWeights = ACCESSORIES.map(acc => ({
-            ...acc,
-            weight: 1 / acc.rarity
-        }));
-
+        const inverseWeights = ACCESSORIES.map(acc => ({ ...acc, weight: 1 / acc.rarity }));
         const totalInverseWeight = inverseWeights.reduce((sum, acc) => sum + acc.weight, 0);
         let randomWeight = Math.random() * totalInverseWeight;
         let selectedAccessory = null;
-        let cumulativeWeight = 0;
-
-        // 2. Select the accessory based on the inverse weight
         for (const accessory of inverseWeights) {
-            cumulativeWeight += accessory.weight;
-            if (randomWeight < cumulativeWeight) {
+            randomWeight -= accessory.weight;
+            if (randomWeight < 0) {
                 selectedAccessory = accessory;
                 break;
             }
         }
-
-        // --- END MODIFICATION ---
-
         if (selectedAccessory) {
             if (selectedAccessory.effect === 'flip') {
                 duck.style.transform = 'scaleX(-1)';
@@ -250,12 +175,9 @@ function createMarchingDuck() {
                 accessoryImage.style.zIndex = '1';
                 duck.appendChild(accessoryImage);
             }
-            // Note: The selectedAccessory object now contains the temporary 'weight' property, 
-            // but the rest of the object (src, type, rarity) is correct for game logic.
             duck.setAttribute('data-accessory', JSON.stringify(selectedAccessory));
         }
     }
-
     duck.addEventListener('click', function () {
         if (!duck.hasAttribute('data-accessory')) return;
         const accessoryData = JSON.parse(duck.getAttribute('data-accessory'));
@@ -349,3 +271,31 @@ function loadDuckFromPond() {
     }
     sessionStorage.removeItem('duckToLoad');
 }
+settingsBtn.addEventListener('click', () => {
+    settingsOverlay.classList.contains('hidden') ? openSettings() : closeSettings();
+});
+closeSettingsBtn.addEventListener('click', closeSettings);
+showHowToPlayBtn.addEventListener('click', () => {
+    settingsMainView.classList.add('hidden');
+    howToPlaySection.classList.remove('hidden');
+});
+showResetBtn.addEventListener('click', () => {
+    settingsMainView.classList.add('hidden');
+    resetSection.classList.remove('hidden');
+});
+settingsBackBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.parentElement.classList.add('hidden');
+        settingsMainView.classList.remove('hidden');
+    });
+});
+resetGameBtn.addEventListener('click', resetGame);
+saveToPondBtn.addEventListener('click', saveDuckToPond);
+devModeTrigger.addEventListener('click', onDevTriggerClick);
+devPasswordSubmit.addEventListener('click', checkDevPassword);
+devGuaranteedBtn.addEventListener('click', toggleGuaranteedAccessories);
+devSpawnSpeedInput.addEventListener('input', (e) => DUCK_SPAWN_RATE_MS = Number(e.target.value));
+devDuckSpeedInput.addEventListener('input', (e) => DUCK_SPEED_PX_PER_FRAME = Number(e.target.value));
+devUnlockAllBtn.addEventListener('click', unlockAllAccessories);
+document.addEventListener('DOMContentLoaded', loadDuckFromPond);
+requestAnimationFrame(gameLoop);

@@ -2,29 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 html, body {
-    overflow: hidden;
-    height: 100%;
-    /* ADDED: Explicitly hide horizontal overflow for the entire page to fix mobile zooming */
     overflow-x: hidden;
-    /* NEW: Ensure zero margin/padding to prevent calculation errors */
+    height: 100%;
     margin: 0;
     padding: 0;
-}
-
-/* MODIFIED: Lock the HTML element width to 100% of the viewport width */
-html {
-    width: 100vw;
 }
 
 body {
     font-family: 'Press Start 2P', cursive;
     color: #FFF;
     text-align: center;
-    /* Removed margin and padding here, now handled by html, body */
     background-image: url('images/background.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center bottom;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 img {
@@ -72,10 +65,13 @@ h1, h2 {
     gap: 15px;
 }
 
+.mobile-nav-centered {
+    display: none;
+}
+
 #game-area {
     background-color: transparent;
-    /* MODIFIED: Width must be 100vw to match html width */
-    width: 100vw;
+    width: 100%;
     height: 100px;
     position: absolute;
     top: 55vh;
@@ -153,7 +149,6 @@ button, .nav-button {
     z-index: 2;
 }
 
-/* Settings Popup Styles */
 .hidden {
     display: none !important;
 }
@@ -191,15 +186,6 @@ button, .nav-button {
     padding: 0 8px;
     font-size: 20px;
 }
-/* This is now the reset CONFIRM button */
-#reset-game-btn {
-    background-color: #990000;
-    border-color: #CC0000 #660000 #660000 #CC0000;
-}
-
-    #reset-game-btn:active {
-        border-color: #660000 #CC0000 #CC0000 #660000;
-    }
 
 #reset-section p {
     font-size: 12px;
@@ -210,9 +196,16 @@ button, .nav-button {
 #reset-section button {
     margin: 5px;
 }
-/* Space out confirm/back buttons */
 
-/* --- NEW: Settings Menu Button Layout --- */
+#reset-game-btn {
+    background-color: #990000;
+    border-color: #CC0000 #660000 #660000 #CC0000;
+}
+
+    #reset-game-btn:active {
+        border-color: #660000 #CC0000 #CC0000 #660000;
+    }
+
 #settings-main-view {
     display: flex;
     flex-direction: column;
@@ -223,7 +216,6 @@ button, .nav-button {
     width: 100%;
 }
 
-/* How to Play Styles */
 #how-to-play-section {
     text-align: left;
     font-size: 11px;
@@ -245,7 +237,6 @@ button, .nav-button {
     margin: 20px auto 0;
 }
 
-/* Developer Settings Styles */
 #settings-menu hr {
     border: none;
     border-top: 2px solid #FFF;
@@ -305,7 +296,6 @@ input[type="password"], input[type="number"] {
     z-index: 9999;
 }
 
-/* Keyframe animations */
 @keyframes pan-off-right {
     from {
         transform: translateX(0);
@@ -334,80 +324,48 @@ input[type="password"], input[type="number"] {
     animation: pan-on-left 0.6s ease-out;
 }
 
-/* --- MOBILE STYLES (HARD ZOOM FRAME) --- */
 @media (max-width: 600px) {
-    /* 1. Define a fixed virtual canvas size */
-    html {
-        /* Ensure HTML size is the virtual size */
-        width: 400px;
-        height: 100vh; /* Keep height responsive */
+    .top-nav .nav-links {
+        display: none;
     }
 
-    body {
-        /* 2. Scale the entire body to fit the actual device width */
-        width: 400px; /* Base width of the virtual canvas */
-        transform-origin: top left; /* Scale from the top-left corner */
-        /* Calculate scale factor based on actual device width */
-        transform: scale(calc(100vw / 400));
-        /* Stop body from scrolling outside the scaled area */
-        overflow: hidden;
+    .mobile-nav-centered {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
         position: absolute;
+        top: 65px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
     }
 
-    /* 3. Revert sizing for crucial elements that must span the screen */
-    .top-nav {
-        width: 400px;
+        .mobile-nav-centered .nav-button {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+    #my-duck-area {
+        margin-top: calc(55vh + 30px);
     }
 
-    #game-area {
-        width: 400px;
-    }
-
-    /* 4. Restore original element sizes (since the body scale shrinks everything) */
     #my-duck-display {
-        width: 400px;
-        height: 300px;
-        margin: auto;
-    }
-
-    .marching-duck {
         width: 250px;
+        height: 188px;
     }
 
-    /* Keep settings menu large for readability */
-    #settings-overlay {
-        /* This keeps the overlay covering the original 100vw space */
-        width: calc(100vw / (100vw / 400));
-        transform: none;
-    }
-
-    #settings-menu {
-        width: 360px; /* Fit nicely inside 400px width */
-    }
-
-    /* Center H1 title properly */
-    .top-nav h1 {
-        font-size: 24px;
+    #duck-image-container img {
+        width: 188px;
         left: 50%;
         transform: translateX(-50%);
     }
 
-    /* Adjust marching area top position if necessary */
-    #my-duck-area {
-        margin-top: calc(55vh - 120px);
+    #my-duck-display h2 {
+        font-size: 12px;
     }
 
-    /* Small buttons adjustments (no need to shrink further) */
-    .nav-button {
-        padding: 10px 15px;
+    #save-to-pond-btn {
         font-size: 10px;
-    }
-
-    /* Ensure fixed duck display position is correct */
-    #duck-image-container img {
-        width: 300px;
-        left: 50px;
-        top: 0px;
+        padding: 8px 10px;
     }
 }
-/* --- END MOBILE STYLES (HARD ZOOM FRAME) --- */

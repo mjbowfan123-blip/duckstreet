@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXX" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
 
@@ -13,6 +12,10 @@
         <img src="images/settings.png" id="settings-btn" alt="Settings">
         <h1>duckstreet</h1>
         <div class="nav-links">
+            <a href="gallery.html" class="nav-button">Gallery</a>
+            <a href="pond.html" class="nav-button">My Pond</a>
+        </div>
+        <div class="mobile-nav-centered">
             <a href="gallery.html" class="nav-button">Gallery</a>
             <a href="pond.html" class="nav-button">My Pond</a>
         </div>
@@ -32,13 +35,11 @@
     <div id="settings-overlay" class="hidden">
         <div id="settings-menu">
             <button id="close-settings-btn">&times;</button>
-
             <div id="settings-main-view">
                 <h3>Settings</h3>
                 <button id="show-how-to-play-btn" class="settings-menu-button">How to Play</button>
                 <button id="show-reset-btn" class="settings-menu-button">Reset Game</button>
             </div>
-
             <div id="how-to-play-section" class="hidden">
                 <h4>How to Play</h4>
                 <ul>
@@ -48,20 +49,17 @@
                 </ul>
                 <button class="settings-back-btn">Back</button>
             </div>
-
             <div id="reset-section" class="hidden">
                 <h4>Reset Game</h4>
                 <p>Reset all game progress, including your Pond and Gallery. This cannot be undone.</p>
                 <button id="reset-game-btn">Confirm Reset</button>
                 <button class="settings-back-btn">Back</button>
             </div>
-
             <div id="password-section" class="hidden">
                 <hr>
                 <input type="password" id="dev-password-input" placeholder="Developer Code">
                 <button id="dev-password-submit">Enter</button>
             </div>
-
             <div id="dev-settings-section" class="hidden">
                 <hr>
                 <h4>Developer Settings</h4>
