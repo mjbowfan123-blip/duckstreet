@@ -1,0 +1,170 @@
+﻿/* Import the pixel font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    color: #FFF;
+    background-image: url('images/pondbackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.top-nav {
+    padding: 20px;
+    text-align: left; /* Aligns the container content to the left */
+}
+
+.nav-links {
+    display: inline-block; /* Allows the nav links to sit nicely on the left */
+}
+
+#pond-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px 40px;
+    padding: 20px;
+}
+
+.pond-duck-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+}
+
+.duck-name-tag {
+    height: 20px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px #000;
+}
+
+.saved-duck-wrapper {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    cursor: pointer;
+}
+
+    .saved-duck-wrapper.is-flipped {
+        transform: scaleX(-1);
+    }
+
+    .saved-duck-wrapper img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+button, .nav-button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #555;
+    color: #FFF;
+    border-style: outset;
+    border-width: 4px;
+    border-color: #888 #333 #333 #888;
+    padding: 10px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+    button:active, .nav-button:active {
+        border-style: inset;
+        border-color: #333 #888 #888 #333;
+    }
+
+/* --- POPUP STYLES --- */
+.hidden {
+    display: none !important;
+}
+
+#duck-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#duck-popup-menu {
+    background-color: #444;
+    padding: 20px;
+    border: 4px double #FFF;
+    position: relative;
+    text-align: center;
+}
+
+#close-popup-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 0 8px;
+    font-size: 20px;
+}
+
+#duck-name-input {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #222;
+    color: #FFF;
+    border-style: inset;
+    border-width: 4px;
+    border-color: #333 #888 #888 #333;
+    padding: 8px;
+    width: 80%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* --- NEW: Style for the rating text --- */
+#fashion-rating-text {
+    height: 20px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    text-shadow: 2px 2px #000;
+}
+
+#enlarged-duck-display {
+    width: 400px;
+    height: 400px;
+    position: relative;
+}
+
+    #enlarged-duck-display.is-flipped {
+        transform: scaleX(-1);
+    }
+
+    #enlarged-duck-display img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+.popup-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}

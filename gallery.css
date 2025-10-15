@@ -1,0 +1,187 @@
+﻿/* Import the pixel font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    color: #FFF;
+    background-color: #222;
+}
+
+img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+h1, h2 {
+    text-shadow: 4px 4px #000;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #111;
+    border-bottom: 4px double #FFF;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+#gallery-container {
+    padding: 20px;
+}
+
+.category-section {
+    margin-bottom: 20px;
+}
+
+.category-title {
+    text-align: left;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #FFF;
+    padding-bottom: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+    .category-title::after {
+        content: ' ▼';
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+
+    .category-title.is-collapsed::after {
+        transform: rotate(-90deg);
+    }
+
+.accessory-grid.is-collapsed {
+    display: none;
+}
+
+.accessory-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.accessory-item {
+    width: 200px;
+    text-align: center;
+}
+
+.accessory-image-wrapper {
+    width: 200px;
+    height: 200px;
+    background-color: #111;
+    border: 4px solid #555;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: visible;
+}
+
+    .accessory-image-wrapper.rarity-common {
+        border-color: #00A3FF;
+    }
+
+    .accessory-image-wrapper.rarity-uncommon {
+        border-color: #33CC33;
+    }
+
+    .accessory-image-wrapper.rarity-rare {
+        border-color: #FF3333;
+    }
+
+    .accessory-image-wrapper.rarity-very-rare {
+        border-color: #B233FF;
+    }
+
+    .accessory-image-wrapper.rarity-legendary {
+        border-color: #FF9900;
+    }
+
+    .accessory-image-wrapper.rarity-mythical {
+        border-width: 4px;
+        border-style: solid;
+        border-image: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) 1;
+        animation: rainbow-border 2s linear infinite;
+    }
+
+@keyframes rainbow-border {
+    to {
+        border-image: linear-gradient(-45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) 1;
+    }
+}
+
+.accessory-image-wrapper .accessory-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    max-width: 135%;
+    max-height: 135%;
+}
+
+.accessory-image.is-flipped-gallery {
+    transform: translate(-50%, -45%) scaleX(-1);
+}
+
+.accessory-image.undiscovered {
+    filter: brightness(0) contrast(0%);
+}
+
+.accessory-name {
+    height: 20px;
+}
+
+/* --- RESTORED: Styles for the rarity tooltip --- */
+.rarity-tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 8px 12px;
+    border: 2px solid #FFF;
+    text-shadow: 2px 2px #000;
+    z-index: 10;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.accessory-image-wrapper:hover .rarity-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+/* --- End of restored styles --- */
+
+.nav-button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #555;
+    color: #FFF;
+    border-style: outset;
+    border-width: 4px;
+    border-color: #888 #333 #333 #888;
+    padding: 10px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+    .nav-button:active {
+        border-style: inset;
+        border-color: #333 #888 #888 #333;
+    }

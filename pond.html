@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>duckstreet - Pond</title>
+    <link rel="stylesheet" href="pond.css">
+</head>
+<body>
+    <div class="top-nav">
+        <div class="nav-links">
+            <a href="index.html" class="nav-button">Back to Street</a>
+            <a href="gallery.html" class="nav-button">Gallery</a>
+        </div>
+    </div>
+
+    <div id="pond-container">
+    </div>
+
+    <div id="duck-popup-overlay" class="hidden">
+        <div id="duck-popup-menu">
+            <button id="close-popup-btn">&times;</button>
+            <input type="text" id="duck-name-input" placeholder="Name your duck..." maxlength="20">
+            <div id="fashion-rating-text"></div>
+            <div id="enlarged-duck-display">
+            </div>
+            <div class="popup-actions">
+                <button id="load-duck-btn">Load Duck</button>
+                <button id="delete-duck-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="pond.js"></script>
+</body>
+</html>

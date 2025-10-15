@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>duckstreet</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-nav">
+        <img src="images/settings.png" id="settings-btn" alt="Settings">
+        <h1>duckstreet</h1>
+        <div class="nav-links">
+            <a href="gallery.html" class="nav-button">Gallery</a>
+            <a href="pond.html" class="nav-button">My Pond</a>
+        </div>
+    </div>
+
+    <div id="game-area"></div>
+
+    <div id="my-duck-area">
+        <div id="my-duck-display">
+            <h2>Your Duck</h2>
+            <div id="duck-image-container">
+            </div>
+            <button id="save-to-pond-btn">Send to Pond</button>
+        </div>
+    </div>
+
+    <div id="settings-overlay" class="hidden">
+        <div id="settings-menu">
+            <button id="close-settings-btn">&times;</button>
+
+            <div id="settings-main-view">
+                <h3>Settings</h3>
+                <button id="show-how-to-play-btn" class="settings-menu-button">How to Play</button>
+                <button id="show-reset-btn" class="settings-menu-button">Reset Game</button>
+            </div>
+
+            <div id="how-to-play-section" class="hidden">
+                <h4>How to Play</h4>
+                <ul>
+                    <li>Ducks with accessories will roll by.</li>
+                    <li>Click a duck to take its accessory.</li>
+                    <li>Click "Send to Pond" to send your current duck to the pond and get a new duck.</li>
+                </ul>
+                <button class="settings-back-btn">Back</button>
+            </div>
+
+            <div id="reset-section" class="hidden">
+                <h4>Reset Game</h4>
+                <p>Reset all game progress, including your Pond and Gallery. This cannot be undone.</p>
+                <button id="reset-game-btn">Confirm Reset</button>
+                <button class="settings-back-btn">Back</button>
+            </div>
+
+            <div id="password-section" class="hidden">
+                <hr>
+                <input type="password" id="dev-password-input" placeholder="Developer Code">
+                <button id="dev-password-submit">Enter</button>
+            </div>
+
+            <div id="dev-settings-section" class="hidden">
+                <hr>
+                <h4>Developer Settings</h4>
+                <div class="dev-control">
+                    <button id="dev-guaranteed-accessories">Toggle Guaranteed Accessories</button>
+                    <span id="dev-guaranteed-status">OFF</span>
+                </div>
+                <div class="dev-control">
+                    <label for="dev-spawn-speed">Spawn Speed (ms):</label>
+                    <input type="number" id="dev-spawn-speed" min="100" step="100">
+                </div>
+                <div class="dev-control">
+                    <label for="dev-duck-speed">Duck Speed:</label>
+                    <input type="number" id="dev-duck-speed" min="1" step="1">
+                </div>
+                <div class="dev-control">
+                    <button id="dev-unlock-all">Unlock All Accessories</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dev-mode-trigger"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
