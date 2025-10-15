@@ -4,6 +4,8 @@
 html, body {
     overflow: hidden;
     height: 100%;
+    /* ADDED: Explicitly hide horizontal overflow for the entire page to fix mobile zooming */
+    overflow-x: hidden;
 }
 
 body {
@@ -370,5 +372,3 @@ input[type="password"], input[type="number"] {
     }
 }
 /* --- END MOBILE STYLES --- */
-
-}

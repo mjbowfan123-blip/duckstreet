@@ -169,8 +169,17 @@ button, .nav-button {
     margin-top: 20px;
 }
 
-/* --- MOBILE STYLES --- */
+/* NEW: Mobile Bottom Nav Styling */
+.bottom-nav-mobile {
+    display: none; /* Hide by default on desktop */
+}
+
+/* --- MOBILE STYLES (Pond) --- */
 @media (max-width: 600px) {
+    .top-nav .nav-links {
+        display: none; /* Hide the top nav buttons */
+    }
+
     .pond-duck-container {
         width: 150px; /* Make card containers smaller */
     }
@@ -189,5 +198,30 @@ button, .nav-button {
         width: 250px;
         height: 250px;
     }
+
+    /* Show and position the bottom nav */
+    .bottom-nav-mobile {
+        display: flex;
+        justify-content: space-between;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px 15px;
+        box-sizing: border-box;
+        background-color: rgba(68, 68, 68, 0.9); /* Slightly different background for pond */
+        z-index: 100;
+        border-top: 4px double #FFF;
+    }
+
+        .bottom-nav-mobile .nav-button:first-child {
+            margin-right: auto; /* Push the left button to the left */
+            font-size: 12px;
+        }
+
+        .bottom-nav-mobile .nav-button:last-child {
+            margin-left: auto; /* Push the right button to the right */
+            font-size: 12px;
+        }
 }
 /* --- END MOBILE STYLES --- */
