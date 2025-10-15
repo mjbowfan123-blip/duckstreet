@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "style.css",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\style.css",
               "RelativeToolTip": "style.css",
-              "ViewState": "AgIAAJUBAAAAAAAAAAAQwJ0BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMoBAAAAAAAAAAAgwOEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-10-15T03:47:19.731Z",
               "EditorCaption": ""
@@ -69,7 +69,7 @@
               "RelativeDocumentMoniker": "script.js",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\script.js",
               "RelativeToolTip": "script.js",
-              "ViewState": "AgIAAEsBAAAAAAAAAAAYwGEBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAEsBAAAAAAAAAAAmwGEBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-10-15T03:47:19.705Z",
               "EditorCaption": ""
@@ -108,8 +108,7 @@
               "RelativeToolTip": "pond.css",
               "ViewState": "AgIAAM0AAAAAAAAAAAAQwOQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-15T03:47:19.621Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T03:47:19.621Z"
             },
             {
               "$type": "Document",
@@ -121,8 +120,7 @@
               "RelativeToolTip": "index.html",
               "ViewState": "AgIAAEQAAAAAAAAAAAAQwFsAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-10-15T03:47:19.585Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T03:47:19.585Z"
             },
             {
               "$type": "Document",
@@ -158,8 +156,7 @@
               "RelativeToolTip": "gallery.css",
               "ViewState": "AgIAAOEAAAAAAAAAAAAQwPgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-15T03:47:15.419Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T03:47:15.419Z"
             }
           ]
         }

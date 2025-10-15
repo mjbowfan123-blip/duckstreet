@@ -158,8 +158,8 @@ function createMarchingDuck() {
     duck.className = 'marching-duck';
     duck.style.left = '-250px';
 
-    // --- MODIFIED: Ducks are slightly lower than before (subtracted a smaller number) ---
-    duck.style.top = isMobileView() ? 'calc(55vh - 250px)' : 'calc(55vh - 280px)';
+    // --- MODIFIED: Made a much larger jump to raise the ducks higher on mobile ---
+    duck.style.top = isMobileView() ? 'calc(55vh - 300px)' : 'calc(55vh - 280px)';
 
     const duckImage = document.createElement('img');
     duckImage.src = 'images/duck.png';
