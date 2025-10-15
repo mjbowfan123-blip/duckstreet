@@ -185,3 +185,34 @@ h1, h2 {
         border-style: inset;
         border-color: #333 #888 #888 #333;
     }
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 600px) {
+    .accessory-grid {
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .accessory-item {
+        width: 150px; /* Make card containers smaller */
+    }
+
+    .accessory-image-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-button {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+/* --- END MOBILE STYLES --- */
