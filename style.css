@@ -8,6 +8,12 @@ html, body {
     overflow-x: hidden;
 }
 
+/* ADDED: Lock the HTML element width to the viewport width to prevent horizontal pulse */
+html {
+    width: 100vw;
+}
+/* END ADDITION */
+
 body {
     font-family: 'Press Start 2P', cursive;
     color: #FFF;
