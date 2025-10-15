@@ -192,7 +192,8 @@ h1, h2 {
 }
 
 /* --- MOBILE STYLES (Gallery) --- */
-@media (max-width: 600px) {
+/* --- MODIFIED: Synced the toggle button class with the screen size styles --- */
+@media (max-width: 600px), body.mobile-view {
     .top-nav {
         border-bottom: none; /* Hide the top border */
     }

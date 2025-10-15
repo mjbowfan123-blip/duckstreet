@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pond.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\gallery.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -25,10 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pond.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pond.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\mjbog\\Desktop\\duck-march-website\\gallery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -46,37 +46,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "style.css",
               "DocumentMoniker": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\style.css",
               "RelativeDocumentMoniker": "style.css",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\style.css",
               "RelativeToolTip": "style.css",
-              "ViewState": "AgIAAF4BAAAAAAAAAAAiwHMBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJUBAAAAAAAAAAAQwJ0BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-10-15T03:47:19.731Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "script.js",
               "DocumentMoniker": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\script.js",
               "RelativeDocumentMoniker": "script.js",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\script.js",
               "RelativeToolTip": "script.js",
-              "ViewState": "AgIAACQBAAAAAAAAAAAmwCwBAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAEsBAAAAAAAAAAAYwGEBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-10-15T03:47:19.705Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "pond.js",
               "DocumentMoniker": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.js",
               "RelativeDocumentMoniker": "pond.js",
@@ -84,12 +84,11 @@
               "RelativeToolTip": "pond.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-10-15T03:47:19.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T03:47:19.672Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "pond.html",
               "DocumentMoniker": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.html",
               "RelativeDocumentMoniker": "pond.html",
@@ -97,20 +96,20 @@
               "RelativeToolTip": "pond.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-10-15T03:47:19.645Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T03:47:19.645Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "pond.css",
               "DocumentMoniker": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.css",
               "RelativeDocumentMoniker": "pond.css",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\pond.css",
               "RelativeToolTip": "pond.css",
-              "ViewState": "AgIAAL4AAAAAAAAAAAAuwOMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAQwOQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-15T03:47:19.621Z"
+              "WhenOpened": "2025-10-15T03:47:19.621Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -120,7 +119,7 @@
               "RelativeDocumentMoniker": "index.html",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\index.html",
               "RelativeToolTip": "index.html",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAiwFgAAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAQwFsAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2025-10-15T03:47:19.585Z",
               "EditorCaption": ""
@@ -151,13 +150,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "gallery.css",
               "DocumentMoniker": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\gallery.css",
               "RelativeDocumentMoniker": "gallery.css",
               "ToolTip": "C:\\Users\\mjbog\\Desktop\\duck-march-website\\gallery.css",
               "RelativeToolTip": "gallery.css",
-              "ViewState": "AgIAANIAAAAAAAAAAAAuwPcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAOEAAAAAAAAAAAAQwPgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-10-15T03:47:15.419Z",
               "EditorCaption": ""

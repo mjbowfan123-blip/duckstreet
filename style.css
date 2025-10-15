@@ -54,6 +54,7 @@ h1, h2 {
     height: 48px;
     cursor: pointer;
     transition: transform 0.4s ease-in-out;
+    z-index: 100;
 }
 
     #settings-btn.is-rotated {
@@ -114,6 +115,14 @@ h1, h2 {
         transform: scaleX(-1);
     }
 
+.base-duck-image, .accessory-image {
+    position: absolute;
+    top: 0;
+    /* Desktop styles */
+    width: 300px;
+    left: 50px;
+}
+
 #my-duck-display h2 {
     position: absolute;
     top: 10px;
@@ -147,6 +156,19 @@ button, .nav-button {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
+}
+
+body.mobile-view {
+    width: 375px;
+    height: 667px;
+    border: 3px solid red;
+    margin: auto !important;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
 }
 
 .hidden {
@@ -324,9 +346,22 @@ input[type="password"], input[type="number"] {
     animation: pan-on-left 0.6s ease-out;
 }
 
-@media (max-width: 600px) {
+/* --- ALL MOBILE STYLES ARE NOW CORRECTLY CONTAINED HERE --- */
+@media (max-width: 600px), body.mobile-view {
     .top-nav .nav-links {
         display: none;
+    }
+
+    .top-nav #settings-btn {
+        display: none;
+    }
+
+    #settings-btn {
+        display: block !important;
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 100;
     }
 
     .mobile-nav-centered {
@@ -334,10 +369,11 @@ input[type="password"], input[type="number"] {
         justify-content: center;
         gap: 15px;
         position: absolute;
-        top: 65px;
+        top: 90px;
         left: 50%;
         transform: translateX(-50%);
         width: 100%;
+        z-index: 5;
     }
 
         .mobile-nav-centered .nav-button {
@@ -346,26 +382,32 @@ input[type="password"], input[type="number"] {
         }
 
     #my-duck-area {
-        margin-top: calc(55vh + 30px);
+        margin-top: calc(55vh + 100px);
+        position: absolute;
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
     }
 
     #my-duck-display {
         width: 250px;
-        height: 188px;
+        height: 250px;
     }
 
-    #duck-image-container img {
-        width: 188px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    #my-duck-display h2 {
-        font-size: 12px;
-    }
+        #my-duck-display h2 {
+            font-size: 12px;
+            text-align: center;
+        }
 
     #save-to-pond-btn {
         font-size: 10px;
         padding: 8px 10px;
+    }
+
+    .base-duck-image, .accessory-image {
+        width: 250px;
+        left: 0;
     }
 }

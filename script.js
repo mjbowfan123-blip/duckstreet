@@ -1,7 +1,11 @@
-﻿const isMobile = window.innerWidth <= 600;
+﻿// A dynamic function to check for mobile view at any time
+function isMobileView() {
+    return document.body.classList.contains('mobile-view') || window.innerWidth <= 600;
+}
 
-let DUCK_SPAWN_RATE_MS = isMobile ? 1500 : 2000;
-let DUCK_SPEED_PX_PER_FRAME = isMobile ? 1 : 2;
+// These are now set dynamically in the game loop
+let DUCK_SPAWN_RATE_MS;
+let DUCK_SPEED_PX_PER_FRAME;
 const POND_CAPACITY = 50;
 
 const ACCESSORIES = [
@@ -71,17 +75,21 @@ const devGuaranteedStatus = document.getElementById('dev-guaranteed-status');
 const devSpawnSpeedInput = document.getElementById('dev-spawn-speed');
 const devDuckSpeedInput = document.getElementById('dev-duck-speed');
 const devUnlockAllBtn = document.getElementById('dev-unlock-all');
+const devMobileViewBtn = document.getElementById('dev-mobile-view-btn');
 
 let lastFrameTime = 0;
 let timeSinceLastSpawn = 0;
 let devModeGuaranteedAccessories = false;
 let devModeUnlocked = false;
+let myBaseDuck = null;
 
-const myBaseDuck = document.createElement('img');
-myBaseDuck.src = 'images/duck.png';
-myBaseDuck.style.width = '300px'; myBaseDuck.style.position = 'absolute';
-myBaseDuck.style.left = '50px'; myBaseDuck.style.top = '0px';
-duckImageContainer.appendChild(myBaseDuck);
+function createBaseDuck() {
+    if (myBaseDuck) myBaseDuck.remove();
+    myBaseDuck = document.createElement('img');
+    myBaseDuck.src = 'images/duck.png';
+    myBaseDuck.className = 'base-duck-image';
+    duckImageContainer.appendChild(myBaseDuck);
+}
 
 function openSettings() {
     settingsOverlay.classList.remove('hidden');
@@ -112,12 +120,12 @@ function onDevTriggerClick() {
     devModeTrigger.classList.add('hidden');
 }
 function checkDevPassword() {
-    if (devPasswordInput.value === "ThePhantomGoat") {
+    if (devPasswordInput.value === "1111") {
         passwordSection.classList.add('hidden');
         devSettingsSection.classList.remove('hidden');
         devModeUnlocked = true;
-        devSpawnSpeedInput.value = DUCK_SPAWN_RATE_MS;
-        devDuckSpeedInput.value = DUCK_SPEED_PX_PER_FRAME;
+        devSpawnSpeedInput.value = isMobileView() ? 5000 : 2000;
+        devDuckSpeedInput.value = isMobileView() ? 1.5 : 2;
     } else {
         alert("Incorrect Code.");
         devPasswordInput.value = '';
@@ -133,6 +141,11 @@ function unlockAllAccessories() {
     localStorage.setItem('discoveredAccessories', JSON.stringify(allAccessorySrcs));
     alert('All accessories unlocked! Go to the Gallery to see them.');
 }
+function toggleMobileView() {
+    document.body.classList.toggle('mobile-view');
+    createBaseDuck();
+    resetDuck();
+}
 function trackDiscoveredAccessory(accessorySrc) {
     let discovered = JSON.parse(localStorage.getItem('discoveredAccessories')) || [];
     if (!discovered.includes(accessorySrc)) {
@@ -144,7 +157,10 @@ function createMarchingDuck() {
     const duck = document.createElement('div');
     duck.className = 'marching-duck';
     duck.style.left = '-250px';
-    duck.style.top = isMobile ? 'calc(55vh - 240px)' : 'calc(55vh - 280px)';
+
+    // --- MODIFIED: Ducks are slightly lower than before (subtracted a smaller number) ---
+    duck.style.top = isMobileView() ? 'calc(55vh - 250px)' : 'calc(55vh - 280px)';
+
     const duckImage = document.createElement('img');
     duckImage.src = 'images/duck.png';
     duckImage.style.width = '100%';
@@ -190,16 +206,13 @@ function createMarchingDuck() {
             duck.style.transform = 'scaleX(1)';
         } else {
             const collectedAccessorySrc = accessoryData.src, collectedAccessoryType = accessoryData.type;
-            duckImageContainer.querySelectorAll('img').forEach(acc => {
+            duckImageContainer.querySelectorAll('img.accessory-image').forEach(acc => {
                 if (acc.getAttribute('data-type') === collectedAccessoryType) acc.remove();
             });
             const newAccessory = document.createElement('img');
             newAccessory.src = collectedAccessorySrc;
             newAccessory.setAttribute('data-type', collectedAccessoryType);
-            newAccessory.style.position = 'absolute';
-            newAccessory.style.width = '300px';
-            newAccessory.style.left = '50px';
-            newAccessory.style.top = '0px';
+            newAccessory.className = 'accessory-image';
             newAccessory.style.zIndex = '1';
             duckImageContainer.appendChild(newAccessory);
             duck.querySelector(`img[src="${collectedAccessorySrc}"]`)?.remove();
@@ -213,11 +226,16 @@ function gameLoop(currentTime) {
     let deltaTime = currentTime - lastFrameTime;
     lastFrameTime = currentTime;
     if (deltaTime > 1000) { deltaTime = 16; }
+
+    DUCK_SPEED_PX_PER_FRAME = isMobileView() ? 1.5 : 2;
+    DUCK_SPAWN_RATE_MS = isMobileView() ? 5000 : 2000;
+
     document.querySelectorAll('.marching-duck').forEach(duck => {
         let currentPos = parseFloat(duck.style.left);
         duck.style.left = (currentPos + DUCK_SPEED_PX_PER_FRAME) + 'px';
         if (currentPos > window.innerWidth) duck.remove();
     });
+
     timeSinceLastSpawn += deltaTime;
     if (timeSinceLastSpawn > DUCK_SPAWN_RATE_MS) {
         createMarchingDuck();
@@ -226,13 +244,13 @@ function gameLoop(currentTime) {
     requestAnimationFrame(gameLoop);
 }
 function resetDuck() {
-    duckImageContainer.querySelectorAll('img:not([src="images/duck.png"])').forEach(el => el.remove());
+    duckImageContainer.querySelectorAll('.accessory-image').forEach(el => el.remove());
     duckImageContainer.classList.remove('is-flipped');
 }
 function saveDuckToPond() {
     if (duckImageContainer.classList.contains('is-leaving')) return;
     let currentLook = {};
-    duckImageContainer.querySelectorAll('img:not([src="images/duck.png"])').forEach(img => {
+    duckImageContainer.querySelectorAll('.accessory-image').forEach(img => {
         const type = img.getAttribute('data-type'), src = img.getAttribute('src');
         if (type && src) currentLook[type] = src;
     });
@@ -262,40 +280,75 @@ function loadDuckFromPond() {
         const newAccessory = document.createElement('img');
         newAccessory.src = src;
         newAccessory.setAttribute('data-type', type);
-        newAccessory.style.position = 'absolute';
-        newAccessory.style.width = '300px';
-        newAccessory.style.left = '50px';
-        newAccessory.style.top = '0px';
+        newAccessory.className = 'accessory-image';
         newAccessory.style.zIndex = '1';
         duckImageContainer.appendChild(newAccessory);
     }
     sessionStorage.removeItem('duckToLoad');
 }
-settingsBtn.addEventListener('click', () => {
-    settingsOverlay.classList.contains('hidden') ? openSettings() : closeSettings();
-});
-closeSettingsBtn.addEventListener('click', closeSettings);
-showHowToPlayBtn.addEventListener('click', () => {
-    settingsMainView.classList.add('hidden');
-    howToPlaySection.classList.remove('hidden');
-});
-showResetBtn.addEventListener('click', () => {
-    settingsMainView.classList.add('hidden');
-    resetSection.classList.remove('hidden');
-});
-settingsBackBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        btn.parentElement.classList.add('hidden');
-        settingsMainView.classList.remove('hidden');
+
+// Check if the element exists before adding an event listener to avoid errors on other pages
+if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+        settingsOverlay.classList.contains('hidden') ? openSettings() : closeSettings();
     });
-});
-resetGameBtn.addEventListener('click', resetGame);
-saveToPondBtn.addEventListener('click', saveDuckToPond);
-devModeTrigger.addEventListener('click', onDevTriggerClick);
-devPasswordSubmit.addEventListener('click', checkDevPassword);
-devGuaranteedBtn.addEventListener('click', toggleGuaranteedAccessories);
-devSpawnSpeedInput.addEventListener('input', (e) => DUCK_SPAWN_RATE_MS = Number(e.target.value));
-devDuckSpeedInput.addEventListener('input', (e) => DUCK_SPEED_PX_PER_FRAME = Number(e.target.value));
-devUnlockAllBtn.addEventListener('click', unlockAllAccessories);
-document.addEventListener('DOMContentLoaded', loadDuckFromPond);
-requestAnimationFrame(gameLoop);
+}
+if (closeSettingsBtn) {
+    closeSettingsBtn.addEventListener('click', closeSettings);
+}
+if (showHowToPlayBtn) {
+    showHowToPlayBtn.addEventListener('click', () => {
+        settingsMainView.classList.add('hidden');
+        howToPlaySection.classList.remove('hidden');
+    });
+}
+if (showResetBtn) {
+    showResetBtn.addEventListener('click', () => {
+        settingsMainView.classList.add('hidden');
+        resetSection.classList.remove('hidden');
+    });
+}
+if (settingsBackBtns) {
+    settingsBackBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.parentElement.classList.add('hidden');
+            settingsMainView.classList.remove('hidden');
+        });
+    });
+}
+if (resetGameBtn) {
+    resetGameBtn.addEventListener('click', resetGame);
+}
+if (saveToPondBtn) {
+    saveToPondBtn.addEventListener('click', saveDuckToPond);
+}
+if (devModeTrigger) {
+    devModeTrigger.addEventListener('click', onDevTriggerClick);
+}
+if (devPasswordSubmit) {
+    devPasswordSubmit.addEventListener('click', checkDevPassword);
+}
+if (devGuaranteedBtn) {
+    devGuaranteedBtn.addEventListener('click', toggleGuaranteedAccessories);
+}
+if (devMobileViewBtn) {
+    devMobileViewBtn.addEventListener('click', toggleMobileView);
+}
+if (devSpawnSpeedInput) {
+    devSpawnSpeedInput.addEventListener('input', (e) => DUCK_SPAWN_RATE_MS = Number(e.target.value));
+}
+if (devDuckSpeedInput) {
+    devDuckSpeedInput.addEventListener('input', (e) => DUCK_SPEED_PX_PER_FRAME = Number(e.target.value));
+}
+if (devUnlockAllBtn) {
+    devUnlockAllBtn.addEventListener('click', unlockAllAccessories);
+}
+
+// This logic is for the main page (index.html) only
+if (duckImageContainer) {
+    document.addEventListener('DOMContentLoaded', () => {
+        createBaseDuck();
+        loadDuckFromPond();
+    });
+    requestAnimationFrame(gameLoop);
+}
