@@ -334,49 +334,80 @@ input[type="password"], input[type="number"] {
     animation: pan-on-left 0.6s ease-out;
 }
 
-/* --- MOBILE STYLES --- */
+/* --- MOBILE STYLES (HARD ZOOM FRAME) --- */
 @media (max-width: 600px) {
-    /* Reduce duck display size */
-    #my-duck-display {
-        width: 280px;
-        height: 210px;
+    /* 1. Define a fixed virtual canvas size */
+    html {
+        /* Ensure HTML size is the virtual size */
+        width: 400px;
+        height: 100vh; /* Keep height responsive */
     }
 
-    /* Center H1 title properly (it was absolute, might overlap settings) */
+    body {
+        /* 2. Scale the entire body to fit the actual device width */
+        width: 400px; /* Base width of the virtual canvas */
+        transform-origin: top left; /* Scale from the top-left corner */
+        /* Calculate scale factor based on actual device width */
+        transform: scale(calc(100vw / 400));
+        /* Stop body from scrolling outside the scaled area */
+        overflow: hidden;
+        position: absolute;
+    }
+
+    /* 3. Revert sizing for crucial elements that must span the screen */
+    .top-nav {
+        width: 400px;
+    }
+
+    #game-area {
+        width: 400px;
+    }
+
+    /* 4. Restore original element sizes (since the body scale shrinks everything) */
+    #my-duck-display {
+        width: 400px;
+        height: 300px;
+        margin: auto;
+    }
+
+    .marching-duck {
+        width: 250px;
+    }
+
+    /* Keep settings menu large for readability */
+    #settings-overlay {
+        /* This keeps the overlay covering the original 100vw space */
+        width: calc(100vw / (100vw / 400));
+        transform: none;
+    }
+
+    #settings-menu {
+        width: 360px; /* Fit nicely inside 400px width */
+    }
+
+    /* Center H1 title properly */
     .top-nav h1 {
-        font-size: 20px; /* Make title smaller */
+        font-size: 24px;
         left: 50%;
         transform: translateX(-50%);
     }
 
-    /* Make the marching ducks smaller */
-    .marching-duck {
-        width: 150px;
+    /* Adjust marching area top position if necessary */
+    #my-duck-area {
+        margin-top: calc(55vh - 120px);
     }
 
-    /* Move the marching area down slightly so it's not hidden by the smaller duck display */
-    #game-area {
-        top: 60vh;
-    }
-
-    /* Make buttons stack nicely */
-    .nav-links {
-        gap: 8px;
-    }
-
+    /* Small buttons adjustments (no need to shrink further) */
     .nav-button {
-        padding: 8px 10px;
+        padding: 10px 15px;
         font-size: 10px;
     }
 
-    /* Shrink settings popup */
-    #settings-menu {
-        width: 90%;
-        max-width: 400px;
-    }
-
-    #how-to-play-section, #reset-section {
-        font-size: 10px;
+    /* Ensure fixed duck display position is correct */
+    #duck-image-container img {
+        width: 300px;
+        left: 50px;
+        top: 0px;
     }
 }
-/* --- END MOBILE STYLES --- */
+/* --- END MOBILE STYLES (HARD ZOOM FRAME) --- */
