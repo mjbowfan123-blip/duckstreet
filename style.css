@@ -469,6 +469,20 @@ input[type="password"], input[type="number"] {
     .marching-duck {
         width: 300px;
     }
+
+    /* NEW MOBILE STYLES FOR WELCOME POPUP */
+    #welcome-menu h2 {
+        font-size: 18px; /* Significantly smaller heading */
+    }
+
+    #welcome-menu p {
+        font-size: 10px; /* Smaller paragraph text */
+        margin: 10px 0; /* Reduced margin */
+    }
+
+    #welcome-menu {
+        padding: 20px; /* Reduced padding */
+    }
 }
 
 /* --- SEPARATE, IDENTICAL RULE FOR THE TOGGLE BUTTON --- */
