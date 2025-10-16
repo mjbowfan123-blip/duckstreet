@@ -9,46 +9,63 @@ let DUCK_SPEED_PX_PER_FRAME;
 const POND_CAPACITY = 50;
 
 const ACCESSORIES = [
-    { src: 'images/hat.png', rarity: 5, rarityName: 'common', type: 'hat' },
-    { src: 'images/fez.png', rarity: 20, rarityName: 'uncommon', type: 'hat' },
-    { src: 'images/saddle.png', rarity: 40, rarityName: 'rare', type: 'back' },
-    { src: 'images/redeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/angryeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/happyeye.png', rarity: 6, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/noeye.png', rarity: 24, rarityName: 'uncommon', type: 'eyecolor' },
-    { src: 'images/tealeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/yelloweye.png', rarity: 5, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/blueeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/lasereye.png', rarity: 200, rarityName: 'legendary', type: 'eyecolor' },
-    { src: 'images/ghosteye.png', rarity: 60, rarityName: 'rare', type: 'eyecolor' },
-    { src: 'images/eye2.png', rarity: 5, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/sunglasses.png', rarity: 20, rarityName: 'uncommon', type: 'eyecolor' },
-    { src: 'images/forwardeye.png', rarity: 80, rarityName: 'very-rare', type: 'eyecolor' },
-    { src: 'images/squareeye.png', rarity: 8, rarityName: 'common', type: 'eyecolor' },
-    { src: 'images/bluehat.png', rarity: 7, rarityName: 'common', type: 'hat' },
-    { src: 'images/pinkhat.png', rarity: 7, rarityName: 'common', type: 'hat' },
-    { src: 'images/yellowhat.png', rarity: 7, rarityName: 'common', type: 'hat' },
-    { src: 'images/redhat.png', rarity: 7, rarityName: 'common', type: 'hat' },
-    { src: 'images/blackbandanahat.png', rarity: 30, rarityName: 'uncommon', type: 'hat' },
-    { src: 'images/halohat.png', rarity: 150, rarityName: 'legendary', type: 'hat' },
-    { src: 'images/partyhat.png', rarity: 25, rarityName: 'uncommon', type: 'hat' },
-    { src: 'images/nailhat.png', rarity: 80, rarityName: 'very-rare', type: 'hat' },
-    { src: 'images/nailback.png', rarity: 75, rarityName: 'very-rare', type: 'back' },
-    { src: 'images/mutantback.png', rarity: 120, rarityName: 'legendary', type: 'back' },
-    { src: 'images/umbrellaback.png', rarity: 35, rarityName: 'uncommon', type: 'back' },
-    { src: 'images/bluebandwing.png', rarity: 15, rarityName: 'uncommon', type: 'wings' },
-    { src: 'images/blackbandwing.png', rarity: 15, rarityName: 'uncommon', type: 'wings' },
-    { src: 'images/goldbraceletwing.png', rarity: 50, rarityName: 'rare', type: 'wings' },
-    { src: 'images/nowing.png', rarity: 5, rarityName: 'common', type: 'wings' },
-    { src: 'images/mallardfeathers.png', rarity: 5, rarityName: 'common', type: 'feathers' },
-    { src: 'images/checkerfeathers.png', rarity: 30, rarityName: 'uncommon', type: 'feathers' },
-    { src: 'images/femalefeathers.png', rarity: 10, rarityName: 'common', type: 'feathers' },
-    { src: 'images/darkpants.png', rarity: 20, rarityName: 'uncommon', type: 'pants' },
-    { src: 'images/jeanspants.png', rarity: 20, rarityName: 'uncommon', type: 'pants' },
-    { src: 'images/kahikipants.png', rarity: 20, rarityName: 'uncommon', type: 'pants' },
-    { src: 'images/rainbowpants.png', rarity: 100, rarityName: 'very-rare', type: 'pants' },
-    { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other' },
-    { src: 'images/flip-effect.png', rarity: 200, rarityName: 'legendary', type: 'other', effect: 'flip' }
+    { src: 'images/hat.png', rarity: 5, rarityName: 'common', type: 'hat', displayName: 'Top Hat' },
+    { src: 'images/fez.png', rarity: 20, rarityName: 'uncommon', type: 'hat', displayName: 'Fez' },
+    { src: 'images/saddle.png', rarity: 40, rarityName: 'rare', type: 'back', displayName: 'Saddle' },
+    { src: 'images/redeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor', displayName: 'Red Eyes' },
+    { src: 'images/angryeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor', displayName: 'Angry Eyes' },
+    { src: 'images/happyeye.png', rarity: 6, rarityName: 'common', type: 'eyecolor', displayName: 'Happy Eyes' },
+    { src: 'images/noeye.png', rarity: 24, rarityName: 'uncommon', type: 'eyecolor', displayName: 'No Eyes' },
+    { src: 'images/tealeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor', displayName: 'Teal Eyes' },
+    { src: 'images/yelloweye.png', rarity: 5, rarityName: 'common', type: 'eyecolor', displayName: 'Yellow Eyes' },
+    { src: 'images/blueeye.png', rarity: 5, rarityName: 'common', type: 'eyecolor', displayName: 'Blue Eyes' },
+    { src: 'images/lasereye.png', rarity: 200, rarityName: 'legendary', type: 'eyecolor', displayName: 'Laser Eyes' },
+    { src: 'images/ghosteye.png', rarity: 60, rarityName: 'rare', type: 'eyecolor', displayName: 'Ghost Eyes' },
+    { src: 'images/eye2.png', rarity: 5, rarityName: 'common', type: 'eyecolor', displayName: 'Simple Eyes' },
+    { src: 'images/sunglasses.png', rarity: 20, rarityName: 'uncommon', type: 'eyecolor', displayName: 'Sunglasses' },
+    { src: 'images/forwardeye.png', rarity: 80, rarityName: 'very-rare', type: 'eyecolor', displayName: 'Forward Eyes' },
+    { src: 'images/squareeye.png', rarity: 8, rarityName: 'common', type: 'eyecolor', displayName: 'Square Eyes' },
+    { src: 'images/bluehat.png', rarity: 7, rarityName: 'common', type: 'hat', displayName: 'Blue Cap' },
+    { src: 'images/pinkhat.png', rarity: 7, rarityName: 'common', type: 'hat', displayName: 'Pink Cap' },
+    { src: 'images/yellowhat.png', rarity: 7, rarityName: 'common', type: 'hat', displayName: 'Yellow Cap' },
+    { src: 'images/redhat.png', rarity: 7, rarityName: 'common', type: 'hat', displayName: 'Red Cap' },
+    { src: 'images/blackbandanahat.png', rarity: 30, rarityName: 'uncommon', type: 'hat', displayName: 'Black Bandana' },
+    { src: 'images/halohat.png', rarity: 150, rarityName: 'legendary', type: 'hat', displayName: 'Halo' },
+    { src: 'images/partyhat.png', rarity: 25, rarityName: 'uncommon', type: 'hat', displayName: 'Party Hat' },
+    { src: 'images/nailhat.png', rarity: 80, rarityName: 'very-rare', type: 'hat', displayName: 'Nail Cap' },
+    { src: 'images/nailback.png', rarity: 75, rarityName: 'very-rare', type: 'back', displayName: 'Nail Back' },
+    { src: 'images/mutantback.png', rarity: 120, rarityName: 'legendary', type: 'back', displayName: 'Mutant Back' },
+    { src: 'images/umbrellaback.png', rarity: 35, rarityName: 'uncommon', type: 'back', displayName: 'Umbrella' },
+    { src: 'images/bluebandwing.png', rarity: 15, rarityName: 'uncommon', type: 'wings', displayName: 'Blue Bands' },
+    { src: 'images/blackbandwing.png', rarity: 15, rarityName: 'uncommon', type: 'wings', displayName: 'Black Bands' },
+    { src: 'images/goldbraceletwing.png', rarity: 50, rarityName: 'rare', type: 'wings', displayName: 'Gold Bracelets' },
+    { src: 'images/nowing.png', rarity: 5, rarityName: 'common', type: 'wings', displayName: 'No Wings' },
+    { src: 'images/mallardfeathers.png', rarity: 5, rarityName: 'common', type: 'feathers', displayName: 'Mallard Feathers' },
+    { src: 'images/checkerfeathers.png', rarity: 30, rarityName: 'uncommon', type: 'feathers', displayName: 'Checker Feathers' },
+    { src: 'images/femalefeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Female Feathers' },
+    { src: 'images/darkpants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Dark Pants' },
+    { src: 'images/jeanspants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Jeans' },
+    { src: 'images/kahikipants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Khaki Pants' },
+    { src: 'images/rainbowpants.png', rarity: 100, rarityName: 'very-rare', type: 'pants', displayName: 'Rainbow Pants' },
+    { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other', displayName: 'Freak Duck' },
+    { src: 'images/flip-effect.png', rarity: 200, rarityName: 'legendary', type: 'other', effect: 'flip', displayName: 'Flip' },
+    // --- NEW ACCESSORIES ---
+    { src: 'images/babyhair.png', rarity: 15, rarityName: 'uncommon', type: 'hat', displayName: 'Baby Hair' },
+    { src: 'images/bluefeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Blue Feathers' },
+    { src: 'images/evileye.png', rarity: 50, rarityName: 'rare', type: 'eyecolor', displayName: 'Evil Eye' },
+    { src: 'images/longbeak.png', rarity: 25, rarityName: 'uncommon', type: 'beak', displayName: 'Long Beak' },
+    { src: 'images/longwing.png', rarity: 30, rarityName: 'uncommon', type: 'wings', displayName: 'Long Wings' },
+    { src: 'images/openbeak.png', rarity: 15, rarityName: 'uncommon', type: 'beak', displayName: 'Open Beak' },
+    { src: 'images/overbitebeak.png', rarity: 45, rarityName: 'rare', type: 'beak', displayName: 'Overbite Beak' },
+    { src: 'images/pelicanbeak.png', rarity: 75, rarityName: 'very-rare', type: 'beak', displayName: 'Pelican Beak' },
+    { src: 'images/rainbowbeak.png', rarity: 150, rarityName: 'legendary', type: 'beak', displayName: 'Rainbow Beak' },
+    { src: 'images/redfeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Red Feathers' },
+    { src: 'images/slightlyopenbeak.png', rarity: 10, rarityName: 'common', type: 'beak', displayName: 'Slightly Open Beak' },
+    { src: 'images/sodafeathers.png', rarity: 50, rarityName: 'rare', type: 'feathers', displayName: 'Soda Feathers' },
+    { src: 'images/sodahat.png', rarity: 50, rarityName: 'rare', type: 'hat', displayName: 'Soda Hat' },
+    { src: 'images/squigglybeak.png', rarity: 60, rarityName: 'rare', type: 'beak', displayName: 'Squiggly Beak' },
+    { src: 'images/yellowbeak.png', rarity: 5, rarityName: 'common', type: 'beak', displayName: 'Yellow Beak' },
+    { src: 'images/yellowfeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Yellow Feathers' },
 ];
 
 const gameArea = document.getElementById('game-area');
@@ -77,6 +94,10 @@ const devDuckSpeedInput = document.getElementById('dev-duck-speed');
 const devUnlockAllBtn = document.getElementById('dev-unlock-all');
 const devMobileViewBtn = document.getElementById('dev-mobile-view-btn');
 
+// NEW: Welcome Popup Elements
+const welcomeOverlay = document.getElementById('welcome-overlay');
+const closeWelcomeBtn = document.getElementById('close-welcome-btn');
+
 let lastFrameTime = 0;
 let timeSinceLastSpawn = 0;
 let devModeGuaranteedAccessories = false;
@@ -89,6 +110,16 @@ function createBaseDuck() {
     myBaseDuck.src = 'images/duck.png';
     myBaseDuck.className = 'base-duck-image';
     duckImageContainer.appendChild(myBaseDuck);
+}
+
+// NEW: Welcome Popup Functions
+function showWelcomePopup() {
+    welcomeOverlay.classList.remove('hidden');
+}
+
+function closeWelcomePopup() {
+    welcomeOverlay.classList.add('hidden');
+    localStorage.setItem('hasVisited', 'true'); // Set flag so it doesn't show again
 }
 
 function openSettings() {
@@ -110,6 +141,7 @@ function resetGame() {
     if (confirm("Are you sure? This will reset your Pond and Gallery.")) {
         localStorage.removeItem('savedDucks');
         localStorage.removeItem('discoveredAccessories');
+        localStorage.removeItem('hasVisited'); // Reset welcome flag too
         alert('Progress reset.');
         location.reload();
     }
@@ -343,12 +375,21 @@ if (devDuckSpeedInput) {
 if (devUnlockAllBtn) {
     devUnlockAllBtn.addEventListener('click', unlockAllAccessories);
 }
+if (closeWelcomeBtn) {
+    closeWelcomeBtn.addEventListener('click', closeWelcomePopup); // NEW listener
+}
+
 
 // This logic is for the main page (index.html) only
 if (duckImageContainer) {
     document.addEventListener('DOMContentLoaded', () => {
         createBaseDuck();
         loadDuckFromPond();
+
+        // NEW: Check for first visit
+        if (!localStorage.getItem('hasVisited')) {
+            showWelcomePopup();
+        }
     });
     requestAnimationFrame(gameLoop);
 }

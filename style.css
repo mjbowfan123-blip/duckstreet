@@ -175,6 +175,58 @@ body.mobile-view {
     display: none !important;
 }
 
+/* NEW: Style for Content for Google Review Bot */
+#content-description.hidden-but-readable {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -100; /* Send it far away visually */
+    opacity: 0.01; /* Make it almost completely transparent */
+    pointer-events: none; /* Make it unclickable */
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* NEW: Styles for Welcome Popup */
+#welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#welcome-menu {
+    background-color: #444;
+    padding: 30px;
+    border: 4px double #FFF;
+    width: 90%; /* MODIFIED: Wider default width */
+    max-width: 600px; /* MODIFIED: Increased max width */
+    text-align: center;
+}
+
+    #welcome-menu h3 {
+        text-shadow: 3px 3px #000;
+        margin-top: 0;
+    }
+
+    #welcome-menu p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 15px 0;
+    }
+
+#close-welcome-btn {
+    margin-top: 20px;
+}
+/* END: Styles for Welcome Popup */
+
 #settings-overlay {
     position: fixed;
     top: 0;
@@ -491,5 +543,7 @@ body.mobile-view {
 
 .marching-duck {
     width: 300px;
+}
+
 }
 }

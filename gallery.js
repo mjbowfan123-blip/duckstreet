@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let formattedTitle;
         if (type === 'other') { formattedTitle = 'Other'; }
-        // --- MODIFIED: Handle already plural types like 'wings', 'feathers', 'pants' ---
+        // --- MODIFIED: Handle already plural types like 'wings', 'feathers', 'pants' and new type 'beak' ---
         else if (type.endsWith('s')) { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1); }
+        else if (type === 'beak') { formattedTitle = 'Beaks'; }
         // -----------------------------------------------------------------------------
         else { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1) + "s"; }
         categoryTitle.textContent = formattedTitle;
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     flippedDuckImage.classList.add('undiscovered');
                 }
                 imageWrapper.appendChild(flippedDuckImage);
-                name.textContent = isDiscovered ? accessory.effect : '???';
+                name.textContent = isDiscovered ? accessory.displayName : '???'; // MODIFIED: Use displayName
 
             } else {
                 const baseDuckImage = document.createElement('img');
@@ -86,8 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageWrapper.appendChild(accessoryImage);
 
                 if (isDiscovered) {
-                    const fileName = accessory.src.split('/').pop().split('.')[0];
-                    name.textContent = fileName;
+                    name.textContent = accessory.displayName || 'Unnamed'; // MODIFIED: Use displayName
                 } else {
                     // --- CHANGED: This is now the default behavior ---
                     baseDuckImage.classList.add('undiscovered');
