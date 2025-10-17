@@ -56,13 +56,13 @@ h1, h2 {
     cursor: pointer;
     transition: transform 0.4s ease-in-out;
     z-index: 900;
-    /* Removed redundant display:block and fixed positioning from here */
+    /* On desktop, it's positioned by its container, top-nav */
 }
 
     #settings-btn.is-rotated {
         transform: rotate(180deg);
     }
-/* ... (rest of CSS remains the same until media query) ... */
+
 .nav-links {
     display: flex;
     gap: 15px;
@@ -410,11 +410,11 @@ input[type="password"], input[type="number"] {
         overflow: hidden;
     }
 
-    .top-nav .nav-links, .top-nav #settings-btn {
-        display: none;
+    .top-nav .nav-links {
+        display: none; /* Hide desktop nav links */
     }
 
-    /* FIX: Ensure the settings button is fixed relative to the viewport when in mobile mode */
+    /* FIX: Force settings button to display and be fixed to the viewport bottom-left */
     #settings-btn {
         display: block !important;
         position: fixed; /* CRITICAL: Fixed to viewport */
