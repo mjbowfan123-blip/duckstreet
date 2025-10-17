@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const galleryContainer = document.getElementById('gallery-container');
     const discovered = JSON.parse(localStorage.getItem('discoveredAccessories')) || [];
-    // The check for mysteryModeEnabled has been DELETED
 
     const accessoriesByType = ACCESSORIES.reduce((acc, item) => {
         if (item.src) {
@@ -12,7 +11,16 @@ document.addEventListener('DOMContentLoaded', function () {
         return acc;
     }, {});
 
-    for (const type in accessoriesByType) {
+    // --- FIX: Define the desired order of keys, moving 'other' to the end ---
+    const allTypes = Object.keys(accessoriesByType);
+    const orderedTypes = allTypes.filter(type => type !== 'other');
+    if (allTypes.includes('other')) {
+        orderedTypes.push('other');
+    }
+    // -------------------------------------------------------------------------
+
+    // Use the orderedTypes array instead of iterating directly over the object
+    orderedTypes.forEach(type => {
         const categorySection = document.createElement('div');
         categorySection.className = 'category-section';
 
@@ -22,10 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let formattedTitle;
         if (type === 'other') { formattedTitle = 'Other'; }
-        // --- MODIFIED: Handle already plural types like 'wings', 'feathers', 'pants' and new type 'beak' ---
+        // Handle existing plural types and the 'beak' type
         else if (type.endsWith('s')) { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1); }
         else if (type === 'beak') { formattedTitle = 'Beaks'; }
-        // -----------------------------------------------------------------------------
         else { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1) + "s"; }
         categoryTitle.textContent = formattedTitle;
 
@@ -73,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     flippedDuckImage.classList.add('undiscovered');
                 }
                 imageWrapper.appendChild(flippedDuckImage);
-                name.textContent = isDiscovered ? accessory.displayName : '???'; // MODIFIED: Use displayName
+                name.textContent = isDiscovered ? accessory.displayName : '???';
 
             } else {
                 const baseDuckImage = document.createElement('img');
@@ -87,9 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 imageWrapper.appendChild(accessoryImage);
 
                 if (isDiscovered) {
-                    name.textContent = accessory.displayName || 'Unnamed'; // MODIFIED: Use displayName
+                    name.textContent = accessory.displayName || 'Unnamed';
                 } else {
-                    // --- CHANGED: This is now the default behavior ---
+                    // This is the default behavior
                     baseDuckImage.classList.add('undiscovered');
                     accessoryImage.classList.add('undiscovered');
                     name.textContent = '???';
@@ -110,5 +117,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
         categorySection.appendChild(grid);
         galleryContainer.appendChild(categorySection);
-    }
+    });
 });

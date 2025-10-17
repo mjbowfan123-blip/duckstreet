@@ -39,6 +39,7 @@ h1, h2 {
     align-items: center;
     padding: 20px;
     position: relative;
+    z-index: 800; /* Ensure nav is high */
 }
 
     .top-nav h1 {
@@ -54,7 +55,7 @@ h1, h2 {
     height: 48px;
     cursor: pointer;
     transition: transform 0.4s ease-in-out;
-    z-index: 100;
+    z-index: 900; /* Must be super high to be clickable */
 }
 
     #settings-btn.is-rotated {
@@ -85,13 +86,13 @@ h1, h2 {
     position: absolute;
     width: 250px;
     cursor: pointer;
-    z-index: 11;
+    /* z-index is set dynamically in script.js (100) */
 }
 
 #my-duck-area {
     margin-top: calc(55vh - 120px);
     position: relative;
-    z-index: 5;
+    z-index: 500; /* Duck display container should be high */
 }
 
 #my-duck-display {
@@ -121,6 +122,7 @@ h1, h2 {
     /* Desktop styles */
     width: 300px;
     left: 50px;
+    /* z-index is set dynamically in script.js */
 }
 
 #my-duck-display h2 {
@@ -129,7 +131,7 @@ h1, h2 {
     left: 0;
     width: 100%;
     margin: 0;
-    z-index: 2;
+    z-index: 500;
 }
 
 button, .nav-button {
@@ -143,6 +145,7 @@ button, .nav-button {
     cursor: pointer;
     white-space: nowrap;
     text-decoration: none;
+    z-index: 900; /* Ensure all buttons are clickable */
 }
 
     button:active, .nav-button:active {
@@ -155,7 +158,7 @@ button, .nav-button {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2;
+    z-index: 900; /* CRITICAL: Must be above everything */
 }
 
 body.mobile-view {
@@ -175,20 +178,20 @@ body.mobile-view {
     display: none !important;
 }
 
-/* NEW: Style for Content for Google Review Bot */
+/* Style for Content for Google Review Bot */
 #content-description.hidden-but-readable {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -100; /* Send it far away visually */
-    opacity: 0.01; /* Make it almost completely transparent */
-    pointer-events: none; /* Make it unclickable */
+    z-index: -100;
+    opacity: 0.01;
+    pointer-events: none;
     width: 1px;
     height: 1px;
     overflow: hidden;
 }
 
-/* NEW: Styles for Welcome Popup */
+/* Styles for Welcome Popup */
 #welcome-overlay {
     position: fixed;
     top: 0;
@@ -199,15 +202,15 @@ body.mobile-view {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 2000; /* Ensure popups are highest */
 }
 
 #welcome-menu {
     background-color: #444;
     padding: 30px;
     border: 4px double #FFF;
-    width: 90%; /* MODIFIED: Wider default width */
-    max-width: 600px; /* MODIFIED: Increased max width */
+    width: 90%;
+    max-width: 600px;
     text-align: center;
 }
 
@@ -237,7 +240,7 @@ body.mobile-view {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000; /* High z-index for settings overlay */
 }
 
 #settings-menu {
@@ -247,6 +250,7 @@ body.mobile-view {
     width: 450px;
     text-align: center;
     position: relative;
+    z-index: 1001;
 }
 
     #settings-menu h3, #settings-menu h4 {
@@ -398,8 +402,8 @@ input[type="password"], input[type="number"] {
     animation: pan-on-left 0.6s ease-out;
 }
 
-/* --- SEPARATE RULE FOR REAL PHONES --- */
-@media (max-width: 600px) {
+/* --- MOBILE STYLES (Combined) --- */
+@media (max-width: 600px), body.mobile-view {
     /* --- MODIFIED: Lock scrolling --- */
     html, body {
         overflow: hidden;
@@ -414,7 +418,7 @@ input[type="password"], input[type="number"] {
         position: fixed;
         bottom: 20px;
         left: 20px;
-        z-index: 100;
+        z-index: 900;
     }
 
     .mobile-nav-centered {
@@ -442,6 +446,7 @@ input[type="password"], input[type="number"] {
         transform: translateX(-50%);
         display: flex;
         justify-content: center;
+        z-index: 500;
     }
 
     #my-duck-display {
@@ -458,6 +463,7 @@ input[type="password"], input[type="number"] {
         font-size: 14px;
         padding: 12px 16px;
         bottom: 30px;
+        z-index: 900;
     }
     /* --- MODIFIED: Raised the duck image --- */
     .base-duck-image, .accessory-image {
@@ -470,94 +476,18 @@ input[type="password"], input[type="number"] {
         width: 300px;
     }
 
-    /* NEW MOBILE STYLES FOR WELCOME POPUP */
+    /* MOBILE STYLES FOR WELCOME POPUP */
     #welcome-menu h2 {
-        font-size: 18px; /* Significantly smaller heading */
+        font-size: 18px;
     }
 
     #welcome-menu p {
-        font-size: 10px; /* Smaller paragraph text */
-        margin: 10px 0; /* Reduced margin */
+        font-size: 10px;
+        margin: 10px 0;
     }
 
     #welcome-menu {
-        padding: 20px; /* Reduced padding */
+        padding: 20px;
     }
 }
-
-/* --- SEPARATE, IDENTICAL RULE FOR THE TOGGLE BUTTON --- */
-body.mobile-view {
-    /* --- MODIFIED: Lock scrolling --- */
-    html, body
-
-{
-    overflow: hidden;
-}
-
-.top-nav .nav-links, .top-nav #settings-btn {
-    display: none;
-}
-
-#settings-btn {
-    display: block !important;
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 100;
-}
-
-.mobile-nav-centered {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    z-index: 5;
-}
-
-    .mobile-nav-centered .nav-button {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-
-#my-duck-area {
-    margin-top: calc(55vh - 60px);
-    position: absolute;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-}
-
-#my-duck-display {
-    width: 300px;
-    height: 300px;
-}
-
-    #my-duck-display h2 {
-        font-size: 22px;
-        text-align: center;
-    }
-/* --- MODIFIED: Raised the button --- */
-#save-to-pond-btn {
-    font-size: 14px;
-    padding: 12px 16px;
-    bottom: 30px;
-}
-/* --- MODIFIED: Raised the duck image --- */
-.base-duck-image, .accessory-image {
-    width: 300px;
-    left: 0;
-    top: -20px;
-}
-
-.marching-duck {
-    width: 300px;
-}
-
-}
-}
+/* --- END MOBILE STYLES --- */

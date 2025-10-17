@@ -42,13 +42,19 @@ function displayPondDucks() {
 
         const baseDuckImg = document.createElement('img');
         baseDuckImg.src = 'images/duck.png';
+        baseDuckImg.style.zIndex = 0; // Base Duck Layer
         duckWrapper.appendChild(baseDuckImg);
 
         for (const type in savedDuck.look) {
             const src = savedDuck.look[type];
             const accessoryImg = document.createElement('img');
             accessoryImg.src = src;
-            accessoryImg.style.zIndex = 1;
+
+            // --- FIX: Apply controlled Z-Index based on accessory type ---
+            // Use the global LAYER_ORDER map from script.js
+            accessoryImg.style.zIndex = LAYER_ORDER[type] || 5;
+            // -------------------------------------------------------------
+
             duckWrapper.appendChild(accessoryImg);
         }
 
@@ -94,13 +100,18 @@ function openDuckPopup(index) {
 
     const baseDuckImg = document.createElement('img');
     baseDuckImg.src = 'images/duck.png';
+    baseDuckImg.style.zIndex = 0; // Base Duck Layer
     enlargedDuckDisplay.appendChild(baseDuckImg);
 
     for (const type in savedDuck.look) {
         const src = savedDuck.look[type];
         const accessoryImg = document.createElement('img');
         accessoryImg.src = src;
-        accessoryImg.style.zIndex = 1;
+
+        // --- FIX: Apply controlled Z-Index based on accessory type ---
+        accessoryImg.style.zIndex = LAYER_ORDER[type] || 5;
+        // -------------------------------------------------------------
+
         enlargedDuckDisplay.appendChild(accessoryImg);
     }
 

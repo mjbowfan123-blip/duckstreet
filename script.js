@@ -8,6 +8,20 @@ let DUCK_SPAWN_RATE_MS;
 let DUCK_SPEED_PX_PER_FRAME;
 const POND_CAPACITY = 50;
 
+// --- NEW: Define a strict accessory layering order (z-index) ---
+// Base Duck will implicitly be z-index 0
+const LAYER_ORDER = {
+    'feathers': 10,
+    'beak': 20,
+    'eyecolor': 30,
+    'hat': 40,
+    'pants': 50,
+    'wings': 60, // Renamed 'Wing Accessories' to existing 'wings' type
+    'back': 70,
+    'other': 80 // Ensures special items are on top
+};
+// -------------------------------------------------------------
+
 const ACCESSORIES = [
     { src: 'images/hat.png', rarity: 5, rarityName: 'common', type: 'hat', displayName: 'Top Hat' },
     { src: 'images/fez.png', rarity: 20, rarityName: 'uncommon', type: 'hat', displayName: 'Fez' },
@@ -109,6 +123,7 @@ function createBaseDuck() {
     myBaseDuck = document.createElement('img');
     myBaseDuck.src = 'images/duck.png';
     myBaseDuck.className = 'base-duck-image';
+    myBaseDuck.style.zIndex = 0; // Explicitly set base duck z-index
     duckImageContainer.appendChild(myBaseDuck);
 }
 
@@ -189,6 +204,8 @@ function createMarchingDuck() {
     const duck = document.createElement('div');
     duck.className = 'marching-duck';
     duck.style.left = '-250px';
+    // IMPORTANT: Set a high z-index for marching ducks so they are clickable
+    duck.style.zIndex = 100;
 
     // --- MODIFIED: Made a much larger jump to raise the ducks higher on mobile ---
     duck.style.top = isMobileView() ? 'calc(55vh - 300px)' : 'calc(55vh - 280px)';
@@ -220,7 +237,9 @@ function createMarchingDuck() {
                 accessoryImage.style.width = '100%';
                 accessoryImage.style.top = '0px';
                 accessoryImage.style.left = '0px';
-                accessoryImage.style.zIndex = '1';
+                // --- FIX: Apply controlled Z-Index based on accessory type ---
+                accessoryImage.style.zIndex = LAYER_ORDER[selectedAccessory.type] || 5;
+                // -------------------------------------------------------------
                 duck.appendChild(accessoryImage);
             }
             duck.setAttribute('data-accessory', JSON.stringify(selectedAccessory));
@@ -238,15 +257,23 @@ function createMarchingDuck() {
             duck.style.transform = 'scaleX(1)';
         } else {
             const collectedAccessorySrc = accessoryData.src, collectedAccessoryType = accessoryData.type;
+
+            // Remove any existing accessory of the same type
             duckImageContainer.querySelectorAll('img.accessory-image').forEach(acc => {
                 if (acc.getAttribute('data-type') === collectedAccessoryType) acc.remove();
             });
+
+            // Add the new accessory
             const newAccessory = document.createElement('img');
             newAccessory.src = collectedAccessorySrc;
             newAccessory.setAttribute('data-type', collectedAccessoryType);
             newAccessory.className = 'accessory-image';
-            newAccessory.style.zIndex = '1';
+            // --- FIX: Apply controlled Z-Index based on accessory type ---
+            newAccessory.style.zIndex = LAYER_ORDER[collectedAccessoryType] || 5;
+            // -------------------------------------------------------------
             duckImageContainer.appendChild(newAccessory);
+
+            // Remove the accessory from the marching duck visually (leaving the base duck)
             duck.querySelector(`img[src="${collectedAccessorySrc}"]`)?.remove();
             duck.removeAttribute('data-accessory');
         }
@@ -313,7 +340,9 @@ function loadDuckFromPond() {
         newAccessory.src = src;
         newAccessory.setAttribute('data-type', type);
         newAccessory.className = 'accessory-image';
-        newAccessory.style.zIndex = '1';
+        // --- FIX: Apply controlled Z-Index based on accessory type on load ---
+        newAccessory.style.zIndex = LAYER_ORDER[type] || 5;
+        // ---------------------------------------------------------------------
         duckImageContainer.appendChild(newAccessory);
     }
     sessionStorage.removeItem('duckToLoad');
