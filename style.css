@@ -413,15 +413,28 @@ input[type="password"], input[type="number"] {
         display: none; /* Hide desktop nav links */
     }
 
-    /* FIX: Force settings button to display and use ABSOLUTE positioning
-       within the fixed/controlled mobile body viewport */
+    /* FIX: Set the settings button to be ABSOLUTE, anchoring it to the document's
+       bottom-left corner, which won't shift because the document scroll is locked. */
     #settings-btn {
         display: block !important;
-        position: absolute; /* Changed to absolute to use fixed X/Y coords within the mobile viewport simulation */
+        position: absolute;
+        top: auto;
         bottom: 20px;
         left: 20px;
+        right: auto;
         z-index: 900;
     }
+
+    /* Ensure the icon image is hidden in the top-nav area on mobile */
+    .top-nav #settings-btn {
+        display: none !important;
+    }
+
+    /* Ensure the element that IS visible uses the desired styling: */
+    #settings-btn:not(.top-nav #settings-btn) {
+        display: block !important;
+    }
+
 
     .mobile-nav-centered {
         display: flex;
