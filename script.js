@@ -3,10 +3,12 @@ function isMobileView() {
     return document.body.classList.contains('mobile-view') || window.innerWidth <= 600;
 }
 
-// These are now set dynamically in the game loop
-let DUCK_SPAWN_RATE_MS;
-let DUCK_SPEED_PX_PER_FRAME;
+// --- FIX: Initialize control variables to their default mobile/desktop values ---
+// These are now controlled by the game loop initially, but can be overwritten by dev mode inputs
+let DUCK_SPAWN_RATE_MS = isMobileView() ? 5000 : 2000;
+let DUCK_SPEED_PX_PER_FRAME = isMobileView() ? 1.5 : 2;
 const POND_CAPACITY = 50;
+// -------------------------------------------------------------------------------
 
 // --- FIX: Define a strict accessory layering order (z-index) ---
 // Base Duck will implicitly be z-index 0
@@ -62,7 +64,7 @@ const ACCESSORIES = [
     { src: 'images/jeanspants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Jeans' },
     { src: 'images/kahikipants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Khaki Pants' },
     { src: 'images/rainbowpants.png', rarity: 100, rarityName: 'very-rare', type: 'pants', displayName: 'Rainbow Pants' },
-    { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other', displayName: 'Double Duck' }, // RENAMED
+    { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other', displayName: 'Double Duck' },
     { src: 'images/flip-effect.png', rarity: 200, rarityName: 'legendary', type: 'other', effect: 'flip', displayName: 'Flip' },
     // --- BEAK ACCESSORIES ---
     { src: 'images/babyhair.png', rarity: 15, rarityName: 'uncommon', type: 'hat', displayName: 'Baby Hair' },
@@ -81,16 +83,16 @@ const ACCESSORIES = [
     { src: 'images/squigglybeak.png', rarity: 60, rarityName: 'rare', type: 'beak', displayName: 'Squiggly Beak' },
     { src: 'images/yellowbeak.png', rarity: 5, rarityName: 'common', type: 'beak', displayName: 'Yellow Beak' },
     { src: 'images/yellowfeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Yellow Feathers' },
-    // --- NEW RIDE ACCESSORIES (RARITIES MODIFIED) ---
+    // --- NEW RIDE ACCESSORIES ---
     { src: 'images/bluescooter.png', rarity: 30, rarityName: 'uncommon', type: 'ride', displayName: 'Blue Scooter' },
-    { src: 'images/blueskateboard.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Blue Skateboard' }, // CHANGED from 20
+    { src: 'images/blueskateboard.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Blue Skateboard' },
     { src: 'images/boat.png', rarity: 20, rarityName: 'uncommon', type: 'ride', displayName: 'Toy Boat' },
     { src: 'images/circuitboard.png', rarity: 20, rarityName: 'uncommon', type: 'ride', displayName: 'Circuit Board' },
     { src: 'images/discoscooter.png', rarity: 50, rarityName: 'rare', type: 'ride', displayName: 'Disco Scooter' },
     { src: 'images/duckboard.png', rarity: 500, rarityName: 'mythical', type: 'ride', displayName: 'Duckboard' },
     { src: 'images/fireworks.png', rarity: 150, rarityName: 'legendary', type: 'ride', displayName: 'Fireworks' },
-    { src: 'images/keyboard.png', rarity: 200, rarityName: 'legendary', type: 'ride', displayName: 'Keyboard' },     // CHANGED from 500
-    { src: 'images/orangeskateboard.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Orange Skateboard' }, // CHANGED from 20
+    { src: 'images/keyboard.png', rarity: 200, rarityName: 'legendary', type: 'ride', displayName: 'Keyboard' },
+    { src: 'images/orangeskateboard.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Orange Skateboard' },
     { src: 'images/rocketbooster.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Rocket Booster' },
     { src: 'images/scooper.png', rarity: 80, rarityName: 'very-rare', type: 'ride', displayName: 'Scooper' },
     { src: 'images/tank.png', rarity: 100, rarityName: 'very-rare', type: 'ride', displayName: 'Tank' },
@@ -157,6 +159,12 @@ function openSettings() {
     settingsMainView.classList.remove('hidden');
     howToPlaySection.classList.add('hidden');
     resetSection.classList.add('hidden');
+
+    // Set current values in dev inputs when opening
+    if (devModeUnlocked) {
+        devSpawnSpeedInput.value = DUCK_SPAWN_RATE_MS;
+        devDuckSpeedInput.value = DUCK_SPEED_PX_PER_FRAME;
+    }
 }
 function closeSettings() {
     settingsOverlay.classList.add('hidden');
@@ -185,8 +193,10 @@ function checkDevPassword() {
         passwordSection.classList.add('hidden');
         devSettingsSection.classList.remove('hidden');
         devModeUnlocked = true;
-        devSpawnSpeedInput.value = isMobileView() ? 5000 : 2000;
-        devDuckSpeedInput.value = isMobileView() ? 1.5 : 2;
+
+        // Load defaults into inputs
+        devSpawnSpeedInput.value = DUCK_SPAWN_RATE_MS;
+        devDuckSpeedInput.value = DUCK_SPEED_PX_PER_FRAME;
     } else {
         alert("Incorrect Code.");
         devPasswordInput.value = '';
@@ -229,18 +239,31 @@ function createMarchingDuck() {
     duckImage.style.width = '100%';
     duck.appendChild(duckImage);
     const shouldHaveAccessory = devModeGuaranteedAccessories || Math.floor(Math.random() * 7) < 3;
+
     if (shouldHaveAccessory) {
-        const inverseWeights = ACCESSORIES.map(acc => ({ ...acc, weight: 1 / acc.rarity }));
-        const totalInverseWeight = inverseWeights.reduce((sum, acc) => sum + acc.weight, 0);
-        let randomWeight = Math.random() * totalInverseWeight;
         let selectedAccessory = null;
-        for (const accessory of inverseWeights) {
-            randomWeight -= accessory.weight;
-            if (randomWeight < 0) {
-                selectedAccessory = accessory;
-                break;
+
+        if (devModeGuaranteedAccessories) {
+            // --- FIX: When Guaranteed is ON, use equal weight (simple random selection) ---
+            const availableAccessories = ACCESSORIES.filter(acc => acc.rarityName !== 'mythical'); // Optionally exclude mythical/flip
+            const randomIndex = Math.floor(Math.random() * availableAccessories.length);
+            selectedAccessory = availableAccessories[randomIndex];
+            // ---------------------------------------------------------------------------------
+        } else {
+            // Normal weighted selection
+            const inverseWeights = ACCESSORIES.map(acc => ({ ...acc, weight: 1 / acc.rarity }));
+            const totalInverseWeight = inverseWeights.reduce((sum, acc) => sum + acc.weight, 0);
+            let randomWeight = Math.random() * totalInverseWeight;
+
+            for (const accessory of inverseWeights) {
+                randomWeight -= accessory.weight;
+                if (randomWeight < 0) {
+                    selectedAccessory = accessory;
+                    break;
+                }
             }
         }
+
         if (selectedAccessory) {
             if (selectedAccessory.effect === 'flip') {
                 duck.style.transform = 'scaleX(-1)';
@@ -300,8 +323,12 @@ function gameLoop(currentTime) {
     lastFrameTime = currentTime;
     if (deltaTime > 1000) { deltaTime = 16; }
 
-    DUCK_SPEED_PX_PER_FRAME = isMobileView() ? 1.5 : 2;
-    DUCK_SPAWN_RATE_MS = isMobileView() ? 5000 : 2000;
+    // --- FIX: Only apply defaults if not in dev mode, allowing inputs to control values ---
+    if (!devModeUnlocked) {
+        DUCK_SPEED_PX_PER_FRAME = isMobileView() ? 1.5 : 2;
+        DUCK_SPAWN_RATE_MS = isMobileView() ? 5000 : 2000;
+    }
+    // ---------------------------------------------------------------------------------------
 
     document.querySelectorAll('.marching-duck').forEach(duck => {
         let currentPos = parseFloat(duck.style.left);
@@ -409,12 +436,16 @@ if (devGuaranteedBtn) {
 if (devMobileViewBtn) {
     devMobileViewBtn.addEventListener('click', toggleMobileView);
 }
+
+// --- FIX: Dev speed input listeners now correctly update the global variables ---
 if (devSpawnSpeedInput) {
     devSpawnSpeedInput.addEventListener('input', (e) => DUCK_SPAWN_RATE_MS = Number(e.target.value));
 }
 if (devDuckSpeedInput) {
     devDuckSpeedInput.addEventListener('input', (e) => DUCK_SPEED_PX_PER_FRAME = Number(e.target.value));
 }
+// --------------------------------------------------------------------------------
+
 if (devUnlockAllBtn) {
     devUnlockAllBtn.addEventListener('click', unlockAllAccessories);
 }

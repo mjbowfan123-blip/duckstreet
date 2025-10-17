@@ -55,13 +55,14 @@ h1, h2 {
     height: 48px;
     cursor: pointer;
     transition: transform 0.4s ease-in-out;
-    z-index: 900; /* Must be super high to be clickable */
+    z-index: 900;
+    /* Removed redundant display:block and fixed positioning from here */
 }
 
     #settings-btn.is-rotated {
         transform: rotate(180deg);
     }
-
+/* ... (rest of CSS remains the same until media query) ... */
 .nav-links {
     display: flex;
     gap: 15px;
@@ -122,7 +123,7 @@ h1, h2 {
     /* Desktop styles */
     width: 300px;
     left: 50px;
-    /* z-index is set dynamically in script.js */
+    /* z-index is set dynamically in script.js (0-80) */
 }
 
 #my-duck-display h2 {
@@ -131,7 +132,7 @@ h1, h2 {
     left: 0;
     width: 100%;
     margin: 0;
-    z-index: 500;
+    z-index: 1; /* FIX: Lowered z-index to 1 so duck accessories (z-index 5 and up) cover it */
 }
 
 button, .nav-button {
@@ -404,7 +405,7 @@ input[type="password"], input[type="number"] {
 
 /* --- MOBILE STYLES (Combined) --- */
 @media (max-width: 600px), body.mobile-view {
-    /* --- MODIFIED: Lock scrolling --- */
+    /* --- MODIFIED: Lock scrolling (Prevent external scroll from duck paths) --- */
     html, body {
         overflow: hidden;
     }
@@ -413,9 +414,10 @@ input[type="password"], input[type="number"] {
         display: none;
     }
 
+    /* FIX: Ensure the settings button is fixed relative to the viewport when in mobile mode */
     #settings-btn {
         display: block !important;
-        position: fixed;
+        position: fixed; /* CRITICAL: Fixed to viewport */
         bottom: 20px;
         left: 20px;
         z-index: 900;
@@ -457,6 +459,7 @@ input[type="password"], input[type="number"] {
         #my-duck-display h2 {
             font-size: 22px;
             text-align: center;
+            z-index: 1; /* FIX: Lowered z-index to 1 */
         }
     /* --- MODIFIED: Raised the button --- */
     #save-to-pond-btn {
