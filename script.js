@@ -8,17 +8,18 @@ let DUCK_SPAWN_RATE_MS;
 let DUCK_SPEED_PX_PER_FRAME;
 const POND_CAPACITY = 50;
 
-// --- NEW: Define a strict accessory layering order (z-index) ---
+// --- FIX: Define a strict accessory layering order (z-index) ---
 // Base Duck will implicitly be z-index 0
 const LAYER_ORDER = {
+    'ride': 5,        // NEW LOWEST LAYER
     'feathers': 10,
     'beak': 20,
     'eyecolor': 30,
     'hat': 40,
     'pants': 50,
-    'wings': 60, // Renamed 'Wing Accessories' to existing 'wings' type
+    'wings': 60,
     'back': 70,
-    'other': 80 // Ensures special items are on top
+    'other': 80
 };
 // -------------------------------------------------------------
 
@@ -61,9 +62,9 @@ const ACCESSORIES = [
     { src: 'images/jeanspants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Jeans' },
     { src: 'images/kahikipants.png', rarity: 20, rarityName: 'uncommon', type: 'pants', displayName: 'Khaki Pants' },
     { src: 'images/rainbowpants.png', rarity: 100, rarityName: 'very-rare', type: 'pants', displayName: 'Rainbow Pants' },
-    { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other', displayName: 'Freak Duck' },
+    { src: 'images/freakduck.png', rarity: 500, rarityName: 'mythical', type: 'other', displayName: 'Double Duck' }, // RENAMED
     { src: 'images/flip-effect.png', rarity: 200, rarityName: 'legendary', type: 'other', effect: 'flip', displayName: 'Flip' },
-    // --- NEW ACCESSORIES ---
+    // --- BEAK ACCESSORIES ---
     { src: 'images/babyhair.png', rarity: 15, rarityName: 'uncommon', type: 'hat', displayName: 'Baby Hair' },
     { src: 'images/bluefeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Blue Feathers' },
     { src: 'images/evileye.png', rarity: 50, rarityName: 'rare', type: 'eyecolor', displayName: 'Evil Eye' },
@@ -80,6 +81,19 @@ const ACCESSORIES = [
     { src: 'images/squigglybeak.png', rarity: 60, rarityName: 'rare', type: 'beak', displayName: 'Squiggly Beak' },
     { src: 'images/yellowbeak.png', rarity: 5, rarityName: 'common', type: 'beak', displayName: 'Yellow Beak' },
     { src: 'images/yellowfeathers.png', rarity: 10, rarityName: 'common', type: 'feathers', displayName: 'Yellow Feathers' },
+    // --- NEW RIDE ACCESSORIES (RARITIES MODIFIED) ---
+    { src: 'images/bluescooter.png', rarity: 30, rarityName: 'uncommon', type: 'ride', displayName: 'Blue Scooter' },
+    { src: 'images/blueskateboard.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Blue Skateboard' }, // CHANGED from 20
+    { src: 'images/boat.png', rarity: 20, rarityName: 'uncommon', type: 'ride', displayName: 'Toy Boat' },
+    { src: 'images/circuitboard.png', rarity: 20, rarityName: 'uncommon', type: 'ride', displayName: 'Circuit Board' },
+    { src: 'images/discoscooter.png', rarity: 50, rarityName: 'rare', type: 'ride', displayName: 'Disco Scooter' },
+    { src: 'images/duckboard.png', rarity: 500, rarityName: 'mythical', type: 'ride', displayName: 'Duckboard' },
+    { src: 'images/fireworks.png', rarity: 150, rarityName: 'legendary', type: 'ride', displayName: 'Fireworks' },
+    { src: 'images/keyboard.png', rarity: 200, rarityName: 'legendary', type: 'ride', displayName: 'Keyboard' },     // CHANGED from 500
+    { src: 'images/orangeskateboard.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Orange Skateboard' }, // CHANGED from 20
+    { src: 'images/rocketbooster.png', rarity: 5, rarityName: 'common', type: 'ride', displayName: 'Rocket Booster' },
+    { src: 'images/scooper.png', rarity: 80, rarityName: 'very-rare', type: 'ride', displayName: 'Scooper' },
+    { src: 'images/tank.png', rarity: 100, rarityName: 'very-rare', type: 'ride', displayName: 'Tank' },
 ];
 
 const gameArea = document.getElementById('game-area');

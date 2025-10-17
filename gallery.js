@@ -11,16 +11,25 @@ document.addEventListener('DOMContentLoaded', function () {
         return acc;
     }, {});
 
-    // --- FIX: Define the desired order of keys, moving 'other' to the end ---
-    const allTypes = Object.keys(accessoriesByType);
-    const orderedTypes = allTypes.filter(type => type !== 'other');
-    if (allTypes.includes('other')) {
-        orderedTypes.push('other');
-    }
-    // -------------------------------------------------------------------------
+    // --- FIX: Define the custom display order as requested (Hats -> Eyes -> ... -> Rides -> Other) ---
+    const customDisplayOrder = [
+        'hat',
+        'eyecolor',
+        'beak',
+        'wings',
+        'feathers',
+        'back',
+        'pants',
+        'ride',
+        'other'
+    ];
+    // ------------------------------------------------------------------------------------------------------
 
-    // Use the orderedTypes array instead of iterating directly over the object
-    orderedTypes.forEach(type => {
+    // 1. Filter the custom order list to only include types that actually have accessories
+    const finalOrderedTypes = customDisplayOrder.filter(type => accessoriesByType.hasOwnProperty(type));
+
+    // Use the finalOrderedTypes array for iteration
+    finalOrderedTypes.forEach(type => {
         const categorySection = document.createElement('div');
         categorySection.className = 'category-section';
 
@@ -30,7 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let formattedTitle;
         if (type === 'other') { formattedTitle = 'Other'; }
-        // Handle existing plural types and the 'beak' type
+        else if (type === 'ride') { formattedTitle = 'Rides'; }
+        // --- FIX: Rename 'eyecolor' to 'Eyes' ---
+        else if (type === 'eyecolor') { formattedTitle = 'Eyes'; }
+        // ----------------------------------------
         else if (type.endsWith('s')) { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1); }
         else if (type === 'beak') { formattedTitle = 'Beaks'; }
         else { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1) + "s"; }
