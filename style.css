@@ -404,18 +404,24 @@ input[type="password"], input[type="number"] {
 
 /* --- MOBILE STYLES (Combined) --- */
 @media (max-width: 600px), body.mobile-view {
-    /* --- MODIFIED: Lock scrolling (Prevent external scroll from duck paths) --- */
+    /* --- MODIFIED: Lock scrolling --- */
     html, body {
         overflow: hidden;
+    }
+
+    /* Hide the settings button from the top-nav area on mobile */
+    .top-nav #settings-btn {
+        display: none !important;
     }
 
     .top-nav .nav-links {
         display: none; /* Hide desktop nav links */
     }
 
-    /* FIX: Set the settings button to be ABSOLUTE, anchoring it to the document's
+    /* FIX: Force settings button to be ABSOLUTE, anchored to the document's
        bottom-left corner, which won't shift because the document scroll is locked. */
     #settings-btn {
+        /* Overrides the 'display: none' from the top-nav rule for the icon */
         display: block !important;
         position: absolute;
         top: auto;
@@ -424,17 +430,6 @@ input[type="password"], input[type="number"] {
         right: auto;
         z-index: 900;
     }
-
-    /* Ensure the icon image is hidden in the top-nav area on mobile */
-    .top-nav #settings-btn {
-        display: none !important;
-    }
-
-    /* Ensure the element that IS visible uses the desired styling: */
-    #settings-btn:not(.top-nav #settings-btn) {
-        display: block !important;
-    }
-
 
     .mobile-nav-centered {
         display: flex;
