@@ -56,7 +56,6 @@ h1, h2 {
     cursor: pointer;
     transition: transform 0.4s ease-in-out;
     z-index: 900;
-    /* On desktop, it's positioned by its container, top-nav */
 }
 
     #settings-btn.is-rotated {
@@ -132,7 +131,7 @@ h1, h2 {
     left: 0;
     width: 100%;
     margin: 0;
-    z-index: 1; /* FIX: Lowered z-index to 1 so duck accessories (z-index 5 and up) cover it */
+    z-index: 1; /* Lowered z-index to 1 so duck accessories cover it */
 }
 
 button, .nav-button {
@@ -414,10 +413,11 @@ input[type="password"], input[type="number"] {
         display: none; /* Hide desktop nav links */
     }
 
-    /* FIX: Force settings button to display and be fixed to the viewport bottom-left */
+    /* FIX: Force settings button to display and use ABSOLUTE positioning
+       within the fixed/controlled mobile body viewport */
     #settings-btn {
         display: block !important;
-        position: fixed; /* CRITICAL: Fixed to viewport */
+        position: absolute; /* Changed to absolute to use fixed X/Y coords within the mobile viewport simulation */
         bottom: 20px;
         left: 20px;
         z-index: 900;
@@ -459,7 +459,7 @@ input[type="password"], input[type="number"] {
         #my-duck-display h2 {
             font-size: 22px;
             text-align: center;
-            z-index: 1; /* FIX: Lowered z-index to 1 */
+            z-index: 1; /* Lowered z-index to 1 */
         }
     /* --- MODIFIED: Raised the button --- */
     #save-to-pond-btn {
