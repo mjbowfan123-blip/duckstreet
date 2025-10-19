@@ -165,7 +165,6 @@ button, .nav-button {
 body.mobile-view {
     width: 375px;
     height: 667px;
-    border: 3px solid red;
     margin: auto !important;
     position: absolute;
     top: 0;
@@ -173,6 +172,50 @@ body.mobile-view {
     left: 0;
     right: 0;
     overflow-y: auto;
+    /* === DEV MOBILE VIEW FIXES === */
+    /* 1. Hide the desktop navigation */
+    .top-nav .nav-links
+
+{
+    display: none !important;
+}
+
+/* 2. Position Settings Button bottom-left */
+#settings-btn {
+    position: fixed !important; /* Fixed to viewport */
+    bottom: 200px !important;
+    left: 20px !important;
+    top: auto !important;
+}
+
+/* 3. Show and position mobile nav links below the title */
+.mobile-nav-centered {
+    display: flex !important;
+    /* Moved UP slightly, but still below the title */
+    top: 30px !important; /* TWEAK: Moves buttons UP (e.g., from 60px to 30px) */
+    /* NEW: Separation logic */
+    width: 90% !important; /* TWEAK: Controls how wide the buttons stretch */
+    justify-content: space-between !important; /* Pushes the buttons to the edges */
+
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+/* 4. Center the Title (already centered, but ensure it's displayed) */
+.top-nav h1 {
+    display: block !important;
+}
+#my-duck-area {
+    margin-top: 47vh !important; /* TWEAK: Moves display DOWN */
+    left: -4% !important; /* TWEAK: Moves display LEFT */
+    transform: translateX(0) !important; /* Disable centering */
+    position: absolute !important;
+    width: 300px !important; /* Constrain width */
+}
+
+/* 5. Ensure the body doesn't scroll when viewing in dev mode */
+overflow: hidden;
 }
 
 .hidden {
@@ -403,21 +446,14 @@ input[type="password"], input[type="number"] {
     animation: pan-on-left 0.6s ease-out;
 }
 
-/* --- MOBILE STYLES (Combined) --- */
-@media (max-width: 600px), body.mobile-view {
-    /* --- MODIFIED: Lock scrolling (Prevent external scroll from duck paths) --- */
-    html, body {
-        overflow: hidden;
-    }
+/* --- MOBILE STYLES (Native) --- */
+@media (max-width: 600px) {
+    /* --- Native Mobile Styles from the original block --- */
 
-    .top-nav .nav-links {
-        display: none; /* Hide desktop nav links */
-    }
-
-    /* FIX: Force settings button to display and be fixed to the viewport bottom-left */
+    /* Settings button is FIXED to viewport bottom-left in native mobile */
     #settings-btn {
         display: block !important;
-        position: fixed; /* CRITICAL: Fixed to viewport */
+        position: fixed;
         bottom: 20px;
         left: 20px;
         z-index: 900;
@@ -428,17 +464,23 @@ input[type="password"], input[type="number"] {
         justify-content: center;
         gap: 15px;
         position: absolute;
-        top: 80px;
+        top: 80px; /* ORIGINAL TOP POSITION */
         left: 50%;
         transform: translateX(-50%);
         width: 100%;
         z-index: 5;
     }
 
-        .mobile-nav-centered .nav-button {
-            font-size: 12px;
-            padding: 8px 12px;
-        }
+    .top-nav .nav-links {
+        display: none; /* Hide desktop nav links */
+    }
+
+    /* The rest of the original @media (max-width: 600px) styles below */
+
+    .mobile-nav-centered .nav-button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
 
     #my-duck-area {
         margin-top: calc(55vh - 60px);
@@ -492,5 +534,60 @@ input[type="password"], input[type="number"] {
     #welcome-menu {
         padding: 20px;
     }
+
+    /* Ensure title is visible on native mobile */
+    .top-nav h1 {
+        display: block;
+    }
 }
-/* --- END MOBILE STYLES --- */
+
+
+/* --- DEV MOBILE VIEW STYLES (Dev Setting Only) --- */
+/* This block explicitly targets ONLY the dev setting toggle */
+body.mobile-view {
+    /* --- DEV Mobile-Specific Overrides --- */
+    /* 1. Lock scrolling (Necessary for the dev box view) */
+    overflow: hidden;
+    /* 2. Hide the desktop navigation links */
+    .top-nav .nav-links
+
+{
+    display: none !important;
+}
+
+/* 3. Position Settings Button bottom-left (Must be fixed to stay put in the dev box) */
+#settings-btn {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 20px !important;
+    display: block !important;
+    top: auto !important;
+    right: auto !important;
+}
+
+/* 4. Show and reposition mobile nav links below the title (top: 80px) */
+.mobile-nav-centered {
+    display: flex !important;
+    position: absolute !important;
+    top: 80px !important; /* Pushed down below the desktop title's area */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+/* 5. Ensure title is visible */
+.top-nav h1 {
+    display: block !important;
+}
+
+/* 6. Apply mobile view size constraints */
+width: 375px;
+height: 667px;
+margin: auto !important;
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+overflow-y: hidden;
+}
+/* --- END DEV MOBILE VIEW STYLES --- */
