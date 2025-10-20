@@ -1,5 +1,5 @@
 ﻿/* Import the pixel font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start 2P&display=swap');
 
 html, body {
     height: 100%;
@@ -23,14 +23,63 @@ img {
     image-rendering: crisp-edges;
 }
 
+h1, h2 {
+    text-shadow: 4px 4px #000;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* MODIFIED: Changed align-items to flex-start */
 .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligns top of title with top of buttons */
     padding: 20px;
-    text-align: left; /* Aligns the container content to the left */
+    padding-bottom: 30px; /* Added padding to push pond down */
+}
+
+/* NEW: Style for the left-side wrapper */
+.nav-left-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px; /* Space between title and sort */
 }
 
 .nav-links {
-    display: inline-block; /* Allows the nav links to sit nicely on the left */
+    display: flex;
+    gap: 15px;
 }
+
+/* MODIFIED: Removed centering and padding */
+#pond-controls {
+    /* text-align: center; (REMOVED) */
+    /* padding: 10px 0 30px; (REMOVED) */
+    padding: 0; /* NEW */
+    font-size: 14px;
+    text-shadow: 2px 2px #000;
+}
+
+    #pond-controls label {
+        margin-right: 5px;
+    }
+
+    /* FIX: Improved Select Styling */
+    #pond-controls select {
+        font-family: 'Press Start 2P', cursive;
+        background-color: #555;
+        color: #FFF;
+        border-style: outset;
+        border-width: 4px;
+        border-color: #888 #333 #333 #888;
+        padding: 5px;
+        /* margin-right: 20px; (REMOVED) */
+        cursor: pointer;
+        -webkit-appearance: none; /* Remove default browser styling */
+        -moz-appearance: none;
+        appearance: none;
+        padding-right: 25px; /* Ensure space for custom arrow if needed, but the core style is the border */
+    }
 
 #pond-container {
     display: flex;
@@ -49,7 +98,9 @@ img {
 
 .duck-name-tag {
     height: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
+    margin-top: -40px;
+    order: 2;
     text-shadow: 2px 2px #000;
 }
 
@@ -58,6 +109,7 @@ img {
     height: 200px;
     position: relative;
     cursor: pointer;
+    order: 1; /* Ensure duck image is above the name */
 }
 
     .saved-duck-wrapper.is-flipped {
@@ -114,6 +166,54 @@ button, .nav-button {
     border: 4px double #FFF;
     position: relative;
     text-align: center;
+    width: 700px;
+    max-width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Side-by-Side Wrapper */
+#popup-content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Duck Image Area */
+#enlarged-duck-area {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#enlarged-duck-display {
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
+
+    #enlarged-duck-display.is-flipped {
+        transform: scaleX(-1);
+    }
+
+    #enlarged-duck-display img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+/* Stats Area */
+#popup-stats-area {
+    width: 50%;
+    text-align: left;
+    padding-top: 10px;
 }
 
 #close-popup-btn {
@@ -137,7 +237,7 @@ button, .nav-button {
     margin-bottom: 15px;
 }
 
-/* --- NEW: Style for the rating text --- */
+/* Style for the rating text */
 #fashion-rating-text {
     height: 20px;
     margin-bottom: 15px;
@@ -145,28 +245,29 @@ button, .nav-button {
     text-shadow: 2px 2px #000;
 }
 
-#enlarged-duck-display {
-    width: 400px;
-    height: 400px;
-    position: relative;
+/* Detailed Stats Styling */
+#detailed-stats-container {
+    text-align: left;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 5px 0;
+    margin-bottom: 15px;
+    border-top: 1px dashed #777;
+    border-bottom: 1px dashed #777;
 }
 
-    #enlarged-duck-display.is-flipped {
-        transform: scaleX(-1);
+    #detailed-stats-container div {
+        font-size: 12px;
+        line-height: 1.5;
+        white-space: nowrap;
     }
 
-    #enlarged-duck-display img {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-    }
 
 .popup-actions {
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    width: 80%;
 }
 
 /* NEW: Mobile Bottom Nav Styling */
@@ -175,14 +276,45 @@ button, .nav-button {
 }
 
 /* --- MOBILE STYLES (Pond) --- */
-/* --- MODIFIED: Synced the toggle button class with the screen size styles --- */
 @media (max-width: 600px), body.mobile-view {
+    h1 {
+        font-size: 20px;
+    }
+
+    /* MODIFIED: Align top nav elements for mobile */
+    .top-nav {
+        align-items: center; /* Center title and buttons vertically */
+        padding-bottom: 20px; /* Less padding on mobile */
+    }
+
+    .nav-left-cluster {
+        gap: 10px; /* Less gap on mobile */
+    }
+
     .top-nav .nav-links {
         display: none; /* Hide the top nav buttons */
     }
 
+    /* MODIFIED: Controls are part of the nav, but we adjust font */
+    #pond-controls {
+        font-size: 10px;
+        padding: 0;
+        display: block; /* Ensure it stacks in the flex cluster */
+    }
+
+        #pond-controls select {
+            padding: 2px;
+            margin-right: 0; /* Remove right margin */
+        }
+
     .pond-duck-container {
         width: 150px; /* Make card containers smaller */
+    }
+
+    /* Reverting duck name tag position for mobile */
+    .duck-name-tag {
+        margin-bottom: 10px;
+        margin-top: 0;
     }
 
     .saved-duck-wrapper {
@@ -190,14 +322,43 @@ button, .nav-button {
         height: 150px;
     }
 
+    /* Popup stacking for mobile */
     #duck-popup-menu {
         width: 90%;
-        max-width: 350px; /* Make popup smaller */
+        max-width: 350px;
+        padding: 15px;
+    }
+
+    #popup-content-wrapper {
+        flex-direction: column; /* Stack image and stats vertically */
+        gap: 10px;
     }
 
     #enlarged-duck-display {
-        width: 250px;
-        height: 250px;
+        width: 150px; /* Smaller image on mobile */
+        height: 150px;
+    }
+
+    #popup-stats-area, #enlarged-duck-area {
+        width: 100%; /* Full width when stacked */
+        padding-top: 0;
+    }
+
+    #fashion-rating-text {
+        font-size: 12px;
+    }
+
+    #detailed-stats-container {
+        max-height: 100px;
+    }
+
+        #detailed-stats-container div {
+            font-size: 10px;
+        }
+
+    .popup-actions {
+        width: 100%;
+        margin-top: 15px;
     }
 
     /* Show and position the bottom nav */

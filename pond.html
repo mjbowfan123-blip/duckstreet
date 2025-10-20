@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMGMPMCXKR"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -18,6 +17,21 @@
 </head>
 <body>
     <div class="top-nav">
+        <div class="nav-left-cluster">
+            <h1>The Pond</h1>
+
+            <div id="pond-controls">
+                <label for="sort-by">Sort By:</label>
+                <select id="sort-by">
+                    <option value="date-desc">Newest</option>
+                    <option value="date-asc">Oldest</option>
+                    <option value="rating-desc">Rating (High-Low)</option>
+                    <option value="rating-asc">Rating (Low-High)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
         <div class="nav-links">
             <a href="index.html" class="nav-button">Back to Street</a>
             <a href="gallery.html" class="nav-button">Gallery</a>
@@ -36,8 +50,19 @@
         <div id="duck-popup-menu">
             <button id="close-popup-btn">&times;</button>
             <input type="text" id="duck-name-input" placeholder="Name your duck..." maxlength="20">
-            <div id="fashion-rating-text"></div>
-            <div id="enlarged-duck-display">
+
+            <div id="popup-content-wrapper">
+
+                <div id="enlarged-duck-area">
+                    <div id="enlarged-duck-display">
+                    </div>
+                </div>
+
+                <div id="popup-stats-area">
+                    <div id="fashion-rating-text"></div>
+                    <div id="detailed-stats-container">
+                    </div>
+                </div>
             </div>
             <div class="popup-actions">
                 <button id="load-duck-btn">Load Duck</button>

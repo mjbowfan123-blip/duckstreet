@@ -7,7 +7,7 @@ function isMobileView() {
 // These are now controlled by the game loop initially, but can be overwritten by dev mode inputs
 let DUCK_SPAWN_RATE_MS = isMobileView() ? 5000 : 2000;
 let DUCK_SPEED_PX_PER_FRAME = isMobileView() ? 1.5 : 2;
-const POND_CAPACITY = 50;
+const POND_CAPACITY = 1000;
 // -------------------------------------------------------------------------------
 
 // --- FIX: Define a strict accessory layering order (z-index) ---
@@ -354,7 +354,7 @@ function saveDuckToPond() {
         const type = img.getAttribute('data-type'), src = img.getAttribute('src');
         if (type && src) currentLook[type] = src;
     });
-    const duckToSave = { name: "Unnamed Duck", look: currentLook, flipped: duckImageContainer.classList.contains('is-flipped') };
+    const duckToSave = { name: "Unnamed Duck", look: currentLook, flipped: duckImageContainer.classList.contains('is-flipped'), savedDate: Date.now() };
     let savedLooks = JSON.parse(localStorage.getItem('savedDucks')) || [];
     const isDuplicate = savedLooks.some(saved => JSON.stringify(saved.look) === JSON.stringify(duckToSave.look) && saved.flipped === duckToSave.flipped);
     if (!isDuplicate && savedLooks.length < POND_CAPACITY) {
