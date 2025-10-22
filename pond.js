@@ -23,17 +23,25 @@ function calculateDuckStats(duck) {
     const accessoryStats = {};
 
     for (const type in duck.look) {
-        const accessorySrc = duck.look[type];
-        const accessoryDetails = ACCESSORIES.find(item => item.src === accessorySrc);
+        const accessorySrc = duck.look[type]; // Can be null
+        const accessoryDetails = ACCESSORIES.find(item => item.src === accessorySrc && item.type === type); // Match type too for nulls
 
         if (accessoryDetails) {
             const rarity = accessoryDetails.rarity;
             totalRating += rarity;
 
-            // Rename 'eyecolor' to 'Eyes' and format type
-            const displayType = type === 'eyecolor' ? 'Eyes' :
-                type === 'beak' ? 'Beaks' :
-                    type.charAt(0).toUpperCase() + type.slice(1) + (type.endsWith('s') || type === 'other' ? '' : 's');
+            // Format display type
+            let displayType = type.charAt(0).toUpperCase() + type.slice(1);
+            if (type === 'eyecolor') displayType = 'Eyes';
+            else if (type === 'beak') displayType = 'Beaks';
+            else if (type === 'ride') displayType = 'Rides';
+            else if (type === 'feathers') displayType = 'Feathers';
+            else if (type === 'back') displayType = 'Backs';
+            else if (type === 'wings') displayType = 'Wings';
+            else if (type === 'pants') displayType = 'Pants';
+            else if (type === 'hat') displayType = 'Hats';
+            else if (type === 'legs') displayType = 'Legs'; // Add legs
+            else if (type === 'other') displayType = 'Other';
 
             accessoryStats[displayType] = {
                 rarity: rarity,
@@ -42,14 +50,24 @@ function calculateDuckStats(duck) {
         }
     }
 
-    // Ensure all categories are present for the detailed stats display
-    const allCategories = Object.keys(LAYER_ORDER);
-    allCategories.forEach(type => {
-        const displayType = type === 'eyecolor' ? 'Eyes' :
-            type === 'beak' ? 'Beaks' :
-                type.charAt(0).toUpperCase() + type.slice(1) + (type.endsWith('s') || type === 'other' ? '' : 's');
+    // Ensure all categories defined in LAYER_ORDER are present for stats display
+    Object.keys(LAYER_ORDER).forEach(type => {
+        let displayType = type.charAt(0).toUpperCase() + type.slice(1);
+        if (type === 'eyecolor') displayType = 'Eyes';
+        else if (type === 'beak') displayType = 'Beaks';
+        else if (type === 'ride') displayType = 'Rides';
+        else if (type === 'feathers') displayType = 'Feathers';
+        else if (type === 'back') displayType = 'Backs';
+        else if (type === 'wings') displayType = 'Wings';
+        else if (type === 'pants') displayType = 'Pants';
+        else if (type === 'hat') displayType = 'Hats';
+        else if (type === 'legs') displayType = 'Legs'; // Add legs
+        else if (type === 'other') displayType = 'Other';
+
         if (!accessoryStats[displayType]) {
-            accessoryStats[displayType] = { rarity: 0, name: 'None' };
+            // Find default base part name if applicable
+            const basePart = BASE_DUCK_PARTS.find(p => p.type === type);
+            accessoryStats[displayType] = { rarity: 0, name: basePart ? 'Default' : 'None' }; // Show 'Default' for base types
         }
     });
 
@@ -97,7 +115,7 @@ function displayPondDucks() {
     pondContainer.innerHTML = '';
     let savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
 
-   
+
 
     allDucksWithRatings = savedDucks.map(calculateDuckStats);
 
@@ -125,21 +143,34 @@ function displayPondDucks() {
             duckWrapper.classList.add('is-flipped');
         }
 
-        const baseDuckImg = document.createElement('img');
-        baseDuckImg.src = 'images/duck.png';
-        baseDuckImg.style.zIndex = 0; // Base Duck Layer
-        duckWrapper.appendChild(baseDuckImg);
+        // --- MODIFIED: Build the full duck using the new render logic ---
 
-        for (const type in duck.look) {
-            const src = duck.look[type];
-            const accessoryImg = document.createElement('img');
-            accessoryImg.src = src;
+        // 1. Start with accessories
+        let imagesToRender = { ...duck.look };
 
-            // Use the global LAYER_ORDER map from script.js
-            accessoryImg.style.zIndex = LAYER_ORDER[type] || 5;
+        // 2. Fill in with default base parts
+        BASE_DUCK_PARTS.forEach(part => {
+            if (!(part.type in imagesToRender)) { // Check if type exists as key
+                imagesToRender[part.type] = part.src;
+            }
+        });
 
-            duckWrapper.appendChild(accessoryImg);
+        // 3. Render all images with correct z-index
+        for (const type in imagesToRender) {
+            const src = imagesToRender[type];
+
+            // --- Skip rendering if src is null OR if it's the flip effect image ---
+            if (src === null || src === 'images/flip-effect.png') {
+                continue;
+            }
+            // --- END ---
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.zIndex = LAYER_ORDER[type] === undefined ? 0 : LAYER_ORDER[type];
+            duckWrapper.appendChild(img);
         }
+        // ---------------------------------------------
 
         // We no longer rely on a pre-calculated index from the loop, we use the duck's unique date
         duckWrapper.addEventListener('click', () => {
@@ -170,7 +201,7 @@ function openDuckPopup(savedDate) {
 
     duckNameInput.value = duckStats.name || "Unnamed Duck";
 
-    if (duckStats.flipped) {
+    if (duckStats.flipped) { // Check the original duck object for flip status
         enlargedDuckDisplay.classList.add('is-flipped');
     } else {
         enlargedDuckDisplay.classList.remove('is-flipped');
@@ -179,41 +210,55 @@ function openDuckPopup(savedDate) {
     // 1. Display Total Rating
     fashionRatingText.textContent = "Fashion Rating: " + duckStats.rating;
 
+    // --- FUNCTION MOVED HERE ---
+    // Helper function to map display names back to internal types
+    const mapType = (displayType) => {
+        if (displayType === 'Eyes') return 'eyecolor';
+        if (displayType === 'Beaks') return 'beak';
+        if (displayType === 'Rides') return 'ride';
+        if (displayType === 'Feathers') return 'feathers';
+        if (displayType === 'Backs') return 'back';
+        if (displayType === 'Wings') return 'wings';
+        if (displayType === 'Pants') return 'pants';
+        if (displayType === 'Hats') return 'hat';
+        if (displayType === 'Legs') return 'legs';
+        if (displayType === 'Other') return 'other';
+        return displayType.toLowerCase(); // Fallback
+    };
+    // --- END MOVED FUNCTION ---
+
     // 2. Display Detailed Stats (Rarity Breakdown)
 
-    // Sort accessory stats by LAYER_ORDER (hats first, rides last)
+    // Sort accessory stats by LAYER_ORDER
     const sortedTypes = Object.keys(duckStats.accessoryStats).sort((a, b) => {
-        // Reverse mapping of display name to original type key
-        const mapType = (displayType) => {
-            if (displayType === 'Eyes') return 'eyecolor';
-            if (displayType === 'Beaks') return 'beak';
-            if (displayType === 'Rides') return 'ride';
-            if (displayType === 'Feathers') return 'feathers';
-            if (displayType === 'Backs') return 'back';
-            if (displayType === 'Wings') return 'wings';
-            if (displayType === 'Pants') return 'pants';
-            if (displayType === 'Hats') return 'hat';
-            return displayType.toLowerCase();
-        };
+        const keyA = mapType(a); // Now mapType is available
+        const keyB = mapType(b); // Now mapType is available
 
-        const keyA = mapType(a);
-        const keyB = mapType(b);
+        // Handle cases where a type might not be in LAYER_ORDER (though it should be)
+        const zIndexA = LAYER_ORDER[keyA] === undefined ? 99 : LAYER_ORDER[keyA];
+        const zIndexB = LAYER_ORDER[keyB] === undefined ? 99 : LAYER_ORDER[keyB];
 
-        return (LAYER_ORDER[keyA] || 99) - (LAYER_ORDER[keyB] || 99);
+        return zIndexA - zIndexB;
     });
 
 
     sortedTypes.forEach(displayType => {
         const stat = duckStats.accessoryStats[displayType];
 
-        // Only show 'Other' if it contributes a score (i.e., Double Duck or Flip)
+        // Only show if it contributes a score OR if it's a 'Default'/'None' for a base part type
+        const isBaseType = ['Rides', 'Feathers', 'Eyes', 'Beaks', 'Legs', 'Wings'].includes(displayType);
+        // Don't show 'None' if it's not a base type AND not 'Other'
+        if (stat.rarity === 0 && !isBaseType && displayType !== 'Other') return;
+        // Don't show 'Other' if it has no score
         if (displayType === 'Other' && stat.rarity === 0) return;
+
 
         const statDiv = document.createElement('div');
 
-        // Determine rarity name for color coding
-        const accessoryDetails = ACCESSORIES.find(item => item.displayName === stat.name && item.rarity === stat.rarity);
+        // Determine rarity name for color coding (match type as well for null src items)
+        const accessoryDetails = ACCESSORIES.find(item => item.displayName === stat.name && item.type === mapType(displayType)); // Use mapType here too
         const rarityName = accessoryDetails ? accessoryDetails.rarityName : (stat.rarity > 0 ? 'unknown' : 'common');
+
 
         statDiv.innerHTML = `<strong>${displayType}:</strong> ${stat.name} <span class="rarity-${rarityName}">(${stat.rarity})</span>`;
         detailedStatsContainer.appendChild(statDiv);
@@ -221,23 +266,36 @@ function openDuckPopup(savedDate) {
 
 
     // 3. Display Duck Image
-    const baseDuckImg = document.createElement('img');
-    baseDuckImg.src = 'images/duck.png';
-    baseDuckImg.style.zIndex = 0; // Base Duck Layer
-    enlargedDuckDisplay.appendChild(baseDuckImg);
+    // --- MODIFIED: Build the full duck using the new render logic ---
 
-    for (const type in duckToDisplay.look) {
-        const src = duckToDisplay.look[type];
-        const accessoryImg = document.createElement('img');
-        accessoryImg.src = src;
+    // 1. Start with accessories
+    let imagesToRender = { ...duckToDisplay.look };
 
-        // Apply controlled Z-Index
-        accessoryImg.style.zIndex = LAYER_ORDER[type] || 5;
+    // 2. Fill in with default base parts
+    BASE_DUCK_PARTS.forEach(part => {
+        if (!(part.type in imagesToRender)) { // Check if type exists as key
+            imagesToRender[part.type] = part.src;
+        }
+    });
 
-        enlargedDuckDisplay.appendChild(accessoryImg);
+    // 3. Render all images with correct z-index
+    for (const type in imagesToRender) {
+        const src = imagesToRender[type];
+
+        // --- Skip rendering if src is null OR if it's the flip effect image ---
+        if (src === null || src === 'images/flip-effect.png') {
+            continue;
+        }
+        // --- END ---
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.zIndex = LAYER_ORDER[type] === undefined ? 0 : LAYER_ORDER[type];
+        enlargedDuckDisplay.appendChild(img);
     }
+    // ---------------------------------------------
 
-    popupOverlay.classList.remove('hidden');
+    popupOverlay.classList.remove('hidden'); // This line should execute now
 }
 
 function closeDuckPopup() {

@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     const galleryContainer = document.getElementById('gallery-container');
-    const discovered = JSON.parse(localStorage.getItem('discoveredAccessories')) || [];
+    // --- MODIFIED: Handle 'null' string from storage ---
+    const discoveredStored = JSON.parse(localStorage.getItem('discoveredAccessories')) || [];
+    const discovered = discoveredStored.map(item => item === 'null' ? null : item);
+    // --- END MODIFIED ---
 
     const accessoriesByType = ACCESSORIES.reduce((acc, item) => {
-        if (item.src) {
+        // Allow null src items
+        if (item.type !== undefined) { // Check if type exists instead of src
             const type = item.type || 'unknown';
             if (!acc[type]) { acc[type] = []; }
             acc[type].push(item);
@@ -11,16 +15,18 @@ document.addEventListener('DOMContentLoaded', function () {
         return acc;
     }, {});
 
-    // --- FIX: Define the custom display order as requested (Hats -> Eyes -> ... -> Rides -> Other) ---
+    // --- FIX: Define the custom display order including 'legs' ---
     const customDisplayOrder = [
         'hat',
         'eyecolor',
         'beak',
+        // 'legs', // Position legs correctly if needed, or keep it later
         'wings',
         'feathers',
         'back',
         'pants',
         'ride',
+        'legs', // Added legs here, adjust order as desired
         'other'
     ];
     // ------------------------------------------------------------------------------------------------------
@@ -40,13 +46,13 @@ document.addEventListener('DOMContentLoaded', function () {
         let formattedTitle;
         if (type === 'other') { formattedTitle = 'Other'; }
         else if (type === 'ride') { formattedTitle = 'Rides'; }
-        // --- FIX: Rename 'eyecolor' to 'Eyes' ---
         else if (type === 'eyecolor') { formattedTitle = 'Eyes'; }
-        // ----------------------------------------
+        else if (type === 'legs') { formattedTitle = 'Legs'; } // Add Legs title
         else if (type.endsWith('s')) { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1); }
         else if (type === 'beak') { formattedTitle = 'Beaks'; }
         else { formattedTitle = type.charAt(0).toUpperCase() + type.slice(1) + "s"; }
         categoryTitle.textContent = formattedTitle;
+
 
         categoryTitle.addEventListener('click', function () {
             this.classList.toggle('is-collapsed');
@@ -84,45 +90,77 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const isDiscovered = discovered.includes(accessory.src);
 
+            // --- MODIFIED: Build the gallery duck using the new render logic ---
+
+            // 1. Create a "look" for this duck
+            let galleryLook = {};
+            let isFlipped = false;
+
             if (accessory.effect && accessory.effect === 'flip') {
-                const flippedDuckImage = document.createElement('img');
-                flippedDuckImage.src = 'images/duck.png';
-                flippedDuckImage.className = 'accessory-image is-flipped-gallery';
-                if (!isDiscovered) {
-                    flippedDuckImage.classList.add('undiscovered');
-                }
-                imageWrapper.appendChild(flippedDuckImage);
+                isFlipped = true;
                 name.textContent = isDiscovered ? accessory.displayName : '???';
-
+                // Add flip effect to look so it's tracked
+                galleryLook[accessory.type] = accessory.src;
             } else {
-                const baseDuckImage = document.createElement('img');
-                baseDuckImage.src = 'images/duck.png';
-                baseDuckImage.className = 'accessory-image';
-                imageWrapper.appendChild(baseDuckImage);
-
-                const accessoryImage = document.createElement('img');
-                accessoryImage.src = accessory.src;
-                accessoryImage.className = 'accessory-image';
-                imageWrapper.appendChild(accessoryImage);
-
-                if (isDiscovered) {
-                    name.textContent = accessory.displayName || 'Unnamed';
-                } else {
-                    // This is the default behavior
-                    baseDuckImage.classList.add('undiscovered');
-                    accessoryImage.classList.add('undiscovered');
-                    name.textContent = '???';
-                }
+                // Use accessory.src (can be null)
+                galleryLook[accessory.type] = accessory.src;
+                name.textContent = isDiscovered ? accessory.displayName || 'Unnamed' : '???';
             }
 
-            // --- MODIFICATION ---
-            // The "if (!isDiscovered)" check was removed from here
-            // to allow the tooltip to show on ALL ducks.
+            // 2. Fill in with default base parts
+            let imagesToRender = { ...galleryLook };
+            BASE_DUCK_PARTS.forEach(part => {
+                // *** Corrected Check ***
+                // Only add default if the type isn't already set (even if set to null)
+                if (!(part.type in imagesToRender)) {
+                    imagesToRender[part.type] = part.src;
+                }
+            });
+            // --- END FIX ---
+
+            // 3. Create a sorted list of parts to render
+            let renderList = [];
+            for (const type in imagesToRender) {
+                renderList.push({
+                    src: imagesToRender[type],
+                    zIndex: LAYER_ORDER[type] === undefined ? 0 : LAYER_ORDER[type],
+                    isAccessory: galleryLook[type] === imagesToRender[type]
+                });
+            }
+            renderList.sort((a, b) => a.zIndex - b.zIndex);
+
+            // 4. Append images in sorted order
+            renderList.forEach(item => {
+                // --- Skip rendering if src is null OR if it's the flip effect image ---
+                if (item.src === null || item.src === 'images/flip-effect.png') {
+                    return;
+                }
+                // --- END ---
+
+                const img = document.createElement('img');
+                img.src = item.src;
+                img.className = 'accessory-image'; // Use the same class for all
+
+                if (isFlipped) {
+                    img.classList.add('is-flipped-gallery');
+                }
+
+                // --- FIX: If the accessory is not discovered, grey out ALL parts ---
+                if (!isDiscovered) {
+                    img.classList.add('undiscovered');
+                }
+                // --- END FIX ---
+
+                imageWrapper.appendChild(img);
+            });
+            // ---------------------------------------------------------
+
+
             const tooltip = document.createElement('div');
             tooltip.className = 'rarity-tooltip';
             tooltip.textContent = `1 in ${accessory.rarity}`;
             imageWrapper.appendChild(tooltip);
-            // --- END MODIFICATION ---
+
 
             itemContainer.appendChild(imageWrapper);
             itemContainer.appendChild(name);
