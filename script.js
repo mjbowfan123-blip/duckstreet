@@ -138,6 +138,9 @@ let devModeGuaranteedAccessories = false;
 let devModeUnlocked = false;
 let myBaseDuck = null;
 
+// --- NEW: This is our duck counter ---
+let duckSpawnCount = 0;
+
 function createBaseDuck() {
     if (myBaseDuck) myBaseDuck.remove();
     myBaseDuck = document.createElement('img');
@@ -230,6 +233,9 @@ function trackDiscoveredAccessory(accessorySrc) {
     }
 }
 function createMarchingDuck() {
+    // --- NEW: Increment the duck counter ---
+    duckSpawnCount++;
+
     const duck = document.createElement('div');
     duck.className = 'marching-duck';
     duck.style.left = '-250px';
@@ -243,12 +249,29 @@ function createMarchingDuck() {
     duckImage.src = 'images/duck.png';
     duckImage.style.width = '100%';
     duck.appendChild(duckImage);
-    const shouldHaveAccessory = devModeGuaranteedAccessories || Math.floor(Math.random() * 7) < 3;
+
+    // --- NEW: Logic for 2nd duck hat ---
+    let shouldHaveAccessory = devModeGuaranteedAccessories || Math.floor(Math.random() * 7) < 3; // Standard 3/7 chance
+    let forceHat = false;
+
+    // If it's the 2nd duck AND dev mode isn't already guaranteeing one
+    if (duckSpawnCount === 2 && !devModeGuaranteedAccessories) {
+        shouldHaveAccessory = true;
+        forceHat = true;
+    }
+    // --- END NEW LOGIC ---
 
     if (shouldHaveAccessory) {
         let selectedAccessory = null;
 
-        if (devModeGuaranteedAccessories) {
+        // --- NEW: Force a hat if it's the 2nd duck ---
+        if (forceHat) {
+            const hatAccessories = ACCESSORIES.filter(acc => acc.type === 'hat');
+            const randomIndex = Math.floor(Math.random() * hatAccessories.length);
+            selectedAccessory = hatAccessories[randomIndex];
+        }
+        // --- END NEW LOGIC ---
+        else if (devModeGuaranteedAccessories) {
             // --- FIX: When Guaranteed is ON, use equal weight (simple random selection) ---
             const availableAccessories = ACCESSORIES.filter(acc => acc.rarityName !== 'mythical'); // Optionally exclude mythical/flip
             const randomIndex = Math.floor(Math.random() * availableAccessories.length);
