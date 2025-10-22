@@ -206,6 +206,7 @@ body.mobile-view {
 .top-nav h1 {
     display: block !important;
 }
+
 #my-duck-area {
     margin-top: 47vh !important; /* TWEAK: Moves display DOWN */
     left: -4% !important; /* TWEAK: Moves display LEFT */
@@ -351,6 +352,21 @@ overflow: hidden;
     #how-to-play-section ul {
         list-style-type: '▸ ';
         padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+/* NEW: Styles for the Contact section */
+#contact-section {
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+    #contact-section h4 {
+        text-align: center;
+    }
+
+    #contact-section p {
         margin-bottom: 20px;
     }
 

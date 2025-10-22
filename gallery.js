@@ -115,12 +115,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            if (!isDiscovered) {
-                const tooltip = document.createElement('div');
-                tooltip.className = 'rarity-tooltip';
-                tooltip.textContent = `1 in ${accessory.rarity}`;
-                imageWrapper.appendChild(tooltip);
-            }
+            // --- MODIFICATION ---
+            // The "if (!isDiscovered)" check was removed from here
+            // to allow the tooltip to show on ALL ducks.
+            const tooltip = document.createElement('div');
+            tooltip.className = 'rarity-tooltip';
+            tooltip.textContent = `1 in ${accessory.rarity}`;
+            imageWrapper.appendChild(tooltip);
+            // --- END MODIFICATION ---
 
             itemContainer.appendChild(imageWrapper);
             itemContainer.appendChild(name);

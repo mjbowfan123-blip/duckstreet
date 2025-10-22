@@ -124,6 +124,10 @@ const devDuckSpeedInput = document.getElementById('dev-duck-speed');
 const devUnlockAllBtn = document.getElementById('dev-unlock-all');
 const devMobileViewBtn = document.getElementById('dev-mobile-view-btn');
 
+// NEW: Contact Elements
+const showContactBtn = document.getElementById('show-contact-btn');
+const contactSection = document.getElementById('contact-section');
+
 // NEW: Welcome Popup Elements
 const welcomeOverlay = document.getElementById('welcome-overlay');
 const closeWelcomeBtn = document.getElementById('close-welcome-btn');
@@ -159,6 +163,7 @@ function openSettings() {
     settingsMainView.classList.remove('hidden');
     howToPlaySection.classList.add('hidden');
     resetSection.classList.add('hidden');
+    contactSection.classList.add('hidden'); // NEW: Hide contact section on open
 
     // Set current values in dev inputs when opening
     if (devModeUnlocked) {
@@ -402,6 +407,13 @@ if (showHowToPlayBtn) {
     showHowToPlayBtn.addEventListener('click', () => {
         settingsMainView.classList.add('hidden');
         howToPlaySection.classList.remove('hidden');
+    });
+}
+// NEW: Event listener for the contact button
+if (showContactBtn) {
+    showContactBtn.addEventListener('click', () => {
+        settingsMainView.classList.add('hidden');
+        contactSection.classList.remove('hidden');
     });
 }
 if (showResetBtn) {
