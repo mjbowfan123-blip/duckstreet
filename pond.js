@@ -12,6 +12,10 @@ const detailedStatsContainer = document.getElementById('detailed-stats-container
 const sortBySelect = document.getElementById('sort-by');
 // filterBySelect is removed
 
+// --- NEW: POND WELCOME ELEMENTS ---
+const pondWelcomeOverlay = document.getElementById('pond-welcome-overlay');
+const closePondWelcomeBtn = document.getElementById('close-pond-welcome-btn');
+
 let currentlySelectedDuckIndex = null;
 let allDucksWithRatings = []; // Store ducks with pre-calculated ratings
 
@@ -78,6 +82,21 @@ function calculateDuckStats(duck) {
         accessoryStats: accessoryStats
     };
 }
+
+// --- NEW: POND WELCOME FUNCTIONS ---
+function showPondWelcomePopup() {
+    if (pondWelcomeOverlay) {
+        pondWelcomeOverlay.classList.remove('hidden');
+    }
+}
+
+function closePondWelcomePopup() {
+    if (pondWelcomeOverlay) {
+        pondWelcomeOverlay.classList.add('hidden');
+    }
+    localStorage.setItem('hasVisitedPond', 'true'); // Set flag so it doesn't show again
+}
+
 
 // --- FILTER & SORT LOGIC ---
 
@@ -182,6 +201,43 @@ function displayPondDucks() {
         pondContainer.appendChild(duckContainer);
     });
 }
+
+// --- NEW: Function to handle Tab navigation ---
+function handlePopupKeydown(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault(); // Stop the browser's default tabbing
+
+        // 1. Get the currently sorted list of ducks
+        const sortedDucks = getSortedDucks();
+        if (sortedDucks.length <= 1) return; // Don't do anything if there's only one duck
+
+        // 2. Get the currently open duck's savedDate
+        const savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
+        const currentDuck = savedDucks[currentlySelectedDuckIndex];
+        if (!currentDuck) return; // Safety check
+        const currentSavedDate = currentDuck.savedDate;
+
+        // 3. Find the index of this duck *in the sorted list*
+        const sortedIndex = sortedDucks.findIndex(d => d.savedDate === currentSavedDate);
+
+        // 4. Calculate the next index (with wraparound)
+        let nextSortedIndex = sortedIndex + 1;
+        if (nextSortedIndex >= sortedDucks.length) {
+            nextSortedIndex = 0; // Wrap around to the beginning
+        }
+
+        // 5. Get the next duck's data
+        const nextDuck = sortedDucks[nextSortedIndex];
+
+        // 6. Close the current popup and open the next one
+        // We call them in a timeout to prevent any weird focus issues
+        setTimeout(() => {
+            closeDuckPopup();
+            openDuckPopup(nextDuck.savedDate);
+        }, 0);
+    }
+}
+// --- END NEW FUNCTION ---
 
 function openDuckPopup(savedDate) {
     const savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
@@ -295,12 +351,20 @@ function openDuckPopup(savedDate) {
     }
     // ---------------------------------------------
 
+    // --- NEW: Add keydown listener for Tab navigation ---
+    document.addEventListener('keydown', handlePopupKeydown);
+    // --- END NEW ---
+
     popupOverlay.classList.remove('hidden'); // This line should execute now
 }
 
 function closeDuckPopup() {
     popupOverlay.classList.add('hidden');
     currentlySelectedDuckIndex = null;
+
+    // --- NEW: Remove keydown listener when popup closes ---
+    document.removeEventListener('keydown', handlePopupKeydown);
+    // --- END NEW ---
 }
 
 function saveDuckName() {
@@ -334,17 +398,43 @@ function deleteSelectedDuck() {
 }
 
 // --- EVENT LISTENERS ---
-closePopupBtn.addEventListener('click', closeDuckPopup);
-loadDuckBtn.addEventListener('click', loadSelectedDuck);
-deleteDuckBtn.addEventListener('click', deleteSelectedDuck);
-duckNameInput.addEventListener('input', saveDuckName);
+if (closePopupBtn) {
+    closePopupBtn.addEventListener('click', closeDuckPopup);
+}
+if (loadDuckBtn) {
+    loadDuckBtn.addEventListener('click', loadSelectedDuck);
+}
+if (deleteDuckBtn) {
+    deleteDuckBtn.addEventListener('click', deleteSelectedDuck);
+}
+if (duckNameInput) {
+    duckNameInput.addEventListener('input', saveDuckName);
 
-// NEW: Add event listener for sorting
-sortBySelect.addEventListener('change', displayPondDucks);
+    // --- NEW: Add keydown listener for Enter key ---
+    duckNameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Stop it from adding a newline or submitting a form
+            duckNameInput.blur(); // "Leave the text box" by removing focus
+        }
+    });
+    // --- END NEW ---
+}
+if (sortBySelect) {
+    // NEW: Add event listener for sorting
+    sortBySelect.addEventListener('change', displayPondDucks);
+}
+// NEW: Event listener for pond welcome
+if (closePondWelcomeBtn) {
+    closePondWelcomeBtn.addEventListener('click', closePondWelcomePopup);
+}
 
 
 // --- ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
+    // NEW: Check for first pond visit
+    if (!localStorage.getItem('hasVisitedPond')) {
+        showPondWelcomePopup();
+    }
     // populateFilterOptions removed
     displayPondDucks();
 });

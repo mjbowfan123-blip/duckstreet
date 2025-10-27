@@ -1,4 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // --- NEW: GALLERY WELCOME POPUP LOGIC ---
+    const galleryWelcomeOverlay = document.getElementById('gallery-welcome-overlay');
+    const closeGalleryWelcomeBtn = document.getElementById('close-gallery-welcome-btn');
+
+    function showGalleryWelcomePopup() {
+        if (galleryWelcomeOverlay) galleryWelcomeOverlay.classList.remove('hidden');
+    }
+
+    function closeGalleryWelcomePopup() {
+        if (galleryWelcomeOverlay) galleryWelcomeOverlay.classList.add('hidden');
+        localStorage.setItem('hasVisitedGallery', 'true'); // Set flag so it doesn't show again
+    }
+
+    if (closeGalleryWelcomeBtn) {
+        closeGalleryWelcomeBtn.addEventListener('click', closeGalleryWelcomePopup);
+    }
+
+    // Check for first gallery visit
+    if (!localStorage.getItem('hasVisitedGallery')) {
+        showGalleryWelcomePopup();
+    }
+    // --- END NEW LOGIC ---
+
+
     const galleryContainer = document.getElementById('gallery-container');
     // --- MODIFIED: Handle 'null' string from storage ---
     const discoveredStored = JSON.parse(localStorage.getItem('discoveredAccessories')) || [];

@@ -223,18 +223,8 @@ overflow: hidden;
     display: none !important;
 }
 
-/* Style for Content for Google Review Bot */
-#content-description.hidden-but-readable {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -100;
-    opacity: 0.01;
-    pointer-events: none;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-}
+/* --- REMOVED THE VISIBLE STYLE FOR #content-description --- */
+
 
 /* Styles for Welcome Popup */
 #welcome-overlay {
@@ -339,13 +329,15 @@ overflow: hidden;
     width: 100%;
 }
 
-#how-to-play-section {
+/* --- ADDED #about-section to this rule --- */
+#how-to-play-section, #about-section {
     text-align: left;
     font-size: 11px;
     line-height: 1.6;
 }
 
-    #how-to-play-section h4 {
+    /* --- ADDED #about-section to this rule --- */
+    #how-to-play-section h4, #about-section h4 {
         text-align: center;
     }
 
@@ -354,6 +346,12 @@ overflow: hidden;
         padding-left: 20px;
         margin-bottom: 20px;
     }
+
+    /* --- NEW: Style for about section paragraph --- */
+    #about-section p {
+        margin-bottom: 15px;
+    }
+
 
 /* NEW: Styles for the Contact section */
 #contact-section {
@@ -554,6 +552,11 @@ input[type="password"], input[type="number"] {
     /* Ensure title is visible on native mobile */
     .top-nav h1 {
         display: block;
+    }
+
+    /* --- NEW: Hide visible description on mobile --- */
+    #content-description {
+        display: none;
     }
 }
 

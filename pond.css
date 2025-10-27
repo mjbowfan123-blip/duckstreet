@@ -1,5 +1,5 @@
 ﻿/* Import the pixel font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start 2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 html, body {
     height: 100%;
@@ -385,5 +385,59 @@ button, .nav-button {
             margin-left: auto; /* Push the right button to the right */
             font-size: 12px;
         }
+
+    /* --- NEW: MOBILE STYLES FOR POND WELCOME POPUP --- */
+    #pond-welcome-menu h2 {
+        font-size: 18px;
+    }
+
+    #pond-welcome-menu p {
+        font-size: 10px;
+        margin: 10px 0;
+    }
+
+    #pond-welcome-menu {
+        padding: 20px;
+    }
 }
 /* --- END MOBILE STYLES --- */
+
+
+/* --- NEW: STYLES FOR POND WELCOME POPUP --- */
+#pond-welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Ensure popups are highest */
+}
+
+#pond-welcome-menu {
+    background-color: #444;
+    padding: 30px;
+    border: 4px double #FFF;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+    #pond-welcome-menu h3 {
+        text-shadow: 3px 3px #000;
+        margin-top: 0;
+    }
+
+    #pond-welcome-menu p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 15px 0;
+    }
+
+#close-pond-welcome-btn {
+    margin-top: 20px;
+}
+/* --- END: STYLES FOR POND WELCOME POPUP --- */

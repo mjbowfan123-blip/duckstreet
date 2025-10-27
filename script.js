@@ -158,6 +158,10 @@ const devMobileViewBtn = document.getElementById('dev-mobile-view-btn');
 const showContactBtn = document.getElementById('show-contact-btn');
 const contactSection = document.getElementById('contact-section');
 
+// NEW: About Elements
+const showAboutBtn = document.getElementById('show-about-btn');
+const aboutSection = document.getElementById('about-section');
+
 // NEW: Welcome Popup Elements
 const welcomeOverlay = document.getElementById('welcome-overlay');
 const closeWelcomeBtn = document.getElementById('close-welcome-btn');
@@ -262,7 +266,8 @@ function openSettings() {
     settingsMainView.classList.remove('hidden');
     howToPlaySection.classList.add('hidden');
     resetSection.classList.add('hidden');
-    contactSection.classList.add('hidden'); // NEW: Hide contact section on open
+    contactSection.classList.add('hidden');
+    aboutSection.classList.add('hidden'); // NEW: Hide about section on open
 
     // Set current values in dev inputs when opening
     if (devModeUnlocked) {
@@ -283,6 +288,10 @@ function resetGame() {
         localStorage.removeItem('savedDucks');
         localStorage.removeItem('discoveredAccessories');
         localStorage.removeItem('hasVisited'); // Reset welcome flag too
+        // --- NEW: Reset pond/gallery flags ---
+        localStorage.removeItem('hasVisitedPond');
+        localStorage.removeItem('hasVisitedGallery');
+        // --- END NEW ---
         alert('Progress reset.');
         location.reload();
     }
@@ -636,6 +645,13 @@ if (showContactBtn) {
     showContactBtn.addEventListener('click', () => {
         settingsMainView.classList.add('hidden');
         contactSection.classList.remove('hidden');
+    });
+}
+// NEW: Event listener for the about button
+if (showAboutBtn) {
+    showAboutBtn.addEventListener('click', () => {
+        settingsMainView.classList.add('hidden');
+        aboutSection.classList.remove('hidden');
     });
 }
 if (showResetBtn) {

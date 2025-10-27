@@ -168,7 +168,10 @@ h1, h2 {
 }
 /* --- End of restored styles --- */
 
-.nav-button {
+
+/* --- THIS IS THE FIX --- */
+/* Changed .nav-button to button, .nav-button */
+button, .nav-button {
     font-family: 'Press Start 2P', cursive;
     background-color: #555;
     color: #FFF;
@@ -181,10 +184,13 @@ h1, h2 {
     text-decoration: none;
 }
 
-    .nav-button:active {
+    /* Changed .nav-button:active to button:active, .nav-button:active */
+    button:active, .nav-button:active {
         border-style: inset;
         border-color: #333 #888 #888 #333;
     }
+/* --- END OF FIX --- */
+
 
 /* NEW: Mobile Bottom Nav Styling */
 .bottom-nav-mobile {
@@ -244,5 +250,66 @@ h1, h2 {
             margin-left: auto; /* Push the right button to the right */
             font-size: 12px;
         }
+
+    /* --- NEW: MOBILE STYLES FOR GALLERY WELCOME POPUP --- */
+    #gallery-welcome-menu h2 {
+        font-size: 18px;
+    }
+
+    #gallery-welcome-menu p {
+        font-size: 10px;
+        margin: 10px 0;
+    }
+
+    #gallery-welcome-menu {
+        padding: 20px;
+    }
 }
 /* --- END MOBILE STYLES --- */
+
+
+/* --- THIS IS THE FIX --- */
+.hidden {
+    display: none !important;
+}
+/* ----------------------- */
+
+
+/* --- NEW: STYLES FOR GALLERY WELCOME POPUP --- */
+#gallery-welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Ensure popups are highest */
+}
+
+#gallery-welcome-menu {
+    background-color: #444;
+    padding: 30px;
+    border: 4px double #FFF;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+    #gallery-welcome-menu h3 {
+        text-shadow: 3px 3px #000;
+        margin-top: 0;
+    }
+
+    #gallery-welcome-menu p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 15px 0;
+    }
+
+#close-gallery-welcome-btn {
+    margin-top: 20px;
+}
+/* --- END: STYLES FOR GALLERY WELCOME POPUP --- */
