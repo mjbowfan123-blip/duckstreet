@@ -1,0 +1,124 @@
+﻿/* Import the pixel font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    color: #FFF;
+    background-color: #222;
+    padding: 0; /* Remove body padding */
+    box-sizing: border-box;
+}
+
+/* NEW: Top Nav Styles */
+.top-nav {
+    display: flex;
+    justify-content: space-between; /* Pushes button left, allows title centering */
+    align-items: center;
+    padding: 20px;
+    background-color: #111; /* Match gallery nav background */
+    border-bottom: 4px double #FFF; /* Match gallery nav border */
+    position: relative; /* Needed for absolute title centering */
+}
+
+    .top-nav h1 {
+        position: absolute; /* Center title */
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0; /* Remove default margins */
+        text-shadow: 4px 4px #000;
+        letter-spacing: 2px;
+    }
+
+.content-wrapper {
+    width: 90%;
+    max-width: 700px;
+    margin: 20px auto; /* Add margin back here */
+    text-align: left;
+    padding-bottom: 40px; /* Add padding at the bottom */
+}
+
+/* H1 is now in top-nav */
+h2 {
+    text-shadow: 4px 4px #000;
+    letter-spacing: 2px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+p {
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #00A3FF; /* Link color */
+    text-decoration: underline; /* Keep underlines for links in text */
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Button style copied from your other pages */
+.nav-button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #555;
+    color: #FFF !important; /* Use !important to override default link color */
+    border-style: outset;
+    border-width: 4px;
+    border-color: #888 #333 #333 #888;
+    padding: 10px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none !important; /* Remove underline from buttons */
+    display: inline-block; /* Change to inline-block */
+    width: auto; /* Allow width to adjust to content */
+    text-align: center;
+    z-index: 10; /* Make sure button is clickable over title */
+}
+
+    .nav-button:active {
+        border-style: inset;
+        border-color: #333 #888 #888 #333;
+    }
+
+/* Specific style for top-left back button */
+.back-button {
+    position: relative; /* Keep it in the flow but allow z-index */
+    margin-right: auto; /* Push to the left */
+}
+
+/* Specific style for bottom centered button */
+.bottom-back-button {
+    display: block; /* Make it block to use auto margins */
+    width: fit-content; /* Size to content */
+    margin: 40px auto 0; /* Center horizontally */
+}
+
+
+@media (max-width: 600px) {
+    .top-nav h1 {
+        font-size: 20px;
+    }
+    /* Adjust title size */
+    h2 {
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 10px;
+    }
+
+    .nav-button { /* Adjust padding for smaller screens */
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}

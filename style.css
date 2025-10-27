@@ -329,6 +329,25 @@ overflow: hidden;
     width: 100%;
 }
 
+/* --- NEW: Style for Privacy Policy link in settings --- */
+#settings-main-view a.settings-menu-button[href="privacy.html"] {
+    color: #1E90FF; /* Bright blue color (Dodger Blue) */
+}
+
+    /* Optional: Add a hover effect */
+    #settings-main-view a.settings-menu-button[href="privacy.html"]:hover {
+        color: #87CEFA; /* Lighter blue on hover (Light Sky Blue) */
+    }
+
+    /* Optional: Keep the active (pressed) style consistent */
+    #settings-main-view a.settings-menu-button[href="privacy.html"]:active {
+        color: #FFF; /* Match the regular button active color */
+        border-style: inset;
+        border-color: #333 #888 #888 #333;
+    }
+/* --- END: Style for Privacy Policy link --- */
+
+
 /* --- ADDED #about-section to this rule --- */
 #how-to-play-section, #about-section {
     text-align: left;
@@ -558,6 +577,19 @@ input[type="password"], input[type="number"] {
     #content-description {
         display: none;
     }
+
+    /* --- NEW: Mobile styles for cookie banner --- */
+    #cookie-consent-banner {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+    }
+
+        #cookie-consent-banner p {
+            font-size: 10px;
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
 }
 
 
@@ -610,3 +642,33 @@ right: 0;
 overflow-y: hidden;
 }
 /* --- END DEV MOBILE VIEW STYLES --- */
+
+
+/* --- NEW: STYLES FOR COOKIE CONSENT BANNER --- */
+#cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-top: 4px double #FFF;
+    padding: 20px;
+    z-index: 3000; /* Highest z-index */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+    #cookie-consent-banner p {
+        font-size: 12px;
+        line-height: 1.5;
+        margin: 0;
+        margin-right: 20px;
+    }
+
+    #cookie-consent-banner a {
+        color: #3399FF;
+        text-decoration: underline;
+    }
+/* --- END: STYLES FOR COOKIE CONSENT BANNER --- */

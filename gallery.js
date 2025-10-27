@@ -23,6 +23,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- END NEW LOGIC ---
 
 
+    // --- NEW: COOKIE CONSENT LOGIC ---
+    const cookieBanner = document.getElementById('cookie-consent-banner');
+    const cookieAcceptBtn = document.getElementById('cookie-consent-accept-btn');
+
+    if (cookieBanner && cookieAcceptBtn) {
+        if (!localStorage.getItem('hasGivenCookieConsent')) {
+            cookieBanner.classList.remove('hidden');
+        }
+
+        cookieAcceptBtn.addEventListener('click', () => {
+            cookieBanner.classList.add('hidden');
+            localStorage.setItem('hasGivenCookieConsent', 'true');
+        });
+    }
+    // --- END: COOKIE CONSENT LOGIC ---
+
+
     const galleryContainer = document.getElementById('gallery-container');
     // --- MODIFIED: Handle 'null' string from storage ---
     const discoveredStored = JSON.parse(localStorage.getItem('discoveredAccessories')) || [];

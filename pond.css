@@ -399,6 +399,19 @@ button, .nav-button {
     #pond-welcome-menu {
         padding: 20px;
     }
+
+    /* --- NEW: Mobile styles for cookie banner --- */
+    #cookie-consent-banner {
+        flex-direction: column;
+        padding: 15px;
+        text-align: center;
+    }
+
+        #cookie-consent-banner p {
+            font-size: 10px;
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
 }
 /* --- END MOBILE STYLES --- */
 
@@ -441,3 +454,33 @@ button, .nav-button {
     margin-top: 20px;
 }
 /* --- END: STYLES FOR POND WELCOME POPUP --- */
+
+
+/* --- NEW: STYLES FOR COOKIE CONSENT BANNER --- */
+#cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-top: 4px double #FFF;
+    padding: 20px;
+    z-index: 3000; /* Highest z-index */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+    #cookie-consent-banner p {
+        font-size: 12px;
+        line-height: 1.5;
+        margin: 0;
+        margin-right: 20px;
+    }
+
+    #cookie-consent-banner a {
+        color: #00A3FF;
+        text-decoration: underline;
+    }
+/* --- END: STYLES FOR COOKIE CONSENT BANNER --- */

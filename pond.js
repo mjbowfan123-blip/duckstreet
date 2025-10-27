@@ -437,4 +437,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // populateFilterOptions removed
     displayPondDucks();
+
+    // --- NEW: COOKIE CONSENT LOGIC ---
+    const cookieBanner = document.getElementById('cookie-consent-banner');
+    const cookieAcceptBtn = document.getElementById('cookie-consent-accept-btn');
+
+    if (cookieBanner && cookieAcceptBtn) {
+        if (!localStorage.getItem('hasGivenCookieConsent')) {
+            cookieBanner.classList.remove('hidden');
+        }
+
+        cookieAcceptBtn.addEventListener('click', () => {
+            cookieBanner.classList.add('hidden');
+            localStorage.setItem('hasGivenCookieConsent', 'true');
+        });
+    }
+    // --- END: COOKIE CONSENT LOGIC ---
 });
