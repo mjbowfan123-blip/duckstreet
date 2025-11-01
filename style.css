@@ -50,23 +50,36 @@ h1, h2 {
         margin: 0;
     }
 
+/* === MODIFIED: Top-Left Container === */
+.nav-links-left {
+    display: flex;
+    flex-direction: row; /* Stack buttons horizontally */
+    align-items: center; /* Vertically center them */
+    gap: 15px; /* Space between them */
+    z-index: 801; /* Ensure it's above title bg, but not other popups */
+}
+
+/* === MODIFIED: Top-Right Container === */
+.nav-links {
+    display: flex;
+    flex-direction: row; /* Make buttons horizontal */
+    align-items: center; /* Vertically center buttons and settings icon */
+    gap: 15px;
+    z-index: 801;
+}
+
+/* Base settings button style */
 #settings-btn {
     width: 48px;
     height: 48px;
     cursor: pointer;
     transition: transform 0.4s ease-in-out;
     z-index: 900;
-    /* On desktop, it's positioned by its container, top-nav */
 }
 
     #settings-btn.is-rotated {
         transform: rotate(180deg);
     }
-
-.nav-links {
-    display: flex;
-    gap: 15px;
-}
 
 .mobile-nav-centered {
     display: none;
@@ -126,13 +139,38 @@ h1, h2 {
     /* z-index is set dynamically in script.js (0-80) */
 }
 
-#my-duck-display h2 {
+/* === MODIFIED: Renamed to #duck-name-display === */
+#duck-name-display {
     position: absolute;
     top: 10px;
     left: 0;
     width: 100%;
     margin: 0;
-    z-index: 1; /* FIX: Lowered z-index to 1 so duck accessories (z-index 5 and up) cover it */
+    z-index: 10;
+    user-select: none; /* NEW: Prevent text selection */
+}
+
+/* === NEW: Styles for the main page name input === */
+/* === NEW: Styles for the main page name input === */
+#duck-name-input-main {
+    /* Copy styles from h2 */
+    font-family: 'Press Start 2P', cursive;
+    text-shadow: 4px 4px #000;
+    letter-spacing: 2px;
+    font-size: 1.5em; /* Matches h2 */
+    /* Copy styles from other inputs */
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #FFF; /* <--- ADD THIS LINE */
+    text-align: center;
+    /* Positioning */
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Make it wide */
+    z-index: 10; /* Above duck */
 }
 
 button, .nav-button {
@@ -154,13 +192,93 @@ button, .nav-button {
         border-color: #333 #888 #888 #333;
     }
 
-#save-to-pond-btn {
+    /* === NEW: Custom disabled style === */
+    button.is-disabled, .nav-button.is-disabled {
+        background-color: #333; /* Darker grey */
+        color: #888; /* Lighter grey text */
+        border-style: outset; /* Keep the outset style */
+        border-color: #555 #222 #222 #555; /* Darker grey border */
+    }
+
+        button.is-disabled:active, .nav-button.is-disabled:active {
+            border-style: outset; /* Don't "press" */
+            border-color: #555 #222 #222 #555; /* Don't change border */
+        }
+
+
+/* --- NEW: Coin Display Styles --- */
+#coin-display {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between coin and number */
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #333; /* Darker, non-interactive look */
+    border-color: #555 #222 #222 #555;
+    cursor: default; /* Not a button */
+}
+
+    #coin-display img {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Override the :active state it inherits from .nav-button */
+    #coin-display:active {
+        border-style: outset;
+        border-color: #555 #222 #222 #555;
+    }
+/* --- END: Coin Display Styles --- */
+
+
+/* --- NEW: Container for Duck Buttons --- */
+#duck-controls {
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 900; /* CRITICAL: Must be above everything */
+    z-index: 900;
+    display: flex; /* Arrange buttons side-by-side */
+    gap: 15px; /* Space between them */
+    align-items: flex-start; /* Align tops of buttons */
 }
+
+/* --- MODIFIED: Removed absolute positioning --- */
+#save-to-pond-btn {
+    position: relative; /* WAS: absolute */
+    bottom: auto; /* WAS: 10px */
+    left: auto; /* WAS: 50% */
+    transform: none; /* WAS: translateX(-50%) */
+    z-index: auto; /* WAS: 900 */
+}
+
+/* --- NEW: Style for Sell Button --- */
+#sell-duck-btn {
+    background-color: #008000; /* Green */
+    border-color: #00CC00 #004D00 #004D00 #00CC00;
+}
+
+    #sell-duck-btn:active {
+        border-color: #004D00 #00CC00 #00CC00 #004D00;
+    }
+/* --- END: Button Styles --- */
+
+/* === NEW: Wrapper for Sell Button + Value === */
+.sell-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sell-value-display {
+    font-size: 12px;
+    color: #ffd700;
+    text-shadow: 2px 2px #000;
+    margin-top: 5px; /* Space from button */
+    /* Add height so it doesn't jump layout */
+    height: 12px;
+}
+
 
 body.mobile-view {
     width: 375px;
@@ -348,15 +466,15 @@ overflow: hidden;
 /* --- END: Style for Privacy Policy link --- */
 
 
-/* --- ADDED #about-section to this rule --- */
-#how-to-play-section, #about-section {
+/* --- MODIFIED: Added #upgrades-section to this rule --- */
+#how-to-play-section, #about-section, #upgrades-section {
     text-align: left;
     font-size: 11px;
     line-height: 1.6;
 }
 
-    /* --- ADDED #about-section to this rule --- */
-    #how-to-play-section h4, #about-section h4 {
+    /* --- MODIFIED: Added #upgrades-section to this rule --- */
+    #how-to-play-section h4, #about-section h4, #upgrades-section h4 {
         text-align: center;
     }
 
@@ -461,6 +579,8 @@ input[type="password"], input[type="number"] {
     }
 }
 
+/* --- pan-off-left-flipped REMOVED --- */
+
 @keyframes pan-on-left {
     from {
         transform: translateX(-200%);
@@ -474,6 +594,8 @@ input[type="password"], input[type="number"] {
 #duck-image-container.is-leaving {
     animation: pan-off-right 0.6s ease-in forwards;
 }
+
+/* --- .is-ponding REMOVED --- */
 
 #duck-image-container.is-entering {
     animation: pan-on-left 0.6s ease-out;
@@ -494,18 +616,24 @@ input[type="password"], input[type="number"] {
 
     .mobile-nav-centered {
         display: flex;
-        justify-content: center;
+        justify-content: center; /* MODIFIED: Use space-between to spread items */
+        justify-content: space-between;
         gap: 15px;
         position: absolute;
         top: 80px; /* ORIGINAL TOP POSITION */
         left: 50%;
         transform: translateX(-50%);
-        width: 100%;
+        width: 90%; /* MODIFIED: Use 90% width */
         z-index: 5;
     }
 
+    /* === MODIFIED: Hide BOTH desktop nav containers === */
     .top-nav .nav-links {
         display: none; /* Hide desktop nav links */
+    }
+
+    .top-nav .nav-links-left {
+        display: none; /* Hide new desktop nav links */
     }
 
     /* The rest of the original @media (max-width: 600px) styles below */
@@ -514,6 +642,48 @@ input[type="password"], input[type="number"] {
         font-size: 12px;
         padding: 8px 12px;
     }
+
+    /* --- NEW: Mobile styles for coin display --- */
+    .mobile-nav-centered #coin-display {
+        padding-left: 8px;
+        padding-right: 8px;
+        gap: 5px;
+    }
+
+        .mobile-nav-centered #coin-display img {
+            width: 16px;
+            height: 16px;
+        }
+    /* --- END: Mobile coin styles --- */
+
+    /* === NEW: Style for the mobile "Packs" button === */
+    .mobile-nav-centered #show-packs-btn {
+        background-color: #ffd700;
+        color: #333;
+        border-color: #ffec8b #c5a100 #c5a100 #ffec8b;
+        padding: 8px 12px; /* Match other mobile buttons */
+        font-size: 12px; /* Match other mobile buttons */
+    }
+
+        .mobile-nav-centered #show-packs-btn:active {
+            border-color: #c5a100 #ffec8b #ffec8b #c5a100;
+        }
+    /* === END NEW === */
+
+    /* === NEW: Style for the mobile "Shop" button === */
+    .mobile-nav-centered #show-shop-btn {
+        background-color: #1E90FF;
+        color: #FFF;
+        border-color: #87CEFA #104E8B #104E8B #87CEFA;
+        padding: 8px 12px; /* Match other mobile buttons */
+        font-size: 12px; /* Match other mobile buttons */
+    }
+
+        .mobile-nav-centered #show-shop-btn:active {
+            border-color: #104E8B #87CEFA #87CEFA #104E8B;
+        }
+    /* === END NEW === */
+
 
     #my-duck-area {
         margin-top: calc(55vh - 60px);
@@ -536,13 +706,34 @@ input[type="password"], input[type="number"] {
             text-align: center;
             z-index: 1; /* FIX: Lowered z-index to 1 */
         }
-    /* --- MODIFIED: Raised the button --- */
-    #save-to-pond-btn {
-        font-size: 14px;
-        padding: 12px 16px;
+
+    /* === NEW: Mobile style for name input === */
+    #duck-name-input-main {
+        font-size: 22px; /* Match h2 */
+        width: 90%;
+        top: 10px;
+    }
+
+    /* --- MODIFIED: Raised the button CONTAINER --- */
+    #duck-controls {
         bottom: 30px;
         z-index: 900;
+        /* It will inherit flex, gap, transform from desktop style */
     }
+        /* --- MODIFIED: Style buttons inside container --- */
+        #duck-controls button {
+            font-size: 14px;
+            padding: 12px 16px;
+        }
+
+    /* --- MODIFIED: Remove old button styles --- */
+    #save-to-pond-btn {
+        font-size: inherit; /* WAS 14px */
+        padding: inherit; /* WAS 12px 16px */
+        bottom: auto; /* WAS 30px */
+        z-index: auto; /* WAS 900 */
+    }
+
     /* --- MODIFIED: Raised the duck image --- */
     .base-duck-image, .accessory-image {
         width: 300px;
@@ -590,58 +781,26 @@ input[type="password"], input[type="number"] {
             margin-right: 0;
             margin-bottom: 15px;
         }
+
+    /* --- NEW: Mobile styles for pack popups --- */
+    #pack-menu {
+        width: 90%;
+    }
+
+    #pack-result-menu {
+        width: 90%;
+    }
+
+    /* --- NEW: Mobile styles for shop popup --- */
+    #shop-menu {
+        width: 90%;
+    }
 }
 
 
 /* --- DEV MOBILE VIEW STYLES (Dev Setting Only) --- */
 /* This block explicitly targets ONLY the dev setting toggle */
-body.mobile-view {
-    /* --- DEV Mobile-Specific Overrides --- */
-    /* 1. Lock scrolling (Necessary for the dev box view) */
-    overflow: hidden;
-    /* 2. Hide the desktop navigation links */
-    .top-nav .nav-links
-
-{
-    display: none !important;
-}
-
-/* 3. Position Settings Button bottom-left (Must be fixed to stay put in the dev box) */
-#settings-btn {
-    position: fixed !important;
-    bottom: 20px !important;
-    left: 20px !important;
-    display: block !important;
-    top: auto !important;
-    right: auto !important;
-}
-
-/* 4. Show and reposition mobile nav links below the title (top: 80px) */
-.mobile-nav-centered {
-    display: flex !important;
-    position: absolute !important;
-    top: 80px !important; /* Pushed down below the desktop title's area */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-}
-
-/* 5. Ensure title is visible */
-.top-nav h1 {
-    display: block !important;
-}
-
-/* 6. Apply mobile view size constraints */
-width: 375px;
-height: 667px;
-margin: auto !important;
-position: absolute;
-top: 0;
-bottom: 0;
-left: 0;
-right: 0;
-overflow-y: hidden;
-}
-/* --- END DEV MOBILE VIEW STYLES --- */
+/* --- THIS BLOCK WAS DUPLICATED AND HAS BEEN REMOVED --- */
 
 
 /* --- NEW: STYLES FOR COOKIE CONSENT BANNER --- */
@@ -672,3 +831,601 @@ overflow-y: hidden;
         text-decoration: underline;
     }
 /* --- END: STYLES FOR COOKIE CONSENT BANNER --- */
+
+
+/* --- STYLES FOR PACK SHOP POPUP --- */
+
+/* The main "Duck Packs" button in the nav */
+#show-packs-btn {
+    background-color: #ffd700; /* Gold */
+    color: #333; /* Dark text */
+    border-color: #ffec8b #c5a100 #c5a100 #ffec8b;
+}
+
+    #show-packs-btn:active {
+        border-color: #c5a100 #ffec8b #ffec8b #c5a100;
+    }
+
+/* The overlay (copied from settings-overlay) */
+#pack-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* The popup menu (copied from settings-menu) */
+#pack-menu {
+    background-color: #444;
+    padding: 20px;
+    border: 4px double #FFF;
+    width: 90%;
+    max-width: 800px; /* Wider to fit 3 packs */
+    text-align: center;
+    position: relative;
+    z-index: 1001;
+}
+
+    #pack-menu h3 {
+        text-shadow: 2px 2px #000;
+        margin-top: 0;
+    }
+
+/* The close button (copied from close-settings-btn) */
+#close-pack-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 0 8px;
+    font-size: 20px;
+}
+
+/* This holds the 3 pack options */
+#pack-options-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap; /* Allows stacking on mobile */
+}
+
+/* This is the clickable card for each pack */
+.pack-option {
+    width: 200px;
+    background-color: #222;
+    border: 4px solid #888;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+    /* Hover effect */
+    .pack-option:hover {
+        transform: scale(1.05);
+        background-color: #333;
+    }
+
+    /* Styles for the pack images */
+    .pack-option img {
+        width: 100%;
+        max-width: 150px;
+    }
+
+    /* The "Bronze Pack" text */
+    .pack-option p {
+        font-size: 16px;
+        margin: 10px 0 5px 0;
+    }
+
+    /* The "100 Coins" text */
+    .pack-option span {
+        font-size: 14px;
+        color: #ffd700; /* Gold */
+    }
+
+/* Specific border colors for each pack */
+#buy-bronze-pack {
+    border-color: #cd7f32;
+}
+
+#buy-silver-pack {
+    border-color: #c0c0c0;
+}
+
+#buy-gold-pack {
+    border-color: #ffd700;
+}
+
+
+/* --- STYLES FOR PACK *RESULT* POPUP --- */
+
+/* The overlay (copied from pack-overlay) */
+#pack-result-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Darker */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Higher than the pack menu */
+}
+
+/* The menu (copied from pack-menu) */
+#pack-result-menu {
+    background-color: #444;
+    padding: 20px;
+    border: 4px double #FFF;
+    width: 450px;
+    text-align: center;
+    position: relative;
+    z-index: 2001;
+}
+
+    #pack-result-menu h3 {
+        text-shadow: 2px 2px #000;
+        margin-top: 0;
+    }
+
+/* The square box that will hold the duck preview */
+#result-image-wrapper {
+    width: 250px;
+    height: 250px;
+    background-color: #222;
+    border: 4px solid #888;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+/* The container for the images */
+#result-image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+    /* Images inside the result preview */
+    #result-image-container img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+/* The text "A Top Hat!" */
+#result-item-name {
+    font-size: 18px;
+    color: #ffd700; /* Gold */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #000;
+}
+
+/* --- MOBILE STYLES for popups --- */
+@media (max-width: 600px) {
+    #pack-menu {
+        width: 90%;
+    }
+
+    #pack-result-menu {
+        width: 90%;
+    }
+}
+
+/* --- STYLES FOR SHOP BUTTON --- */
+#show-shop-btn {
+    background-color: #1E90FF; /* Dodger Blue */
+    color: #FFF;
+    border-color: #87CEFA #104E8B #104E8B #87CEFA;
+}
+
+    #show-shop-btn:active {
+        border-color: #104E8B #87CEFA #87CEFA #104E8B;
+    }
+
+/* Mobile style for the new Shop button */
+.mobile-nav-centered #show-shop-btn {
+    background-color: #1E90FF;
+    color: #FFF;
+    border-color: #87CEFA #104E8B #104E8B #87CEFA;
+    padding: 8px 12px; /* Match other mobile buttons */
+    font-size: 12px; /* Match other mobile buttons */
+}
+
+    .mobile-nav-centered #show-shop-btn:active {
+        border-color: #104E8B #87CEFA #87CEFA #104E8B;
+    }
+
+
+/* --- STYLES FOR SHOP POPUP --- */
+
+/* The overlay (copied from pack-overlay) */
+#shop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* The popup menu (copied from pack-menu) */
+#shop-menu {
+    background-color: #444;
+    padding: 20px;
+    border: 4px double #FFF;
+    width: 90%;
+    max-width: 1000px; /* User's custom width */
+    text-align: center;
+    position: relative;
+    z-index: 1001;
+}
+
+    #shop-menu h3 {
+        text-shadow: 2px 2px #000;
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+
+/* The close button (copied from close-pack-btn) */
+#close-shop-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 0 8px;
+    font-size: 20px;
+}
+
+/* Timer text */
+#shop-timer {
+    font-size: 12px;
+    color: #ffd700;
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* --- SHOP TAB STYLES REMOVED --- */
+
+/* --- VIEW STYLES REMOVED --- */
+
+
+/* === MODIFIED: Container for item listings (styles RE-ADDED) === */
+#shop-items-container {
+    display: flex;
+    flex-direction: row; /* Horizontal row */
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: space-around; /* Space them out */
+    gap: 20px; /* Gap between cards */
+    max-height: 350px; /* A bit taller */
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #222;
+    border: 4px inset #333;
+}
+
+/* === MODIFIED: Shop Card styles === */
+.shop-card {
+    width: 280px; /* Wider to fit the 250px preview + padding */
+    background-color: #333;
+    border: 4px solid #888;
+    /* CHANGE 1: Reduced bottom padding */
+    padding: 15px 15px 10px 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    /* Set border color based on rarity */
+    .shop-card.rarity-common {
+        border-color: #00A3FF;
+    }
+
+    .shop-card.rarity-uncommon {
+        border-color: #33CC33;
+    }
+
+    .shop-card.rarity-rare {
+        border-color: #FF3333;
+    }
+
+    .shop-card.rarity-very-rare {
+        border-color: #B233FF;
+    }
+
+    .shop-card.rarity-legendary {
+        border-color: #FF9900;
+    }
+
+    .shop-card.rarity-mythical {
+        border-width: 4px;
+        border-style: solid;
+        border-image: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) 1;
+        animation: rainbow-border 2s linear infinite;
+    }
+
+/* === MODIFIED: New preview style === */
+.shop-card-preview {
+    width: 250px;
+    height: 250px;
+    background-color: transparent; /* User's custom style */
+    position: relative;
+    flex-shrink: 0;
+    /* CHANGE 2: Removed margin-bottom to let text move up */
+    /* margin-bottom: 10px; */
+}
+
+    .shop-card-preview img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+/* === END MODIFICATION === */
+
+
+/* === MODIFIED: New info style === */
+.shop-card-info {
+    text-align: center;
+    position: relative; /* Add position to allow z-index */
+    z-index: 2; /* Make sure it's on top of the image */
+    text-shadow: 2px 2px #000, -2px -2px #000, 2px -2px #000, -2px 2px #000; /* Makes text readable */
+    /* CHANGE 3: Add negative margin to pull it up */
+    margin-top: -60px;
+}
+
+    .shop-card-info span {
+        font-size: 16px; /* Bigger, like pack */
+        display: block;
+    }
+
+    .shop-card-info small {
+        font-size: 10px;
+        /* Rarity color will be handled by class */
+    }
+
+/* === MODIFIED: New buy style === */
+.shop-card-buy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    /* CHANGE 4: Reduced top margin */
+    margin-top: 8px;
+    width: 100%;
+    position: relative; /* Add position to allow z-index */
+    z-index: 2; /* Make sure it's on top of the image */
+}
+
+/* Re-using these styles, just applying them */
+.shop-item-price {
+    font-size: 14px; /* Bigger, like pack */
+    color: #ffd700;
+    text-shadow: 2px 2px #000, -2px -2px #000, 2px -2px #000, -2px 2px #000; /* Makes text readable */
+}
+
+.shop-buy-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+    background-color: #008000;
+    border-color: #00CC00 #004D00 #004D00 #00CC00;
+    width: 100%; /* Make button fill width */
+}
+
+.shop-sold-out {
+    font-size: 12px;
+    padding: 8px 12px;
+    background-color: #333;
+    border-color: #555 #222 #222 #555;
+    color: #888;
+    width: 100%; /* Make button fill width */
+}
+
+/* --- END NEW SHOP STYLES --- */
+
+/* --- STYLES FOR UPGRADES SECTION (REMOVED) --- */
+
+
+/* === FIX: Disabled Sell Button Style === */
+/* This is more specific, so it overrides the green */
+
+#sell-duck-btn.is-disabled,
+#sell-duck-btn-popup.is-disabled {
+    background-color: #333; /* Darker grey */
+    color: #888; /* Lighter grey text */
+    border-color: #555 #222 #222 #555; /* Darker grey border */
+    cursor: not-allowed;
+}
+
+    #sell-duck-btn.is-disabled:active,
+    #sell-duck-btn-popup.is-disabled:active {
+        border-style: outset; /* Don't "press" */
+        border-color: #555 #222 #222 #555; /* Don't change border */
+    }
+
+/* --- STYLES FOR NOTICE POPUP --- */
+#notice-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2500; /* Higher than other popups */
+}
+
+#notice-menu {
+    background-color: #444;
+    padding: 30px;
+    border: 4px double #FFF;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+    #notice-menu h3 {
+        text-shadow: 3px 3px #000;
+        margin-top: 0;
+    }
+
+    #notice-menu p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 15px 0 20px 0;
+    }
+
+/* Mobile styles for notice popup */
+@media (max-width: 600px) {
+    #notice-menu {
+        padding: 20px;
+    }
+
+        #notice-menu h3 {
+            font-size: 18px;
+        }
+
+        #notice-menu p {
+            font-size: 10px;
+            margin: 10px 0 15px 0;
+        }
+}
+
+/* --- NEW: Styles for Result Popup Buttons --- */
+#pack-result-menu .popup-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+#equip-result-btn {
+    background-color: #008000; /* Green */
+    border-color: #00CC00 #004D00 #004D00 #00CC00;
+}
+
+    #equip-result-btn:active {
+        border-color: #004D00 #00CC00 #00CC00 #004D00;
+    }
+
+#send-result-to-pond-btn {
+    background-color: #1E90FF; /* Blue */
+    border-color: #87CEFA #104E8B #104E8B #87CEFA;
+}
+
+    #send-result-to-pond-btn:active {
+        border-color: #104E8B #87CEFA #87CEFA #104E8B;
+    }
+
+/* --- NEW: Style for the sell value coin icon --- */
+#sell-value-coin-icon {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    margin-left: 4px;
+    margin-bottom: 4px; /* Fine-tune vertical alignment */
+}
+
+/* --- MODIFIED: Renamed from #sell-value-display --- */
+#sell-charge-display {
+    z-index: 1000;
+    font-size: 10px;
+    color: #FFF; /* Changed from gold to grey */
+    text-shadow: 2px 2px #000;
+    margin-top: -15px; /* Space from button */
+    height: 12px;
+}
+
+/* --- NEW: Style for the sell value coin icon (inside buttons) --- */
+#sell-duck-btn img, #sell-duck-btn-popup img {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    margin-left: 13px;
+    margin-right: 4px;
+    margin-bottom: 4px; /* Fine-tune vertical alignment */
+}
+
+/* --- NEW: Wrapper for pond sell button --- */
+.sell-control-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- NEW: Text below pond sell button --- */
+#sell-charge-display-popup {
+    font-size: 12px;
+    color: #AAA; /* Grey, same as main page */
+    text-shadow: 2px 2px #000;
+    margin-top: 5px;
+    height: 12px;
+}
+
+
+/* === STYLES FOR UPGRADE CARDS (MODIFIED) === */
+/* This container is now inside #upgrades-section (in settings) */
+#upgrades-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Allows stacking on mobile */
+    gap: 15px; /* MODIFIED: Tighter gap */
+    padding-top: 15px; /* Space below the "Upgrades" title */
+}
+
+.upgrade-card {
+    width: 180px; /* MODIFIED: Made card smaller */
+    background-color: #333;
+    border: 4px solid #00A3FF; /* "Common" blue border */
+    padding: 15px; /* MODIFIED: Reduced padding */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* MODIFIED: Tighter gap */
+}
+
+.upgrade-icon {
+    width: 48px; /* MODIFIED: Smaller icon */
+    height: 48px; /* MODIFIED: Smaller icon */
+    margin-bottom: 5px; /* MODIFIED: Reduced margin */
+}
+
+.upgrade-title {
+    font-size: 14px; /* MODIFIED: Smaller font */
+    text-shadow: 2px 2px #000;
+    color: #FFF;
+    height: 14px; /* MODIFIED: Matched font size */
+}
+
+.upgrade-info {
+    font-size: 12px;
+    color: #AAA;
+    height: 12px; /* Set height to prevent layout jump */
+}
+
+.upgrade-buy-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+    width: 100%; /* Fill the card */
+    background-color: #008000; /* Green */
+    border-color: #00CC00 #004D00 #004D00 #00CC00;
+}
+
+    .upgrade-buy-btn:active {
+        border-color: #004D00 #00CC00 #00CC00 #004D00;
+    }
+/* === END NEW STYLES === */

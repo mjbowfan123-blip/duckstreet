@@ -8,99 +8,21 @@ const deleteDuckBtn = document.getElementById('delete-duck-btn');
 const duckNameInput = document.getElementById('duck-name-input');
 const fashionRatingText = document.getElementById('fashion-rating-text');
 const detailedStatsContainer = document.getElementById('detailed-stats-container');
-
 const sortBySelect = document.getElementById('sort-by');
-// filterBySelect is removed
-
-// --- NEW: POND WELCOME ELEMENTS ---
-const pondWelcomeOverlay = document.getElementById('pond-welcome-overlay');
-const closePondWelcomeBtn = document.getElementById('close-pond-welcome-btn');
+const sellDuckPopupBtn = document.getElementById('sell-duck-btn-popup');
+// --- NEW: The text below the sell button ---
+const sellChargeDisplayPopup = document.getElementById('sell-charge-display-popup');
 
 let currentlySelectedDuckIndex = null;
 let allDucksWithRatings = []; // Store ducks with pre-calculated ratings
+let pondSellTimerInterval = null; // --- MODIFIED: For the sell CHARGE timer ---
 
 // --- UTILITY ---
-
-// Pre-calculate the Fashion Rating and accessory stats for each duck
-function calculateDuckStats(duck) {
-    let totalRating = 0;
-    const accessoryStats = {};
-
-    for (const type in duck.look) {
-        const accessorySrc = duck.look[type]; // Can be null
-        const accessoryDetails = ACCESSORIES.find(item => item.src === accessorySrc && item.type === type); // Match type too for nulls
-
-        if (accessoryDetails) {
-            const rarity = accessoryDetails.rarity;
-            totalRating += rarity;
-
-            // Format display type
-            let displayType = type.charAt(0).toUpperCase() + type.slice(1);
-            if (type === 'eyecolor') displayType = 'Eyes';
-            else if (type === 'beak') displayType = 'Beaks';
-            else if (type === 'ride') displayType = 'Rides';
-            else if (type === 'feathers') displayType = 'Feathers';
-            else if (type === 'back') displayType = 'Backs';
-            else if (type === 'wings') displayType = 'Wings';
-            else if (type === 'pants') displayType = 'Pants';
-            else if (type === 'hat') displayType = 'Hats';
-            else if (type === 'legs') displayType = 'Legs'; // Add legs
-            else if (type === 'other') displayType = 'Other';
-
-            accessoryStats[displayType] = {
-                rarity: rarity,
-                name: accessoryDetails.displayName
-            };
-        }
-    }
-
-    // Ensure all categories defined in LAYER_ORDER are present for stats display
-    Object.keys(LAYER_ORDER).forEach(type => {
-        let displayType = type.charAt(0).toUpperCase() + type.slice(1);
-        if (type === 'eyecolor') displayType = 'Eyes';
-        else if (type === 'beak') displayType = 'Beaks';
-        else if (type === 'ride') displayType = 'Rides';
-        else if (type === 'feathers') displayType = 'Feathers';
-        else if (type === 'back') displayType = 'Backs';
-        else if (type === 'wings') displayType = 'Wings';
-        else if (type === 'pants') displayType = 'Pants';
-        else if (type === 'hat') displayType = 'Hats';
-        else if (type === 'legs') displayType = 'Legs'; // Add legs
-        else if (type === 'other') displayType = 'Other';
-
-        if (!accessoryStats[displayType]) {
-            // Find default base part name if applicable
-            const basePart = BASE_DUCK_PARTS.find(p => p.type === type);
-            accessoryStats[displayType] = { rarity: 0, name: basePart ? 'Default' : 'None' }; // Show 'Default' for base types
-        }
-    });
-
-
-    return {
-        ...duck,
-        rating: totalRating,
-        accessoryStats: accessoryStats
-    };
-}
-
-// --- NEW: POND WELCOME FUNCTIONS ---
-function showPondWelcomePopup() {
-    if (pondWelcomeOverlay) {
-        pondWelcomeOverlay.classList.remove('hidden');
-    }
-}
-
-function closePondWelcomePopup() {
-    if (pondWelcomeOverlay) {
-        pondWelcomeOverlay.classList.add('hidden');
-    }
-    localStorage.setItem('hasVisitedPond', 'true'); // Set flag so it doesn't show again
-}
+// calculateDuckStats() is in shared-logic.js
+// Welcome functions are in shared-logic.js
 
 
 // --- FILTER & SORT LOGIC ---
-
-// populateFilterOptions removed
 
 function getSortedDucks() {
     let ducks = [...allDucksWithRatings];
@@ -135,7 +57,7 @@ function displayPondDucks() {
     let savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
 
 
-
+    // --- MODIFIED: Calls the global calculateDuckStats from script.js ---
     allDucksWithRatings = savedDucks.map(calculateDuckStats);
 
     const ducksToDisplay = getSortedDucks(); // Filter step removed
@@ -249,7 +171,7 @@ function openDuckPopup(savedDate) {
     // FIX: Find the actual index of the duck in the original array for mutation (naming/deleting)
     currentlySelectedDuckIndex = savedDucks.findIndex(d => d.savedDate === savedDate);
 
-    // Use the duck with pre-calculated stats
+    // --- MODIFIED: Calls the global calculateDuckStats from script.js ---
     const duckStats = calculateDuckStats(duckToDisplay);
 
     enlargedDuckDisplay.innerHTML = '';
@@ -266,14 +188,18 @@ function openDuckPopup(savedDate) {
     // 1. Display Total Rating
     fashionRatingText.textContent = "Fashion Rating: " + duckStats.rating;
 
+    // --- MODIFIED: Value is now set by checkPondSellCharges() ---
+    // const sellValue = Math.ceil(duckStats.rating / 5);
+    // sellDuckPopupBtn.innerHTML = `Sell ${sellValue}<img src="images/coin.png">`;
+    // --- END MODIFICATION ---
+
     // --- FUNCTION MOVED HERE ---
     // Helper function to map display names back to internal types
     const mapType = (displayType) => {
         if (displayType === 'Eyes') return 'eyecolor';
         if (displayType === 'Beaks') return 'beak';
         if (displayType === 'Rides') return 'ride';
-        if (displayType === 'Feathers') return 'feathers';
-        if (displayType === 'Backs') return 'back';
+        if (displayType === 'Body') return 'body';
         if (displayType === 'Wings') return 'wings';
         if (displayType === 'Pants') return 'pants';
         if (displayType === 'Hats') return 'hat';
@@ -302,7 +228,7 @@ function openDuckPopup(savedDate) {
         const stat = duckStats.accessoryStats[displayType];
 
         // Only show if it contributes a score OR if it's a 'Default'/'None' for a base part type
-        const isBaseType = ['Rides', 'Feathers', 'Eyes', 'Beaks', 'Legs', 'Wings'].includes(displayType);
+        const isBaseType = ['Rides', 'Body', 'Eyes', 'Beaks', 'Legs', 'Wings'].includes(displayType);
         // Don't show 'None' if it's not a base type AND not 'Other'
         if (stat.rarity === 0 && !isBaseType && displayType !== 'Other') return;
         // Don't show 'Other' if it has no score
@@ -355,7 +281,46 @@ function openDuckPopup(savedDate) {
     document.addEventListener('keydown', handlePopupKeydown);
     // --- END NEW ---
 
+    // --- NEW: Display Set Bonuses ---
+    if (duckStats.setsCompleted.length > 0) {
+        // Find all set details from the master list
+        const completedSetDetails = FASHION_SETS.filter(set => duckStats.setsCompleted.includes(set.setName));
+
+        // Sort by bonus, highest to lowest
+        completedSetDetails.sort((a, b) => b.bonus - a.bonus);
+
+        // Create a header for the bonus section
+        const bonusHeader = document.createElement('div');
+        bonusHeader.className = 'set-bonus-header'; // New class for styling
+        bonusHeader.textContent = "--- Set Bonuses ---";
+        detailedStatsContainer.appendChild(bonusHeader);
+
+        completedSetDetails.forEach(set => {
+            const coinBonus = Math.ceil(set.bonus / 4);
+            const bonusDiv = document.createElement('div');
+            bonusDiv.className = 'set-bonus-line'; // New class for styling
+            bonusDiv.innerHTML = `
+                <strong>${set.setName}:</strong> 
+                <span class="rarity-${set.bonus >= 5000 ? 'mythical' : 'legendary'}">
+                    +${coinBonus}<img src="images/coin.png" class="set-bonus-coin-pond">
+                </span>
+            `;
+            detailedStatsContainer.appendChild(bonusDiv);
+        });
+    }
+    // --- END NEW ---
+
     popupOverlay.classList.remove('hidden'); // This line should execute now
+
+    // --- MODIFIED: Start cooldown timer ---
+    checkPondSellCharges(); // Run once to set initial state
+    if (pondSellTimerInterval) clearInterval(pondSellTimerInterval); // Clear any old timer
+    // Start timer only if not full
+    let charges = parseInt(localStorage.getItem('sellCharges') || '0');
+    if (charges < MAX_SELL_CHARGES) {
+        pondSellTimerInterval = setInterval(checkPondSellCharges, 1000);
+    }
+    // --- END MODIFICATION ---
 }
 
 function closeDuckPopup() {
@@ -364,6 +329,11 @@ function closeDuckPopup() {
 
     // --- NEW: Remove keydown listener when popup closes ---
     document.removeEventListener('keydown', handlePopupKeydown);
+    // --- END NEW ---
+
+    // --- NEW: Stop cooldown timer ---
+    if (pondSellTimerInterval) clearInterval(pondSellTimerInterval);
+    pondSellTimerInterval = null;
     // --- END NEW ---
 }
 
@@ -379,14 +349,29 @@ function saveDuckName() {
     displayPondDucks();
 }
 
+// --- === THIS ENTIRE FUNCTION IS MODIFIED === ---
 function loadSelectedDuck() {
     if (currentlySelectedDuckIndex === null) return;
-    const savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
+
+    // 1. Get all saved ducks
+    let savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
+
+    // 2. Get the duck to load
     const duckToLoad = savedDucks[currentlySelectedDuckIndex];
 
+    // 3. Store it in sessionStorage for the main page
     sessionStorage.setItem('duckToLoad', JSON.stringify(duckToLoad));
+
+    // 4. --- NEW: Remove the duck from the array ---
+    savedDucks.splice(currentlySelectedDuckIndex, 1);
+
+    // 5. --- NEW: Save the updated (smaller) array ---
+    localStorage.setItem('savedDucks', JSON.stringify(savedDucks));
+
+    // 6. Go to the main page
     window.location.href = 'index.html';
 }
+// --- === END MODIFICATION === ---
 
 function deleteSelectedDuck() {
     if (currentlySelectedDuckIndex === null) return;
@@ -396,6 +381,143 @@ function deleteSelectedDuck() {
     closeDuckPopup();
     displayPondDucks();
 }
+
+// --- === THIS ENTIRE FUNCTION IS MODIFIED === ---
+// --- === THIS ENTIRE FUNCTION IS MODIFIED === ---
+function sellSelectedDuck() {
+    // 1. Check if we have charges
+    let charges = parseInt(localStorage.getItem('sellCharges') || '0');
+    if (charges <= 0) {
+        // --- MODIFIED: Silenced alert ---
+        return;
+    }
+
+    if (currentlySelectedDuckIndex === null) return;
+
+    // 2. Get the ducks
+    let savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
+    const duckToSell = savedDucks[currentlySelectedDuckIndex];
+
+    // 3. Calculate its stats and rating
+    const duckStats = calculateDuckStats(duckToSell);
+    const rating = duckStats.rating;
+
+    // 4. Calculate coins (1/3rd of rating, rounded up)
+    // --- MODIFIED: Use the sell price multiplier AND 1/3 RATING ---
+    const coinsToAdd = Math.ceil((rating / 3) * SELL_PRICE_MULTIPLIER);
+    // --- END MODIFICATION ---
+
+    // 5. --- MOVED ---
+
+    // 6. Use one sell charge
+    charges--;
+    localStorage.setItem('sellCharges', charges);
+
+    // 7. Start recharge timer if it's not already running
+    const nextChargeTime = parseInt(localStorage.getItem('nextSellChargeTime') || '0');
+    if (charges === (MAX_SELL_CHARGES - 1) && nextChargeTime === 0) { // Check if we just used the 5th charge
+        // This was the 5th sell (or first time), so start the timer
+        localStorage.setItem('nextSellChargeTime', Date.now() + SELL_CHARGE_REGEN_MS);
+    }
+
+    // 8. Start the 1-second checker interval
+    checkPondSellCharges(); // Run immediately to update UI
+    if (!pondSellTimerInterval) { // Start timer if it's not running
+        pondSellTimerInterval = setInterval(checkPondSellCharges, 1000);
+    }
+
+    // 9. Delete the duck
+    savedDucks.splice(currentlySelectedDuckIndex, 1);
+    localStorage.setItem('savedDucks', JSON.stringify(savedDucks));
+
+    // 10. Close popup and refresh pond
+    closeDuckPopup();
+    displayPondDucks();
+
+    // --- NEW: Add coins and update display after 1.5 seconds ---
+    setTimeout(() => {
+        addCoins(coinsToAdd);
+        displayCoinCount();
+    }, 1500); // 1500ms = 1.5 seconds
+}
+
+// --- === THIS ENTIRE FUNCTION IS REWRITTEN === ---
+// --- === THIS ENTIRE FUNCTION IS REWRITTEN === ---
+function checkPondSellCharges() {
+    if (!sellDuckPopupBtn || !sellChargeDisplayPopup) return; // Make sure elements exist
+    const now = Date.now();
+
+    // --- NEW: Calculate current duck value (USING 1/3) ---
+    let sellValue = 0;
+    let savedDucks = JSON.parse(localStorage.getItem('savedDucks')) || [];
+    if (currentlySelectedDuckIndex !== null && savedDucks[currentlySelectedDuckIndex]) {
+        const currentDuck = savedDucks[currentlySelectedDuckIndex];
+        const duckStats = calculateDuckStats(currentDuck);
+        sellValue = Math.ceil(duckStats.rating / 3);
+    }
+    // --- END NEW ---
+
+    // Get current charges
+    let charges = parseInt(localStorage.getItem('sellCharges') || '0');
+    let nextChargeTime = parseInt(localStorage.getItem('nextSellChargeTime') || '0');
+
+    // --- 1. Handle Charge Regeneration ---
+    if (charges < MAX_SELL_CHARGES) {
+        if (now > nextChargeTime && nextChargeTime !== 0) {
+            // Time to add a charge
+            charges++;
+            localStorage.setItem('sellCharges', charges);
+
+            if (charges < MAX_SELL_CHARGES) {
+                // Not full yet, set timer for the *next* charge
+                localStorage.setItem('nextSellChargeTime', now + SELL_CHARGE_REGEN_MS);
+            } else {
+                // Just hit max, clear timer
+                localStorage.removeItem('nextSellChargeTime');
+            }
+        } else if (nextChargeTime === 0) {
+            // We are not full, but timer isn't running. Start it.
+            localStorage.setItem('nextSellChargeTime', now + SELL_CHARGE_REGEN_MS);
+        }
+    }
+
+    // --- 2. Update UI Based on Charges ---
+
+    // --- MODIFIED: ALWAYS set button text to value ---
+    sellDuckPopupBtn.innerHTML = `Sell ${sellValue}<img src="images/coin.png">`;
+
+    if (charges > 0) {
+        // We HAVE charges
+        sellDuckPopupBtn.classList.remove('is-disabled');
+        // --- MODIFIED: Show charges in span ---
+        sellChargeDisplayPopup.textContent = `(${charges}/${MAX_SELL_CHARGES}) Sells Left`;
+
+        // If we are full, stop the timer
+        if (charges === MAX_SELL_CHARGES && pondSellTimerInterval) {
+            clearInterval(pondSellTimerInterval);
+            pondSellTimerInterval = null;
+            localStorage.removeItem('nextSellChargeTime'); // Clean up
+        }
+    } else {
+        // We have NO charges
+        sellDuckPopupBtn.classList.add('is-disabled');
+        const msRemaining = parseInt(localStorage.getItem('nextSellChargeTime') || '0') - now;
+
+        if (msRemaining > 0) {
+            const minutes = Math.floor(msRemaining / 60000);
+            const seconds = Math.floor((msRemaining % 60000) / 1000);
+            // --- MODIFIED: Show timer in span ---
+            sellChargeDisplayPopup.textContent = `(${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')})`;
+        } else {
+            // Cooldown is done, but the tick hasn't run.
+            // --- MODIFIED: Show "Recharging" in span ---
+            sellChargeDisplayPopup.textContent = "Recharging...";
+        }
+    }
+}
+// --- === END REWRITE === ---
+// --- === END REWRITE === ---
+
 
 // --- EVENT LISTENERS ---
 if (closePopupBtn) {
@@ -407,6 +529,11 @@ if (loadDuckBtn) {
 if (deleteDuckBtn) {
     deleteDuckBtn.addEventListener('click', deleteSelectedDuck);
 }
+if (sellDuckPopupBtn) {
+    sellDuckPopupBtn.addEventListener('click', sellSelectedDuck);
+}
+
+
 if (duckNameInput) {
     duckNameInput.addEventListener('input', saveDuckName);
 
@@ -423,34 +550,9 @@ if (sortBySelect) {
     // NEW: Add event listener for sorting
     sortBySelect.addEventListener('change', displayPondDucks);
 }
-// NEW: Event listener for pond welcome
-if (closePondWelcomeBtn) {
-    closePondWelcomeBtn.addEventListener('click', closePondWelcomePopup);
-}
-
 
 // --- ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
-    // NEW: Check for first pond visit
-    if (!localStorage.getItem('hasVisitedPond')) {
-        showPondWelcomePopup();
-    }
-    // populateFilterOptions removed
+    // Master DOMContentLoaded in shared-logic.js handles coins and popups
     displayPondDucks();
-
-    // --- NEW: COOKIE CONSENT LOGIC ---
-    const cookieBanner = document.getElementById('cookie-consent-banner');
-    const cookieAcceptBtn = document.getElementById('cookie-consent-accept-btn');
-
-    if (cookieBanner && cookieAcceptBtn) {
-        if (!localStorage.getItem('hasGivenCookieConsent')) {
-            cookieBanner.classList.remove('hidden');
-        }
-
-        cookieAcceptBtn.addEventListener('click', () => {
-            cookieBanner.classList.add('hidden');
-            localStorage.setItem('hasGivenCookieConsent', 'true');
-        });
-    }
-    // --- END: COOKIE CONSENT LOGIC ---
 });

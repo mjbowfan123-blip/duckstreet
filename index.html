@@ -16,17 +16,38 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1391219584558645"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icon.png">
+    <link rel="icon" href="images/icon.png" type="image/png">
 </head>
 <body>
 
     <div class="top-nav">
-        <img src="images/settings.png" id="settings-btn" alt="Settings">
+
+        <div class="nav-links-left">
+            <div id="coin-display" class="nav-button">
+                <img src="images/coin.png" alt="Coins">
+                <span id="coin-display-amount">0</span>
+            </div>
+            <button id="show-packs-btn" class="nav-button">Duck Packs</button>
+            <button id="show-shop-btn" class="nav-button">Shop</button>
+        </div>
+
         <h1>duckstreet</h1>
+
         <div class="nav-links">
             <a href="gallery.html" class="nav-button">Gallery</a>
             <a href="pond.html" class="nav-button">My Pond</a>
+            <img src="images/settings.png" id="settings-btn" alt="Settings">
         </div>
+
         <div class="mobile-nav-centered">
+            <div id="coin-display" class="nav-button">
+                <img src="images/coin.png" alt="Coins">
+                <span id="coin-display-amount">0</span>
+            </div>
+            <button id="show-packs-btn" class="nav-button">Packs</button>
+            <button id="show-shop-btn" class="nav-button">Shop</button>
             <a href="gallery.html" class="nav-button">Gallery</a>
             <a href="pond.html" class="nav-button">My Pond</a>
         </div>
@@ -42,10 +63,21 @@
 
     <div id="my-duck-area">
         <div id="my-duck-display">
-            <h2>Your Duck</h2>
+
+            <h2 id="duck-name-display">Your Duck</h2>
+            <input type="text" id="duck-name-input-main" class="hidden" maxlength="20">
+
             <div id="duck-image-container">
             </div>
-            <button id="save-to-pond-btn">Send to Pond</button>
+            <div id="duck-controls">
+                <button id="save-to-pond-btn">Send to Pond</button>
+
+                <div class="sell-control">
+                    <button id="sell-duck-btn">Sell Duck</button>
+                    <span id="sell-charge-display">(5/5) Sells Left</span>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -56,9 +88,9 @@
                 Duckstreet is a unique pixel art game where you can collect, customize, and save your very own virtual ducks. Watch as a parade of ducks skate down the street, each with their own unique style and accessories.
             </p>
             <p>
-                See a hat, a cool pair of sunglasses, or even some wild pants you like? Click the skating duck to claim its accessory for your own duck! Mix and match different items from various categories to create the ultimate look. When you've created a masterpiece, send your duck to the Pond to save it to your personal collection.
+                See a hat, a cool pair of sunglasses, or even some wild pants you like? Click the skating duck to claim its accessory for your own duck! Mix and match different items from various categories to create the ultimate look. When you'vecreated a masterpiece, send your duck to the Pond to save it to your personal collection.
             </p>
-            <p style="font-size: 10px; margin-top: 5px;">v1.4</p> <button id="close-welcome-btn">Got It!</button>
+            <p style="font-size: 10px; margin-top: 5px;">v2.0</p> <button id="close-welcome-btn">Got It!</button>
         </div>
     </div>
     <div id="settings-overlay" class="hidden">
@@ -66,6 +98,7 @@
             <button id="close-settings-btn">&times;</button>
             <div id="settings-main-view">
                 <h3>Settings</h3>
+                <button id="show-upgrades-btn" class="settings-menu-button">Upgrades</button>
                 <button id="show-how-to-play-btn" class="settings-menu-button">How to Play</button>
                 <button id="show-about-btn" class="settings-menu-button">About Duckstreet</button>
                 <button id="show-contact-btn" class="settings-menu-button">Contact</button>
@@ -74,14 +107,42 @@
                 <a href="privacy.html" class="settings-menu-button">Privacy Policy</a>
             </div>
 
+            <div id="upgrades-section" class="hidden">
+                <h4>Upgrades</h4>
+                <div id="upgrades-container">
+
+                    <div class="upgrade-card">
+                        <img src="images/settings.png" alt="Spawn Rate" class="upgrade-icon">
+                        <span class="upgrade-title">Spawn Rate</span>
+                        <span id="upgrade-spawn-info" class="upgrade-info">Level 0</span>
+                        <button id="upgrade-spawn-btn" class="upgrade-buy-btn">Cost:1000</button>
+                    </div>
+
+                    <div class="upgrade-card">
+                        <img src="images/accessorychance.png" alt="Item Rate" class="upgrade-icon">
+                        <span class="upgrade-title">Item Rate</span>
+                        <span id="upgrade-itemRate-info" class="upgrade-info">Level 0</span>
+                        <button id="upgrade-itemRate-btn" class="upgrade-buy-btn">Cost:1200</button>
+                    </div>
+
+                    <div class="upgrade-card">
+                        <img src="images/coin.png" alt="Sell Price" class="upgrade-icon">
+                        <span class="upgrade-title">Sell Price</span>
+                        <span id="upgrade-sell-info" class="upgrade-info">Level 0</span>
+                        <button id="upgrade-sell-btn" class="upgrade-buy-btn">Cost:2000</button>
+                    </div>
+
+                </div>
+                <button class="settings-back-btn">Back</button>
+            </div>
             <div id="how-to-play-section" class="hidden">
                 <h4>How to Play</h4>
                 <ul>
                     <li>Watch the parade of ducks skate down Duckstreet. Some of them will be wearing cool accessories!</li>
                     <li>See an item you like? Click that duck to steal its accessory for your own duck. Your duck can only wear one of each type (e.g., one hat, one beak) at a time.</li>
-                    <li>When you've created the perfect look, click "Send to Pond" to save it to your personal collection. This will also reset your duck so you can start creating a new style!</li>
-                    <li>Visit the "Gallery" to see all the accessories you've discovered and check their rarity.</li>
-                    <li>Visit "My Pond" to view, name, and manage all the ducks you've saved.</li>
+                    <li>When you'vecreated the perfect look, click "Send to Pond" to save it to your personal collection. This will also reset your duck so you can start creating a new style!</li>
+                    <li>Visit the "Gallery" to see all the accessories you'vediscovered and check their rarity.</li>
+                    <li>Visit "My Pond" to view, name, and manage all the ducks you'vesaved.</li>
                 </ul>
                 <button class="settings-back-btn">Back</button>
             </div>
@@ -111,7 +172,7 @@
             </div>
             <div id="reset-section" class="hidden">
                 <h4>Reset Game</h4>
-                <p>Reset all game progress, including your Pond and Gallery. This cannot be undone.</p>
+                <p>Reset all game progress, including your Pond, Gallery, and Coins. This cannot be undone.</p>
                 <button id="reset-game-btn">Confirm Reset</button>
                 <button class="settings-back-btn">Back</button>
             </div>
@@ -145,6 +206,69 @@
         </div>
     </div>
 
+    <div id="pack-overlay" class="hidden">
+        <div id="pack-menu">
+            <button id="close-pack-btn">&times;</button>
+            <h3>Duck Packs</h3>
+            <div id="pack-options-container">
+                <div id="buy-bronze-pack" class="pack-option">
+                    <img src="images/packs/bronzepack.png" alt="Bronze Pack">
+                    <p>Bronze Pack</p>
+                    <span>100 Coins</span>
+                </div>
+                <div id="buy-silver-pack" class="pack-option">
+                    <img src="images/packs/silverpack.png" alt="Silver Pack">
+                    <p>Silver Pack</p>
+                    <span>500 Coins</span>
+                </div>
+                <div id="buy-gold-pack" class="pack-option">
+                    <img src="images/packs/goldpack.png" alt="Gold Pack">
+                    <p>Gold Pack</p>
+                    <span>2000 Coins</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pack-result-overlay" class="hidden">
+        <div id="pack-result-menu">
+            <h3>You got...</h3>
+            <div id="result-image-wrapper">
+                <div id="result-image-container">
+                </div>
+            </div>
+            <div id="result-item-name">
+                A Top Hat!
+            </div>
+            <div class="popup-actions">
+                <button id="equip-result-btn">Equip</button>
+                <button id="send-result-to-pond-btn">Send to Pond</button>
+                <button id="close-result-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="shop-overlay" class="hidden">
+        <div id="shop-menu">
+            <button id="close-shop-btn">&times;</button>
+            <h3>Daily Shop</h3>
+            <span id="shop-timer">Refreshes in 00:00:00</span>
+
+            <div id="shop-items-container">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="notice-overlay" class="hidden">
+        <div id="notice-menu">
+            <h3 id="notice-title">Notice</h3>
+            <p id="notice-text">This is a sample message.</p>
+            <button id="close-notice-btn">Okay</button>
+        </div>
+    </div>
+
+
     <div id="dev-mode-trigger"></div>
 
     <div id="cookie-consent-banner" class="hidden">
@@ -152,6 +276,8 @@
         <button id="cookie-consent-accept-btn">Got It!</button>
     </div>
 
-    <script src="script.js"></script>
+    <script src="duck-data.js"></script>
+    <script src="shared-logic.js"></script>
+    <script src="main-game.js"></script>
 </body>
 </html>

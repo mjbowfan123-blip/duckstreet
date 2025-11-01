@@ -15,22 +15,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1391219584558645"
             crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet" href="gallery.css">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+    <link rel="icon" href="images/icon.png" type="image/png">
 </head>
 <body>
     <div class="top-nav">
-        <h1>Gallery</h1>
+        <div class="gallery-tabs">
+            <button id="show-items-tab" class="nav-button tab-button active">Items</button>
+            <button id="show-sets-tab" class="nav-button tab-button">Sets</button>
+        </div>
+
         <div class="nav-links">
+            <div id="coin-display" class="nav-button">
+                <img src="images/coin.png" alt="Coins">
+                <span id="coin-display-amount">0</span>
+            </div>
             <a href="index.html" class="nav-button">Back to Street</a>
             <a href="pond.html" class="nav-button">My Pond</a>
         </div>
     </div>
 
     <div id="gallery-container">
+        <h1>Gallery</h1>
+    </div>
+
+    <div id="sets-container" class="hidden">
+        <h1>Fashion Sets</h1>
     </div>
 
     <div class="bottom-nav-mobile">
         <a href="index.html" class="nav-button">Back to Street</a>
+        <div id="coin-display" class="nav-button">
+            <img src="images/coin.png" alt="Coins">
+            <span id="coin-display-amount">0</span>
+        </div>
         <a href="pond.html" class="nav-button">My Pond</a>
     </div>
 
@@ -52,7 +77,8 @@
         <button id="cookie-consent-accept-btn">Got It!</button>
     </div>
 
-    <script src="script.js"></script>
+    <script src="duck-data.js"></script>
+    <script src="shared-logic.js"></script>
     <script src="gallery.js"></script>
 </body>
 </html>

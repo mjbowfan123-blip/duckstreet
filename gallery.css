@@ -1,28 +1,26 @@
-﻿/* Import the pixel font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
+﻿/* --- STYLES INHERITED FROM STYLE.CSS --- */
+/* - @import url('...Press+Start+2P...') */
+/* - html, body */
+/* - img */
+/* - h1, h2 */
+/* - button, .nav-button */
+/* - #coin-display */
+/* - .hidden */
+/* - #cookie-consent-banner */
+/* --------------------------------------- */
 
 body {
-    font-family: 'Press Start 2P', cursive;
-    color: #FFF;
+    /*
+     *
+     * --- THIS IS THE FIX ---
+     *
+     * We are overriding the 'background-image' from style.css.
+     * This new rule applies a 90% opaque black layer
+     * on top of the street background, dimming it.
+     */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('images/background.png');
+    /* This sets the fallback color *behind* the image */
     background-color: #222;
-}
-
-img {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-}
-
-h1, h2 {
-    text-shadow: 4px 4px #000;
-    letter-spacing: 2px;
-    margin: 0;
 }
 
 .top-nav {
@@ -39,9 +37,36 @@ h1, h2 {
     gap: 15px;
 }
 
-#gallery-container {
+/* --- NEW: STYLES FOR TABS --- */
+.gallery-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab-button {
+    background-color: #333; /* Inactive color */
+    border-color: #555 #222 #222 #555;
+}
+
+    .tab-button.active {
+        background-color: #555; /* Active color (matches other buttons) */
+        border-style: outset;
+        border-color: #888 #333 #333 #888;
+    }
+
+/* --- MODIFIED: Container titles --- */
+#gallery-container, #sets-container {
     padding: 20px;
 }
+
+    #gallery-container h1, #sets-container h1 {
+        text-align: left;
+        border-bottom: 2px solid #FFF;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+/* --- END NEW --- */
+
 
 .category-section {
     margin-bottom: 20px;
@@ -169,27 +194,146 @@ h1, h2 {
 /* --- End of restored styles --- */
 
 
-/* --- THIS IS THE FIX --- */
-/* Changed .nav-button to button, .nav-button */
-button, .nav-button {
-    font-family: 'Press Start 2P', cursive;
-    background-color: #555;
-    color: #FFF;
-    border-style: outset;
-    border-width: 4px;
-    border-color: #888 #333 #333 #888;
-    padding: 10px 15px;
-    cursor: pointer;
-    white-space: nowrap;
-    text-decoration: none;
+/* --- STYLES FOR SETS CONTAINER --- */
+#sets-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* justify-content: center; <-- REMOVED to align left */
 }
 
-    /* Changed .nav-button:active to button:active, .nav-button:active */
-    button:active, .nav-button:active {
-        border-style: inset;
-        border-color: #333 #888 #888 #333;
+.set-card {
+    background-color: #111;
+    border: 4px solid #555;
+    width: 300px;
+    padding: 15px;
+    text-align: left;
+    position: relative; /* NEW: So the "!" can be positioned on top */
+}
+
+    .set-card.rarity-common {
+        border-color: #00A3FF;
     }
-/* --- END OF FIX --- */
+
+    .set-card.rarity-uncommon {
+        border-color: #33CC33;
+    }
+
+    .set-card.rarity-rare {
+        border-color: #FF3333;
+    }
+
+    .set-card.rarity-very-rare {
+        border-color: #B233FF;
+    }
+
+    .set-card.rarity-legendary {
+        border-color: #FF9900;
+    }
+
+    .set-card.rarity-mythical {
+        border-width: 4px;
+        border-style: solid;
+        border-image: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) 1;
+        animation: rainbow-border 2s linear infinite;
+    }
+
+
+    .set-card h3 {
+        text-shadow: 2px 2px #000;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 16px;
+        cursor: pointer; /* NEW: Make title clickable */
+        user-select: none; /* NEW: Prevent text selection */
+    }
+
+/* MODIFIED: Style for the "new item" indicator */
+.new-set-indicator {
+    position: absolute; /* NEW: Positioned on top of the card */
+    top: -20px; /* NEW: Hangs off the top */
+    right: -15px; /* NEW: Hangs off the right */
+    z-index: 10; /* NEW: On top of everything */
+
+    color: #FF3333; /* Bright RED */
+    text-shadow: 4px 4px #000; /* Stronger pixel shadow */
+    font-weight: bold;
+    font-size: 48px; /* HUGE */
+    display: inline-block; /* Allows transform and pulse */
+    animation: pulse-red 1.2s infinite; /* Pulsing animation */
+}
+
+/* NEW: Style for the "new item" indicator on the TAB */
+.tab-new-indicator {
+    color: #FF3333; /* Bright RED */
+    text-shadow: 2px 2px #000;
+    font-weight: bold;
+    font-size: 20px; /* Big, but not AS big as the one on the card */
+    display: inline-block;
+    animation: pulse-red 1.2s infinite;
+    margin-left: 5px; /* A little space */
+    vertical-align: middle;
+}
+
+/* MODIFIED: Keyframes for pulsing */
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.4); /* Pulse even BIGGER */
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* NEW: Style for the collapsible arrow */
+.set-card h3::after {
+    content: ' ▼';
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 14px;
+}
+
+.set-card h3.is-collapsed::after {
+    transform: rotate(-90deg);
+}
+/* END NEW */
+
+
+.set-card h3 span {
+    font-size: 14px;
+    color: #FFD700; /* Gold color for bonus */
+}
+
+.set-card ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    font-size: 12px;
+}
+
+    /* NEW: Style for collapsed list */
+    .set-card ul.is-collapsed {
+        display: none;
+    }
+/* END NEW */
+
+.set-card li {
+    margin-bottom: 5px;
+    color: #AAA; /* Default undiscovered color */
+}
+
+    .set-card li.discovered {
+        color: #FFF; /* Discovered color */
+    }
+/* --- END SET STYLES --- */
 
 
 /* NEW: Mobile Bottom Nav Styling */
@@ -207,6 +351,34 @@ button, .nav-button {
         .top-nav .nav-links {
             display: none; /* Hide the top nav buttons */
         }
+
+    /* --- NEW: Center tabs on mobile --- */
+    .gallery-tabs {
+        width: auto;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .tab-button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    #gallery-container h1, #sets-container h1 {
+        text-align: center;
+        font-size: 20px;
+    }
+
+    /* MODIFIED: Center set cards on mobile */
+    #sets-container {
+        justify-content: center;
+    }
+
+    .set-card {
+        width: 90%; /* Make set cards fill the width */
+    }
+    /* --- END NEW --- */
 
     .accessory-grid {
         gap: 10px;
@@ -251,6 +423,31 @@ button, .nav-button {
             font-size: 12px;
         }
 
+        /* --- NEW: Mobile Coin Display Styles (Copied from pond.css) --- */
+        .bottom-nav-mobile #coin-display {
+            font-size: 12px;
+            padding: 8px 12px; /* Match other buttons */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #333;
+            border-color: #555 #222 #222 #555;
+            cursor: default;
+            margin: 0; /* Remove link-specific margins */
+        }
+
+            .bottom-nav-mobile #coin-display img {
+                width: 16px;
+                height: 16px;
+            }
+
+            .bottom-nav-mobile #coin-display:active {
+                border-style: outset;
+                border-color: #555 #222 #222 #555;
+            }
+    /* --- END: Mobile Coin Styles --- */
+
+
     /* --- NEW: MOBILE STYLES FOR GALLERY WELCOME POPUP --- */
     #gallery-welcome-menu h2 {
         font-size: 18px;
@@ -281,14 +478,7 @@ button, .nav-button {
 /* --- END MOBILE STYLES --- */
 
 
-/* --- THIS IS THE FIX --- */
-.hidden {
-    display: none !important;
-}
-/* ----------------------- */
-
-
-/* --- NEW: STYLES FOR GALLERY WELCOME POPUP --- */
+/* --- STYLES FOR GALLERY WELCOME POPUP --- */
 #gallery-welcome-overlay {
     position: fixed;
     top: 0;
@@ -326,33 +516,22 @@ button, .nav-button {
     margin-top: 20px;
 }
 /* --- END: STYLES FOR GALLERY WELCOME POPUP --- */
-
-
-/* --- NEW: STYLES FOR COOKIE CONSENT BANNER --- */
-#cookie-consent-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-top: 4px double #FFF;
-    padding: 20px;
-    z-index: 3000; /* Highest z-index */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box; /* Include padding in width */
+/* --- NEW: Style for coin icon in set bonus --- */
+/* --- NEW: Style for coin icon in set bonus --- */
+.set-bonus-coin {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle; /* Aligns the icon with the text */
+    margin-left: 2px; /* Puts it right after the number */
+    margin-bottom: 4px; /* Adjusts vertical alignment */
 }
 
-    #cookie-consent-banner p {
-        font-size: 12px;
-        line-height: 1.5;
-        margin: 0;
-        margin-right: 20px;
-    }
+/* --- NEW: Style for the set bonus <li> --- */
+.set-bonus-item {
+    color: #ffd700 !important; /* Gold, !important overrides the default grey/white */
+    font-size: 14px;
+    margin-top: 10px;
+    border-top: 1px dashed #555;
+    padding-top: 8px;
+}
 
-    #cookie-consent-banner a {
-        color: #00A3FF;
-        text-decoration: underline;
-    }
-/* --- END: STYLES FOR COOKIE CONSENT BANNER --- */

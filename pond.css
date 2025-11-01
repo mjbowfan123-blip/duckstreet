@@ -1,11 +1,13 @@
-﻿/* Import the pixel font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
+﻿/* --- STYLES INHERITED FROM STYLE.CSS --- */
+/* - @import url('...Press+Start+2P...') */
+/* - html, body */
+/* - img */
+/* - h1, h2 */
+/* - button, .nav-button */
+/* - #coin-display */
+/* - .hidden */
+/* - #cookie-consent-banner */
+/* --------------------------------------- */
 
 body {
     font-family: 'Press Start 2P', cursive;
@@ -15,18 +17,6 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-}
-
-img {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-}
-
-h1, h2 {
-    text-shadow: 4px 4px #000;
-    letter-spacing: 2px;
-    margin: 0;
 }
 
 /* MODIFIED: Changed align-items to flex-start */
@@ -124,29 +114,7 @@ h1, h2 {
         left: 0;
     }
 
-button, .nav-button {
-    font-family: 'Press Start 2P', cursive;
-    background-color: #555;
-    color: #FFF;
-    border-style: outset;
-    border-width: 4px;
-    border-color: #888 #333 #333 #888;
-    padding: 10px 15px;
-    cursor: pointer;
-    white-space: nowrap;
-    text-decoration: none;
-}
-
-    button:active, .nav-button:active {
-        border-style: inset;
-        border-color: #333 #888 #888 #333;
-    }
-
 /* --- POPUP STYLES --- */
-.hidden {
-    display: none !important;
-}
-
 #duck-popup-overlay {
     position: fixed;
     top: 0;
@@ -264,11 +232,41 @@ button, .nav-button {
     }
 
 
+/* --- MODIFIED: Adjusted for 3 buttons --- */
 .popup-actions {
     display: flex;
-    justify-content: space-around;
-    width: 80%;
+    justify-content: center; /* WAS: space-around */
+    align-items: flex-start; /* NEW: Align tops */
+    gap: 15px; /* NEW */
+    width: 90%; /* WAS: 80% */
 }
+
+/* --- NEW: Style for Popup Sell Button --- */
+#sell-duck-btn-popup {
+    background-color: #008000; /* Green */
+    border-color: #00CC00 #004D00 #004D00 #00CC00;
+}
+
+    #sell-duck-btn-popup:active {
+        border-color: #004D00 #00CC00 #00CC00 #004D00;
+    }
+/* --- END: Popup Button Styles --- */
+
+/* === NEW: Wrapper for Sell Button + Value === */
+.sell-control-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sell-charge-display-popup {
+    font-size: 12px;
+    color: #AAA;
+    text-shadow: 2px 2px #000;
+    margin-top: 5px; /* Space from button */
+    height: 12px;
+}
+
 
 /* NEW: Mobile Bottom Nav Styling */
 .bottom-nav-mobile {
@@ -386,6 +384,31 @@ button, .nav-button {
             font-size: 12px;
         }
 
+        /* --- NEW: Mobile Coin Display Styles --- */
+        .bottom-nav-mobile #coin-display {
+            font-size: 12px;
+            padding: 8px 12px; /* Match other buttons */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #333;
+            border-color: #555 #222 #222 #555;
+            cursor: default;
+            margin: 0; /* Remove link-specific margins */
+        }
+
+            .bottom-nav-mobile #coin-display img {
+                width: 16px;
+                height: 16px;
+            }
+
+            .bottom-nav-mobile #coin-display:active {
+                border-style: outset;
+                border-color: #555 #222 #222 #555;
+            }
+    /* --- END: Mobile Coin Styles --- */
+
+
     /* --- NEW: MOBILE STYLES FOR POND WELCOME POPUP --- */
     #pond-welcome-menu h2 {
         font-size: 18px;
@@ -455,32 +478,28 @@ button, .nav-button {
 }
 /* --- END: STYLES FOR POND WELCOME POPUP --- */
 
-
-/* --- NEW: STYLES FOR COOKIE CONSENT BANNER --- */
-#cookie-consent-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-top: 4px double #FFF;
-    padding: 20px;
-    z-index: 3000; /* Highest z-index */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box; /* Include padding in width */
+/* --- NEW: Styles for Set Bonus in Pond Popup --- */
+.set-bonus-header {
+    font-size: 10px;
+    color: #AAA;
+    text-align: center;
+    margin-top: 10px;
+    border-top: 1px dashed #777;
+    padding-top: 10px;
 }
 
-    #cookie-consent-banner p {
-        font-size: 12px;
-        line-height: 1.5;
-        margin: 0;
-        margin-right: 20px;
-    }
+.set-bonus-line {
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: nowrap;
+    color: #ffd700; /* Gold */
+}
 
-    #cookie-consent-banner a {
-        color: #00A3FF;
-        text-decoration: underline;
-    }
-/* --- END: STYLES FOR COOKIE CONSENT BANNER --- */
+/* Make the coin icon smaller to fit */
+.set-bonus-coin-pond {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    margin-left: 2px;
+    margin-bottom: 2px;
+}

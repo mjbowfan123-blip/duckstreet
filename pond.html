@@ -13,7 +13,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1391219584558645"
             crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="pond.css">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+    <link rel="icon" href="images/icon.png" type="image/png">
 </head>
 <body>
     <div class="top-nav">
@@ -33,6 +40,10 @@
         </div>
 
         <div class="nav-links">
+            <div id="coin-display" class="nav-button">
+                <img src="images/coin.png" alt="Coins">
+                <span id="coin-display-amount">0</span>
+            </div>
             <a href="index.html" class="nav-button">Back to Street</a>
             <a href="gallery.html" class="nav-button">Gallery</a>
         </div>
@@ -43,6 +54,10 @@
 
     <div class="bottom-nav-mobile">
         <a href="index.html" class="nav-button">Back to Street</a>
+        <div id="coin-display" class="nav-button">
+            <img src="images/coin.png" alt="Coins">
+            <span id="coin-display-amount">0</span>
+        </div>
         <a href="gallery.html" class="nav-button">Gallery</a>
     </div>
 
@@ -66,6 +81,12 @@
             </div>
             <div class="popup-actions">
                 <button id="load-duck-btn">Load Duck</button>
+
+                <div class="sell-control-popup">
+                    <button id="sell-duck-btn-popup">Sell</button>
+                    <span id="sell-charge-display-popup">(5/5) Sells Left</span>
+                </div>
+
                 <button id="delete-duck-btn">Delete</button>
             </div>
         </div>
@@ -85,12 +106,21 @@
         </div>
     </div>
 
+    <div id="notice-overlay" class="hidden">
+        <div id="notice-menu">
+            <h3 id="notice-title">Notice</h3>
+            <p id="notice-text">This is a sample message.</p>
+            <button id="close-notice-btn">Okay</button>
+        </div>
+    </div>
+
     <div id="cookie-consent-banner" class="hidden">
         <p>This site uses cookies from Google to deliver its services and analyze traffic. See our <a href="privacy.html" target="_blank">Privacy Policy</a> for details.</p>
         <button id="cookie-consent-accept-btn">Got It!</button>
     </div>
 
-    <script src="script.js"></script>
+    <script src="duck-data.js"></script>
+    <script src="shared-logic.js"></script>
     <script src="pond.js"></script>
 </body>
 </html>
